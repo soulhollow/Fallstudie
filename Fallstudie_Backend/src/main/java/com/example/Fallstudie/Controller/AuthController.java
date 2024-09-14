@@ -1,7 +1,9 @@
 package com.example.Fallstudie.Controller;
 
 import com.example.Fallstudie.DTO.LoginRequest;
+import com.example.Fallstudie.DTO.RegisterRequest;
 import com.example.Fallstudie.DTO.UserResponse;
+import com.example.Fallstudie.Service.UserService;
 import com.example.Fallstudie.model.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,6 +23,9 @@ public class AuthController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private UserService userService;
 
     // Login-Endpunkt
     @PostMapping("/login")
@@ -43,6 +48,16 @@ public class AuthController {
         }
     }
 
+    // Register-Endpunkt
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody RegisterRequest registerRequest) {
+        try {
+            String result = userService.registerUser(registerRequest);
+            return ResponseEntity.ok(result);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 
     // Logout-Endpunkt
     @PostMapping("/logout")

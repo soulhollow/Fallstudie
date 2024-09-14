@@ -1,5 +1,6 @@
 package com.example.Fallstudie.Service;
 
+import com.example.Fallstudie.DTO.RegisterRequest;
 import com.example.Fallstudie.Repository.UserRepository;
 import com.example.Fallstudie.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,24 @@ public class UserService implements UserDetailsService {
         return user.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName()))
                 .collect(Collectors.toList());
+    }
+
+    public String registerUser(RegisterRequest registerRequest) {
+        // Überprüfen, ob der Benutzer bereits existiert
+        if (userRepository.existsByUsername(registerRequest.getUsername())) {
+            throw new IllegalArgumentException("Benutzername bereits vergeben");
+        }
+
+        // Neues Benutzerobjekt erstellen
+        User newUser = new User();
+        newUser.setUsername(registerRequest.getUsername());
+        newUser.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+        newUser.setEmail(registerRequest.getEmail());  // Falls Email vorhanden
+
+        // Benutzer in der Datenbank speichern
+        userRepository.save(newUser);
+
+        return "Benutzer erfolgreich registriert";
     }
 
     public User save(User user) {
