@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Space, message } from 'antd';
 import ApiService from '../Service/ApiService';
+import './BudgetApproval.css'; // Importiere die zugehörige CSS-Datei
 
 const BudgetApproval = () => {
   const [budgets, setBudgets] = useState([]);
+  const [message, setMessage] = useState({ type: '', text: '' });
 
   // Fetch Budgets die auf Genehmigung warten
   useEffect(() => {
@@ -16,75 +17,74 @@ const BudgetApproval = () => {
       setBudgets(data);
     } catch (error) {
       console.error('Error fetching pending budgets:', error);
-      message.error('Fehler beim Laden der Budgets.');
+      setMessage({ type: 'error', text: 'Fehler beim Laden der Budgets.' });
     }
   };
 
   const handleApprove = async (budgetId) => {
     try {
       await ApiService.approveBudget(budgetId);
-      message.success('Budget erfolgreich genehmigt!');
+      setMessage({ type: 'success', text: 'Budget erfolgreich genehmigt!' });
       fetchPendingBudgets(); // Aktualisiere die Liste
     } catch (error) {
       console.error('Error approving budget:', error);
-      message.error('Fehler beim Genehmigen des Budgets.');
+      setMessage({ type: 'error', text: 'Fehler beim Genehmigen des Budgets.' });
     }
   };
 
   const handleReject = async (budgetId) => {
     try {
       await ApiService.rejectBudget(budgetId);
-      message.success('Budget erfolgreich abgelehnt!');
+      setMessage({ type: 'success', text: 'Budget erfolgreich abgelehnt!' });
       fetchPendingBudgets(); // Aktualisiere die Liste
     } catch (error) {
       console.error('Error rejecting budget:', error);
-      message.error('Fehler beim Ablehnen des Budgets.');
+      setMessage({ type: 'error', text: 'Fehler beim Ablehnen des Budgets.' });
     }
   };
 
-  const columns = [
-    {
-      title: 'Budgetname',
-      dataIndex: 'budgetName',
-      key: 'budgetName',
-    },
-    {
-      title: 'Antragsteller',
-      dataIndex: 'applicant',
-      key: 'applicant',
-    },
-    {
-      title: 'Gesamtbetrag',
-      dataIndex: 'totalAmount',
-      key: 'totalAmount',
-      render: (text) => `${text} €`,
-    },
-    {
-      title: 'Status',
-      dataIndex: 'status',
-      key: 'status',
-      render: (status) => (status === 'pending' ? 'Wartet auf Genehmigung' : status),
-    },
-    {
-      title: 'Aktionen',
-      key: 'actions',
-      render: (text, record) => (
-        <Space size="middle">
-          <Button type="primary" onClick={() => handleApprove(record.id)}>
-            Genehmigen
-          </Button>
-          <Button type="danger" onClick={() => handleReject(record.id)}>
-            Ablehnen
-          </Button>
-        </Space>
-      ),
-    },
-  ];
-
   return (
-    <div>
+    <div className="budget-approval-container">
       <h2>Budget-Genehmigungen</h2>
-      <Table columns={columns} dataSource={budgets} rowKey="id" />
+      
+      {message.text && (
+        <div className={`message ${message.type}`}>
+          {message.text}
+          <button className="close-button" onClick={() => setMessage({ type: '', text: '' })}>
+            &times;
+          </button>
+        </div>
+      )}
+
+      <table className="budget-table">
+        <thead>
+          <tr>
+            <th>Budgetname</th>
+            <th>Antragsteller</th>
+            <th>Gesamtbetrag</th>
+            <th>Status</th>
+            <th>Aktionen</th>
+          </tr>
+        </thead>
+        <tbody>
+          {budgets.map((budget) => (
+            <tr key={budget.id}>
+              <td>{budget.budgetName}</td>
+              <td>{budget.applicant}</td>
+              <td>{budget.totalAmount} €</td>
+              <td>{budget.status === 'pending' ? 'Wartet auf Genehmigung' : budget.status}</td>
+              <td>
+                <button className="btn approve" onClick={() => handleApprove(budget.id)}>
+                  Genehmigen
+                </button>
+                <button className="btn reject" onClick={() => handleReject(budget.id)}>
+                  Ablehnen
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

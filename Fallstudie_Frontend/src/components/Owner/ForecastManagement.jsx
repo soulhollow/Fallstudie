@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Table, TableHead, TableBody, TableRow, TableCell, Button, TextField, Box, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import ApiService from '../Service/ApiService';
+import './ForecastManagement.css'; // Importiere die zugehörige CSS-Datei
 
 const ForecastManagement = ({ budgetId }) => {
   const [forecasts, setForecasts] = useState([]);
-  const [open, setOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedForecast, setSelectedForecast] = useState(null);
   const [date, setDate] = useState('');
   const [amount, setAmount] = useState('');
@@ -23,15 +23,15 @@ const ForecastManagement = ({ budgetId }) => {
     }
   };
 
-  const handleOpen = (forecast = null) => {
+  const openModal = (forecast = null) => {
     setSelectedForecast(forecast);
     setDate(forecast ? forecast.date : '');
     setAmount(forecast ? forecast.amount : '');
-    setOpen(true);
+    setIsModalOpen(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const closeModal = () => {
+    setIsModalOpen(false);
     setSelectedForecast(null);
     setDate('');
     setAmount('');
@@ -48,13 +48,14 @@ const ForecastManagement = ({ budgetId }) => {
         await ApiService.createForecast(budgetId, forecastData);
       }
       fetchForecasts();
-      handleClose();
+      closeModal();
     } catch (error) {
       console.error('Error saving forecast:', error);
     }
   };
 
   const handleDelete = async (forecastId) => {
+    if (!window.confirm('Sind Sie sicher, dass Sie diesen Forecast-Wert löschen möchten?')) return;
     try {
       await ApiService.deleteForecast(forecastId);
       fetchForecasts();
@@ -64,69 +65,76 @@ const ForecastManagement = ({ budgetId }) => {
   };
 
   return (
-    <Box>
-      <Button variant="contained" color="primary" onClick={() => handleOpen(null)} style={{ marginBottom: '1rem' }}>
+    <div className="forecast-management-container">
+      <h2>Forecast-Verwaltung</h2>
+
+      <button className="btn btn-primary" onClick={() => openModal(null)}>
         Neuer Forecast-Wert
-      </Button>
+      </button>
 
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Datum</TableCell>
-            <TableCell>Forecast-Betrag (€)</TableCell>
-            <TableCell>Aktionen</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
+      <table className="forecast-table">
+        <thead>
+          <tr>
+            <th>Datum</th>
+            <th>Forecast-Betrag (€)</th>
+            <th>Aktionen</th>
+          </tr>
+        </thead>
+        <tbody>
           {forecasts.map((forecast) => (
-            <TableRow key={forecast.id}>
-              <TableCell>{forecast.date}</TableCell>
-              <TableCell>{forecast.amount}</TableCell>
-              <TableCell>
-                <Button color="primary" onClick={() => handleOpen(forecast)}>
+            <tr key={forecast.id}>
+              <td>{forecast.date}</td>
+              <td>{forecast.amount}</td>
+              <td>
+                <button className="btn btn-edit" onClick={() => openModal(forecast)}>
                   Bearbeiten
-                </Button>
-                <Button color="secondary" onClick={() => handleDelete(forecast.id)}>
+                </button>
+                <button className="btn btn-delete" onClick={() => handleDelete(forecast.id)}>
                   Löschen
-                </Button>
-              </TableCell>
-            </TableRow>
+                </button>
+              </td>
+            </tr>
           ))}
-        </TableBody>
-      </Table>
+        </tbody>
+      </table>
 
-      {/* Dialog für das Erstellen/Bearbeiten eines Forecast-Wertes */}
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>{selectedForecast ? 'Forecast-Wert bearbeiten' : 'Neuer Forecast-Wert'}</DialogTitle>
-        <DialogContent>
-          <TextField
-            fullWidth
-            label="Datum"
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            InputLabelProps={{ shrink: true }}
-            margin="normal"
-          />
-          <TextField
-            fullWidth
-            label="Forecast-Betrag (€)"
-            type="number"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            margin="normal"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="secondary">
-            Abbrechen
-          </Button>
-          <Button onClick={handleSubmit} color="primary">
-            {selectedForecast ? 'Speichern' : 'Erstellen'}
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Box>
+      {/* Modal für Erstellen/Bearbeiten */}
+      {isModalOpen && (
+        <div className="modal-overlay" onClick={closeModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h3>{selectedForecast ? 'Forecast-Wert bearbeiten' : 'Neuer Forecast-Wert'}</h3>
+            <div className="form-group">
+              <label htmlFor="forecastDate">Datum:</label>
+              <input
+                type="date"
+                id="forecastDate"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="forecastAmount">Forecast-Betrag (€):</label>
+              <input
+                type="number"
+                id="forecastAmount"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                required
+              />
+            </div>
+            <div className="modal-buttons">
+              <button className="btn btn-secondary" onClick={closeModal}>
+                Abbrechen
+              </button>
+              <button className="btn btn-primary" onClick={handleSubmit}>
+                {selectedForecast ? 'Speichern' : 'Erstellen'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 

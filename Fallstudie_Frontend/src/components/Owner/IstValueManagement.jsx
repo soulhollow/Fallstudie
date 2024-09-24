@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Table, TableHead, TableBody, TableRow, TableCell, Button, TextField, Box, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import ApiService from '../Service/ApiService';
+import './IstValueManagement.css'; // Importiere die zugehörige CSS-Datei
 
 const IstValueManagement = ({ budgetId }) => {
   const [istValues, setIstValues] = useState([]);
-  const [open, setOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedIstValue, setSelectedIstValue] = useState(null);
   const [date, setDate] = useState('');
   const [amount, setAmount] = useState('');
@@ -24,16 +24,16 @@ const IstValueManagement = ({ budgetId }) => {
     }
   };
 
-  const handleOpen = (istValue = null) => {
+  const openModal = (istValue = null) => {
     setSelectedIstValue(istValue);
     setDate(istValue ? istValue.date : '');
     setAmount(istValue ? istValue.amount : '');
     setDescription(istValue ? istValue.description : '');
-    setOpen(true);
+    setIsModalOpen(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const closeModal = () => {
+    setIsModalOpen(false);
     setSelectedIstValue(null);
     setDate('');
     setAmount('');
@@ -51,13 +51,14 @@ const IstValueManagement = ({ budgetId }) => {
         await ApiService.createIstValue(budgetId, istValueData);
       }
       fetchIstValues();
-      handleClose();
+      closeModal();
     } catch (error) {
       console.error('Error saving ist value:', error);
     }
   };
 
   const handleDelete = async (istValueId) => {
+    if (!window.confirm('Sind Sie sicher, dass Sie diesen Ist-Wert löschen möchten?')) return;
     try {
       await ApiService.deleteIstValue(istValueId);
       fetchIstValues();
@@ -67,78 +68,88 @@ const IstValueManagement = ({ budgetId }) => {
   };
 
   return (
-    <Box>
-      <Button variant="contained" color="primary" onClick={() => handleOpen(null)} style={{ marginBottom: '1rem' }}>
+    <div className="istvalue-management-container">
+      <h2>Ist-Wert-Verwaltung</h2>
+
+      <button className="btn btn-primary" onClick={() => openModal(null)}>
         Neuer Ist-Wert
-      </Button>
+      </button>
 
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Datum</TableCell>
-            <TableCell>Betrag (€)</TableCell>
-            <TableCell>Beschreibung</TableCell>
-            <TableCell>Aktionen</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
+      <table className="istvalue-table">
+        <thead>
+          <tr>
+            <th>Datum</th>
+            <th>Betrag (€)</th>
+            <th>Beschreibung</th>
+            <th>Aktionen</th>
+          </tr>
+        </thead>
+        <tbody>
           {istValues.map((istValue) => (
-            <TableRow key={istValue.id}>
-              <TableCell>{istValue.date}</TableCell>
-              <TableCell>{istValue.amount}</TableCell>
-              <TableCell>{istValue.description}</TableCell>
-              <TableCell>
-                <Button color="primary" onClick={() => handleOpen(istValue)}>
+            <tr key={istValue.id}>
+              <td>{istValue.date}</td>
+              <td>{istValue.amount}</td>
+              <td>{istValue.description}</td>
+              <td>
+                <button className="btn btn-edit" onClick={() => openModal(istValue)}>
                   Bearbeiten
-                </Button>
-                <Button color="secondary" onClick={() => handleDelete(istValue.id)}>
+                </button>
+                <button className="btn btn-delete" onClick={() => handleDelete(istValue.id)}>
                   Löschen
-                </Button>
-              </TableCell>
-            </TableRow>
+                </button>
+              </td>
+            </tr>
           ))}
-        </TableBody>
-      </Table>
+        </tbody>
+      </table>
 
-      {/* Dialog für das Erstellen/Bearbeiten eines Ist-Wertes */}
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>{selectedIstValue ? 'Ist-Wert bearbeiten' : 'Neuer Ist-Wert'}</DialogTitle>
-        <DialogContent>
-          <TextField
-            fullWidth
-            label="Datum"
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            InputLabelProps={{ shrink: true }}
-            margin="normal"
-          />
-          <TextField
-            fullWidth
-            label="Betrag (€)"
-            type="number"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            margin="normal"
-          />
-          <TextField
-            fullWidth
-            label="Beschreibung"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            margin="normal"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="secondary">
-            Abbrechen
-          </Button>
-          <Button onClick={handleSubmit} color="primary">
-            {selectedIstValue ? 'Speichern' : 'Erstellen'}
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Box>
+      {/* Modal für Erstellen/Bearbeiten */}
+      {isModalOpen && (
+        <div className="modal-overlay" onClick={closeModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h3>{selectedIstValue ? 'Ist-Wert bearbeiten' : 'Neuer Ist-Wert'}</h3>
+            <div className="form-group">
+              <label htmlFor="istValueDate">Datum:</label>
+              <input
+                type="date"
+                id="istValueDate"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="istValueAmount">Betrag (€):</label>
+              <input
+                type="number"
+                id="istValueAmount"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="istValueDescription">Beschreibung:</label>
+              <input
+                type="text"
+                id="istValueDescription"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                required
+              />
+            </div>
+            <div className="modal-buttons">
+              <button className="btn btn-secondary" onClick={closeModal}>
+                Abbrechen
+              </button>
+              <button className="btn btn-primary" onClick={handleSubmit}>
+                {selectedIstValue ? 'Speichern' : 'Erstellen'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 

@@ -1,8 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
-import { Box, Button, TextField, MenuItem, Grid, Typography } from '@mui/material';
-import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement, Title, Tooltip, Legend } from 'chart.js';
 import ApiService from '../Service/ApiService';
+import './BudgetComparison.css'; // Importiere die zugehörige CSS-Datei
+
+import {
+  Chart as ChartJS,
+  LineElement,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  Title,
+  Tooltip,
+  Legend
+} from 'chart.js';
 
 // Registriere Chart.js Komponenten
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Title, Tooltip, Legend);
@@ -73,69 +83,58 @@ const BudgetComparison = () => {
     : null;
 
   return (
-    <Box sx={{ padding: '2rem' }}>
-      <Typography variant="h4" gutterBottom>
-        Soll-Ist-Vergleich
-      </Typography>
-      <Grid container spacing={2} sx={{ marginBottom: '1rem' }}>
-        <Grid item xs={12} md={4}>
-          <TextField
-            fullWidth
-            select
-            label="Budget auswählen"
+    <div className="budget-comparison-container">
+      <h2 className="title">Soll-Ist-Vergleich</h2>
+      <div className="form-grid">
+        <div className="form-group">
+          <label htmlFor="selectedBudget">Budget auswählen:</label>
+          <select
+            id="selectedBudget"
             value={selectedBudget}
             onChange={(e) => setSelectedBudget(e.target.value)}
+            className="select-input"
           >
+            <option value="">Wählen...</option>
             {budgets.map((budget) => (
-              <MenuItem key={budget.id} value={budget.id}>
+              <option key={budget.id} value={budget.id}>
                 {budget.budgetName}
-              </MenuItem>
+              </option>
             ))}
-          </TextField>
-        </Grid>
-        <Grid item xs={12} md={3}>
-          <TextField
-            fullWidth
-            label="Startdatum"
+          </select>
+        </div>
+        <div className="form-group">
+          <label htmlFor="startDate">Startdatum:</label>
+          <input
             type="date"
+            id="startDate"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
-            InputLabelProps={{
-              shrink: true,
-            }}
+            className="date-input"
           />
-        </Grid>
-        <Grid item xs={12} md={3}>
-          <TextField
-            fullWidth
-            label="Enddatum"
+        </div>
+        <div className="form-group">
+          <label htmlFor="endDate">Enddatum:</label>
+          <input
             type="date"
+            id="endDate"
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
-            InputLabelProps={{
-              shrink: true,
-            }}
+            className="date-input"
           />
-        </Grid>
-        <Grid item xs={12} md={2}>
-          <Button
-            fullWidth
-            variant="contained"
-            color="primary"
-            onClick={fetchComparisonData}
-            sx={{ height: '100%' }}
-          >
+        </div>
+        <div className="form-group button-group">
+          <button className="btn fetch-button" onClick={fetchComparisonData}>
             Daten abrufen
-          </Button>
-        </Grid>
-      </Grid>
+          </button>
+        </div>
+      </div>
 
       {comparisonData && (
-        <Box sx={{ marginTop: '2rem' }}>
+        <div className="chart-container">
           <Line data={chartData} />
-        </Box>
+        </div>
       )}
-    </Box>
+    </div>
   );
 };
 

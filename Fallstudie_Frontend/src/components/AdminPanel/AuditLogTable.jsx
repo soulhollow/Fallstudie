@@ -1,22 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Table,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell,
-  TablePagination,
-  TextField,
-  MenuItem,
-  Button,
-  Grid,
-  Box,
-} from '@mui/material';
 import ApiService from '../Service/ApiService';
+import './AuditLogTable.css'; // Importiere die zugehörige CSS-Datei
 
 const AuditLogTable = () => {
   const [logs, setLogs] = useState([]);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [totalLogs, setTotalLogs] = useState(0);
   const [filters, setFilters] = useState({
@@ -30,12 +18,12 @@ const AuditLogTable = () => {
 
   useEffect(() => {
     fetchAuditLogs();
-    // Optionally, fetch available users and actions from the API if needed
+    // Optional: Verfügbare Benutzer und Aktionen laden
   }, [page, rowsPerPage, filters]);
 
   const fetchAuditLogs = async () => {
     const params = {
-      page: page + 1,
+      page: page,
       pageSize: rowsPerPage,
       date: filters.date,
       user: filters.user,
@@ -45,18 +33,19 @@ const AuditLogTable = () => {
       const data = await ApiService.getAuditLogs(params);
       setLogs(data.logs);
       setTotalLogs(data.total);
+      // Optional: Setze verfügbare Benutzer und Aktionen, falls von API bereitgestellt
     } catch (error) {
-      console.error('Error fetching audit logs:', error);
+      console.error('Fehler beim Abrufen der Audit-Logs:', error);
     }
   };
 
-  const handlePageChange = (event, newPage) => {
+  const handlePageChange = (newPage) => {
     setPage(newPage);
   };
 
-  const handleRowsPerPageChange = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+  const handleRowsPerPageChange = (e) => {
+    setRowsPerPage(parseInt(e.target.value, 10));
+    setPage(1);
   };
 
   const handleFilterChange = (e) => {
@@ -72,111 +61,127 @@ const AuditLogTable = () => {
       user: '',
       action: '',
     });
-    setPage(0);
+    setPage(1);
   };
 
+  const totalPages = Math.ceil(totalLogs / rowsPerPage);
+
   return (
-    <Box sx={{ padding: '2rem' }}>
+    <div className="audit-log-container">
       <h2>Audit-Logs</h2>
 
-      <Grid container spacing={2} sx={{ marginBottom: '1rem' }}>
-        <Grid item xs={12} md={4}>
-          <TextField
-            fullWidth
-            label="Datum"
+      <div className="filters">
+        <div className="filter-item">
+          <label htmlFor="date">Datum:</label>
+          <input
             type="date"
+            id="date"
             name="date"
             value={filters.date}
             onChange={handleFilterChange}
-            InputLabelProps={{ shrink: true }}
           />
-        </Grid>
+        </div>
 
-        <Grid item xs={12} md={4}>
-          <TextField
-            fullWidth
-            select
-            label="Benutzer"
+        <div className="filter-item">
+          <label htmlFor="user">Benutzer:</label>
+          <select
+            id="user"
             name="user"
             value={filters.user}
             onChange={handleFilterChange}
           >
-            <MenuItem value="">
-              <em>Alle Benutzer</em>
-            </MenuItem>
+            <option value="">Alle Benutzer</option>
             {availableUsers.map((user) => (
-              <MenuItem key={user} value={user}>
+              <option key={user} value={user}>
                 {user}
-              </MenuItem>
+              </option>
             ))}
-          </TextField>
-        </Grid>
+          </select>
+        </div>
 
-        <Grid item xs={12} md={4}>
-          <TextField
-            fullWidth
-            select
-            label="Aktion"
+        <div className="filter-item">
+          <label htmlFor="action">Aktion:</label>
+          <select
+            id="action"
             name="action"
             value={filters.action}
             onChange={handleFilterChange}
           >
-            <MenuItem value="">
-              <em>Alle Aktionen</em>
-            </MenuItem>
+            <option value="">Alle Aktionen</option>
             {availableActions.map((action) => (
-              <MenuItem key={action} value={action}>
+              <option key={action} value={action}>
                 {action}
-              </MenuItem>
+              </option>
             ))}
-          </TextField>
-        </Grid>
+          </select>
+        </div>
 
-        <Grid item xs={12} md={12}>
-          <Button variant="contained" color="primary" onClick={fetchAuditLogs}>
+        <div className="filter-buttons">
+          <button className="btn btn-primary" onClick={fetchAuditLogs}>
             Anwenden
-          </Button>
-          <Button
-            variant="outlined"
-            color="secondary"
-            onClick={handleFilterReset}
-            sx={{ marginLeft: '1rem' }}
-          >
+          </button>
+          <button className="btn btn-secondary" onClick={handleFilterReset}>
             Zurücksetzen
-          </Button>
-        </Grid>
-      </Grid>
+          </button>
+        </div>
+      </div>
 
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Datum</TableCell>
-            <TableCell>Benutzer</TableCell>
-            <TableCell>Aktion</TableCell>
-            <TableCell>Beschreibung</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
+      <table className="audit-log-table">
+        <thead>
+          <tr>
+            <th>Datum</th>
+            <th>Benutzer</th>
+            <th>Aktion</th>
+            <th>Beschreibung</th>
+          </tr>
+        </thead>
+        <tbody>
           {logs.map((log) => (
-            <TableRow key={log.id}>
-              <TableCell>{log.date}</TableCell>
-              <TableCell>{log.user}</TableCell>
-              <TableCell>{log.action}</TableCell>
-              <TableCell>{log.description}</TableCell>
-            </TableRow>
+            <tr key={log.id}>
+              <td>{log.date}</td>
+              <td>{log.user}</td>
+              <td>{log.action}</td>
+              <td>{log.description}</td>
+            </tr>
           ))}
-        </TableBody>
-      </Table>
+        </tbody>
+      </table>
 
-      <TablePagination
-        component="div"
-        count={totalLogs}
-        page={page}
-        onPageChange={handlePageChange}
-        rowsPerPage={rowsPerPage}
-        onRowsPerPageChange={handleRowsPerPageChange}
-      />
-    </Box>
+      <div className="pagination">
+        <div className="rows-per-page">
+          <label htmlFor="rowsPerPage">Zeilen pro Seite:</label>
+          <select
+            id="rowsPerPage"
+            value={rowsPerPage}
+            onChange={handleRowsPerPageChange}
+          >
+            <option value={5}>5</option>
+            <option value={10}>10</option>
+            <option value={25}>25</option>
+          </select>
+        </div>
+
+        <div className="page-controls">
+          <button
+            className="btn"
+            onClick={() => handlePageChange(page - 1)}
+            disabled={page === 1}
+          >
+            Zurück
+          </button>
+          <span>
+            Seite {page} von {totalPages}
+          </span>
+          <button
+            className="btn"
+            onClick={() => handlePageChange(page + 1)}
+            disabled={page === totalPages}
+          >
+            Weiter
+          </button>
+        </div>
+      </div>
+    </div>
   );
 };
 

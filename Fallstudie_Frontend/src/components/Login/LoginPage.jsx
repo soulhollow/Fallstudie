@@ -1,59 +1,5 @@
 import React, { useState } from "react";
-import styled from "styled-components";
-
-// Styled Components
-const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #f5f5f5;
-`;
-
-const FormWrapper = styled.div`
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 400px;
-`;
-
-const Title = styled.h2`
-  text-align: center;
-  margin-bottom: 2rem;
-`;
-
-const Input = styled.input`
-  width: 100%;
-  padding: 0.75rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-`;
-
-const Button = styled.button`
-  width: 100%;
-  padding: 0.75rem;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #0056b3;
-  }
-`;
-
-const ErrorMessage = styled.p`
-  color: red;
-  margin-top: -1rem;
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
-`;
+import './Login.css'; // Importiere die zugehörige CSS-Datei
 
 const Login = () => {
   // State für Benutzernamen, Passwort und Fehler
@@ -93,29 +39,33 @@ const Login = () => {
   };
 
   return (
-    <Container>
-      <FormWrapper>
-        <Title>Anmeldung</Title>
+    <div className="login-container">
+      <div className="form-wrapper">
+        <h2 className="title">Anmeldung</h2>
         <form onSubmit={handleSubmit}>
-          <Input
+          <input
             type="text"
+            className="input"
             placeholder="Benutzername"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
           />
-          <Input
+          <input
             type="password"
+            className="input"
             placeholder="Passwort"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          {error && <ErrorMessage>{error}</ErrorMessage>}
-          <Button type="submit">Login</Button>
+          {error && <p className="error-message">{error}</p>}
+          <button type="submit" className="btn">
+            Login
+          </button>
         </form>
-      </FormWrapper>
-    </Container>
+      </div>
+    </div>
   );
 };
 
