@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ApiService from '../Service/ApiService';
+import ApiService from '../../Service/ApiService';
 import './UserManagement.css'; // Importiere die zugehörige CSS-Datei
 
 const roles = ['Admin', 'Owner', 'Finance'];

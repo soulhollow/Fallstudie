@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
-import ApiService from '../Service/ApiService';
+import ApiService from '../../Service/ApiService';
 import './BudgetComparison.css'; // Importiere die zugehörige CSS-Datei
 
 import {
