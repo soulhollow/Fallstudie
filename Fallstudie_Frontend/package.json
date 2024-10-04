@@ -20,6 +20,7 @@
         "chart.js": "^4.4.4",
         "path-key": "^4.0.0",
         "react": "^18.0.0",
+        "react-app": "file:",
         "react-chartjs-2": "^5.2.0",
         "react-dom": "^18.0.0",
         "react-router-dom": "^6.26.2",
