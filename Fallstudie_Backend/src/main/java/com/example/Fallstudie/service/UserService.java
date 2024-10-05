@@ -24,9 +24,15 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     public User createNewUser(User user) {
+        Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
+        if (existingUser.isPresent()) {
+            throw new RuntimeException("User with email " + user.getEmail() + " already exists.");
+        }
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
+
 
     public List<User> getAllUsers() {
         return userRepository.findAll();

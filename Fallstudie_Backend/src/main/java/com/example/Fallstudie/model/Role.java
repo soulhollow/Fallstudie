@@ -5,15 +5,15 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "role")
-
 public class Role {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    @Column(unique = true, nullable = false)
+    private String name;  // Dieses Feld muss vorhanden sein
 
+    // Getter und Setter
     public Long getId() {
         return id;
     }

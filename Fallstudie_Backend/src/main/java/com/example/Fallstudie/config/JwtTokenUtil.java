@@ -30,7 +30,7 @@ public class JwtTokenUtil {
     // Token generieren
     public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, user.getUsername());
+        return createToken(claims, user.getEmail());
     }
 
     // Token erstellen
