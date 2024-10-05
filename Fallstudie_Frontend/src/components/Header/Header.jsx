@@ -1,23 +1,27 @@
-// Header.jsx
 import React from 'react';
-import './Header.css'; // Assuming the styles are in a separate CSS file
+import './Header.css'; // Importiere die zugehörige CSS-Datei
+import { useRole } from '../../context/RoleContext';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
+  const { role, setRole } = useRole();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    setRole(null); // Zurücksetzen der Rolle beim Logout
+    navigate('/login'); // Navigation zur Login-Seite
+  };
+
   return (
-    <header>
-      <div className="logo">
-        <h1>MyOrga</h1>
+    <header className="app-header">
+      <div className="toolbar">
+        <div className="title">Dashboard ({role})</div>
+        <button className="btn logout-button" onClick={handleLogout}>
+          Logout
+        </button>
       </div>
-      <nav>
-        <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="/about">About</a></li>
-          <li><a href="/services">Services</a></li>
-          <li><a href="/contact">Contact</a></li>
-        </ul>
-      </nav>
     </header>
   );
-}
+};
 
 export default Header;

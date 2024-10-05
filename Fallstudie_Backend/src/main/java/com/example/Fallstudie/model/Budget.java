@@ -1,26 +1,48 @@
 package com.example.Fallstudie.model;
 
 import jakarta.persistence.*;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
-@Table(name = "budgets")
+@Table(name = "budget")
+
 public class Budget {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     private String name;
-    private BigDecimal amount;
-    private LocalDate expiryDate;
-    private boolean approved;
 
     @ManyToOne
     @JoinColumn(name = "owner_id")
     private User owner;
+
+    @ManyToOne
+    @JoinColumn(name = "ersteller_id")
+    private User ersteller; // "Finance"
+
+    @ManyToOne
+    @JoinColumn(name = "manager_id")
+    private User manager;
+
+    private LocalDateTime start;
+    private LocalDateTime ende;
+
+    @OneToMany
+    @JoinColumn(name = "soll_id")
+    private List<Soll> sollList;
+
+    @OneToMany
+    @JoinColumn(name = "ist_id")
+    private List<Ist> istList;
+
+    private Boolean approved;
+    private LocalDateTime timestamp;
+    private Boolean booleanForecast;
+    private double budgetBetrag;
 
     public Long getId() {
         return id;
@@ -38,30 +60,6 @@ public class Budget {
         this.name = name;
     }
 
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
-    public LocalDate getExpiryDate() {
-        return expiryDate;
-    }
-
-    public void setExpiryDate(LocalDate expiryDate) {
-        this.expiryDate = expiryDate;
-    }
-
-    public boolean isApproved() {
-        return approved;
-    }
-
-    public void setApproved(boolean approved) {
-        this.approved = approved;
-    }
-
     public User getOwner() {
         return owner;
     }
@@ -69,5 +67,84 @@ public class Budget {
     public void setOwner(User owner) {
         this.owner = owner;
     }
-}
 
+    public User getErsteller() {
+        return ersteller;
+    }
+
+    public void setErsteller(User ersteller) {
+        this.ersteller = ersteller;
+    }
+
+    public User getManager() {
+        return manager;
+    }
+
+    public void setManager(User manager) {
+        this.manager = manager;
+    }
+
+    public LocalDateTime getStart() {
+        return start;
+    }
+
+    public void setStart(LocalDateTime start) {
+        this.start = start;
+    }
+
+    public LocalDateTime getEnde() {
+        return ende;
+    }
+
+    public void setEnde(LocalDateTime ende) {
+        this.ende = ende;
+    }
+
+    public List<Soll> getSollList() {
+        return sollList;
+    }
+
+    public void setSollList(List<Soll> sollList) {
+        this.sollList = sollList;
+    }
+
+    public List<Ist> getIstList() {
+        return istList;
+    }
+
+    public void setIstList(List<Ist> istList) {
+        this.istList = istList;
+    }
+
+    public Boolean getApproved() {
+        return approved;
+    }
+
+    public void setApproved(Boolean approved) {
+        this.approved = approved;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public Boolean getBooleanForecast() {
+        return booleanForecast;
+    }
+
+    public void setBooleanForecast(Boolean booleanForecast) {
+        this.booleanForecast = booleanForecast;
+    }
+
+    public double getBudgetBetrag() {
+        return budgetBetrag;
+    }
+
+    public void setBudgetBetrag(double budgetBetrag) {
+        this.budgetBetrag = budgetBetrag;
+    }
+}

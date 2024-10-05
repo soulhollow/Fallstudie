@@ -1,58 +1,68 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './LoginPage.css'; // Import the CSS for styling
+import React, { useState } from "react";
+import './Login.css'; // Importiere die zugehörige CSS-Datei
+import ApiService from '../../Service/ApiService';
 
-const LoginPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const navigate = useNavigate(); // Create an instance of useNavigate
+const Login = () => {
+  // State für Benutzernamen, Passwort und Fehler
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  // Funktion zum Handling des Submit-Events
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Replace this with actual login logic
-    console.log('Email:', email);
-    console.log('Password:', password);
-    // Example navigation to home page after login
-    navigate('/home'); // Adjust according to your routing setup
-  };
+    setError(""); // Reset error message
 
-  const handleRegisterClick = () => {
-    navigate('/register'); // Navigate to the register page when clicked
+    // API-Aufruf zur Verifizierung der Anmeldedaten
+    try {
+      const response = await fetch("https://api.example.com/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Anmeldung fehlgeschlagen");
+      }
+
+      // Bei Erfolg, speichere Token oder leite den Benutzer weiter
+      console.log("Login erfolgreich:", data);
+      // z.B. localStorage.setItem("token", data.token);
+      // Weiterleitung zu einer anderen Seite
+      // window.location.href = "/dashboard";
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   return (
     <div className="login-container">
-      <div className="login-box">
-        <h2>Willkommen</h2>
+      <div className="form-wrapper">
+        <h2 className="title">Anmeldung</h2>
         <form onSubmit={handleSubmit}>
-          <div className="input-group">
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <div className="input-group">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          <button type="submit" className="login-button">Sign In</button>
-          <p>Hast du noch keinen Account?</p>
-          <button
-            type="button"
-            onClick={handleRegisterClick}
-            className="login-button"
-          >
-            Register
+          <input
+            type="text"
+            className="input"
+            placeholder="Benutzername"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            className="input"
+            placeholder="Passwort"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          {error && <p className="error-message">{error}</p>}
+          <button type="submit" className="btn">
+            Login
           </button>
         </form>
       </div>
@@ -60,4 +70,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default Login;

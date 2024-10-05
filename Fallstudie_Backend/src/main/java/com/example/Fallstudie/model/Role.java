@@ -1,17 +1,19 @@
 package com.example.Fallstudie.model;
 
+
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "role")
 public class Role {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name; // "ADMIN", "FINANCE", "OWNER"
+    @Column(unique = true, nullable = false)
+    private String name;  // Dieses Feld muss vorhanden sein
 
+    // Getter und Setter
     public Long getId() {
         return id;
     }
