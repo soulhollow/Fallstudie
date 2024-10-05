@@ -46,17 +46,17 @@ public class JwtTokenUtil {
 
     // Token validieren
     public boolean validateToken(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
+        final String username = extractEmail(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
     // Benutzernamen aus dem Token extrahieren (Hinzugefügt)
     public String getUsernameFromToken(String token) {
-        return extractUsername(token);
+        return extractEmail(token);
     }
 
-    // Benutzernamen aus dem Token extrahieren
-    public String extractUsername(String token) {
+
+    public String extractEmail(String token) {
         return getClaimsFromToken(token).getSubject();
     }
 

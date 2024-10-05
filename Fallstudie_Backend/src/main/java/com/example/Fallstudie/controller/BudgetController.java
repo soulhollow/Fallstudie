@@ -1,6 +1,7 @@
 package com.example.Fallstudie.controller;
 
 import com.example.Fallstudie.DTO.BudgetDetailsDTO;
+import com.example.Fallstudie.config.JwtTokenUtil;
 import com.example.Fallstudie.model.Budget;
 import com.example.Fallstudie.model.User;
 import com.example.Fallstudie.service.BudgetService;
@@ -21,6 +22,9 @@ public class BudgetController {
 
     @Autowired
     private UserService userService; // Annahme: UserService existiert
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
     // GET Budget by Finance
     @GetMapping("/finance/{userId}")
@@ -51,9 +55,13 @@ public class BudgetController {
 
     // CREATE new Budget
     @PostMapping
-    public ResponseEntity<Budget> createBudget(@RequestBody Budget budget, Authentication authentication) {
-        // Angenommen, Sie können die Benutzer-ID aus dem Authentication-Objekt extrahieren
-        Long userId = userService.getUserIdFromAuthentication(authentication);
+    public ResponseEntity<Budget> createBudget(@RequestBody Budget budget, @RequestHeader("Authorization") String authorizationHeader) {
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            throw new IllegalArgumentException("Invalid Authorization header");
+        }
+        String token = authorizationHeader.substring(7); // Entfernt das "Bearer " Präfix
+        String userEmail = jwtTokenUtil.extractEmail(authorizationHeader);
+        Long userId = userService.getUserByEmail(userEmail).getId();
         Budget createdBudget = budgetService.createNewBudget(budget, userId);
         return ResponseEntity.ok(createdBudget);
     }

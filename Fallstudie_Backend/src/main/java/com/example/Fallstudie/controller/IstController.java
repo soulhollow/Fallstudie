@@ -1,5 +1,6 @@
 package com.example.Fallstudie.controller;
 
+import com.example.Fallstudie.config.JwtTokenUtil;
 import com.example.Fallstudie.model.Ist;
 import com.example.Fallstudie.service.IstService;
 import com.example.Fallstudie.service.UserService;
@@ -18,15 +19,20 @@ public class IstController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
     /**
      * CREATE new Ist
      */
     @PostMapping
-    public ResponseEntity<Ist> createIst(@RequestBody Ist ist, Authentication authentication) {
-        Long userId = userService.getUserIdFromAuthentication(authentication);
+    public ResponseEntity<Ist> createIst(@RequestBody Ist ist, @RequestHeader("Authorization") String authorizationHeader) {
+        String userEmail = jwtTokenUtil.extractEmail(authorizationHeader);
+        Long userId = userService.getUserByEmail(userEmail).getId();
         Ist createdIst = istService.createIst(ist, userId);
         return ResponseEntity.ok(createdIst);
     }
+
 
     /**
      * UPDATE Ist

@@ -1,5 +1,6 @@
 package com.example.Fallstudie.controller;
 
+import com.example.Fallstudie.config.JwtTokenUtil;
 import com.example.Fallstudie.model.Soll;
 import com.example.Fallstudie.service.SollService;
 import com.example.Fallstudie.service.UserService;
@@ -18,15 +19,19 @@ public class SollController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
     /**
      * CREATE new Soll
      */
     @PostMapping
-    public ResponseEntity<Soll> createSoll(@RequestBody Soll soll, Authentication authentication) {
-        Long userId = userService.getUserIdFromAuthentication(authentication);
+    public ResponseEntity<Soll> createSoll(@RequestBody Soll soll, @RequestHeader("Authorization") String authorizationHeader) {
+        String userEmail = jwtTokenUtil.extractEmail(authorizationHeader);
+        Long userId = userService.getUserByEmail(userEmail).getId();
         Soll createdSoll = sollService.createSoll(soll, userId);
         return ResponseEntity.ok(createdSoll);
     }
+
 
     /**
      * UPDATE Soll

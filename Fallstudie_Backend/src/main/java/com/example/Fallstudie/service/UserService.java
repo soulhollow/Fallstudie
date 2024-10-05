@@ -1,11 +1,14 @@
 package com.example.Fallstudie.service;
 
 import com.example.Fallstudie.DTO.LoginRequest;
+import com.example.Fallstudie.config.CustomUserDetails;
 import com.example.Fallstudie.config.JwtTokenUtil;
 import com.example.Fallstudie.model.User;
 import com.example.Fallstudie.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -66,5 +69,13 @@ public class UserService {
             }
         }
         return null; // Invalid credentials
+    }
+
+    public UserDetails loadUserByEmail(String email) throws UsernameNotFoundException {
+        Optional<User> user = userRepository.findByEmail(email);
+        if (user.isEmpty()) {
+            throw new UsernameNotFoundException("User not found with email: " + email);
+        }
+        return new CustomUserDetails(user.get());  // Gib die CustomUserDetails zurück
     }
 }

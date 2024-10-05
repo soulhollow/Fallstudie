@@ -1,5 +1,6 @@
 package com.example.Fallstudie.controller;
 
+import com.example.Fallstudie.config.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -18,6 +19,9 @@ public class AdminController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
     // Benutzer erstellen
     @PostMapping("/users")
@@ -60,11 +64,17 @@ public class AdminController {
 
     // Benutzer per Authentifizierung abrufen (z.B. aktueller User)
     @GetMapping("/users/current")
-    public ResponseEntity<UserDTO> getCurrentUser(Authentication authentication) {
-        Long userId = userService.getUserIdFromAuthentication(authentication);
-        Optional<User> user = userService.getUserById(userId);
-        return user.map(u -> ResponseEntity.ok(convertToDTO(u))).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<UserDTO> getCurrentUser(@RequestHeader("Authorization") String authorizationHeader) {
+        String userEmail = jwtTokenUtil.extractEmail(authorizationHeader);  // Extrahiere die E-Mail aus dem JWT-Token
+        try {
+            User user = userService.getUserByEmail(userEmail);  // Hol den Benutzer (wirft Exception, wenn nicht gefunden)
+            return ResponseEntity.ok(convertToDTO(user));       // Konvertiere den Benutzer in DTO und gib ihn zurück
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();           // Gib 404 zurück, wenn Benutzer nicht gefunden wird
+        }
     }
+
+
 
     // Benutzer per E-Mail abrufen
     @GetMapping("/users/email")
