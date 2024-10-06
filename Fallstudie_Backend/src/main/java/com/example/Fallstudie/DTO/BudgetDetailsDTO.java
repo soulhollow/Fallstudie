@@ -10,8 +10,6 @@ public class BudgetDetailsDTO {
     private Long id;
     private String name;
     private Double availableBudget;
-    private List<Soll> sollList;
-    private List<Ist> istList;
 
     public Long getId() {
         return id;
@@ -35,21 +33,5 @@ public class BudgetDetailsDTO {
 
     public void setAvailableBudget(Double availableBudget) {
         this.availableBudget = availableBudget;
-    }
-
-    public List<Soll> getSollList() {
-        return sollList;
-    }
-
-    public void setSollList(List<Soll> sollList) {
-        this.sollList = sollList;
-    }
-
-    public List<Ist> getIstList() {
-        return istList;
-    }
-
-    public void setIstList(List<Ist> istList) {
-        this.istList = istList;
     }
 }

@@ -2,6 +2,7 @@ package com.example.Fallstudie.repository;
 
 import com.example.Fallstudie.model.Budget;
 import com.example.Fallstudie.model.User;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;

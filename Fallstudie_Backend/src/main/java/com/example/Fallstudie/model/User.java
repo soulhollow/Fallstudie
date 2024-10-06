@@ -1,25 +1,34 @@
 package com.example.Fallstudie.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "user")
-
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id")
+    @JsonIgnore  // Verhindert die Serialisierung des Role-Objekts
     private Role role;
 
     @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
+    @JsonIgnore  // Verhindert die Serialisierung des Passworts
     private String password;
+
 
     private String vorname;
     private String nachname;

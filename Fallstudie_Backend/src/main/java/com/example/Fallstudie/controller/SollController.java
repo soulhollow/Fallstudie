@@ -28,7 +28,7 @@ public class SollController {
     public ResponseEntity<Soll> createSoll(@RequestBody Soll soll, @RequestHeader("Authorization") String authorizationHeader) {
         String userEmail = jwtTokenUtil.extractEmail(authorizationHeader);
         Long userId = userService.getUserByEmail(userEmail).getId();
-        Soll createdSoll = sollService.createSoll(soll, userId);
+        Soll createdSoll = sollService.createSoll(soll);
         return ResponseEntity.ok(createdSoll);
     }
 

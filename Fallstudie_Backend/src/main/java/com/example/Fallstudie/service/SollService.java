@@ -23,13 +23,10 @@ public class SollService {
      * Erstellt einen neuen Soll-Eintrag und fügt einen Audit-Log-Eintrag hinzu.
      *
      * @param soll Soll-Objekt
-     * @param userId ID des Benutzers, der den Soll-Eintrag erstellt
      * @return Erstellteter Soll-Eintrag
      */
-    public Soll createSoll(Soll soll, Long userId) {
-        Soll createdSoll = sollRepository.save(soll);
-        auditLogService.addAuditLog(userId, "CREATE", "Soll", createdSoll.getId());
-        return createdSoll;
+    public Soll createSoll(Soll soll) {
+        return sollRepository.save(soll);
     }
 
     /**

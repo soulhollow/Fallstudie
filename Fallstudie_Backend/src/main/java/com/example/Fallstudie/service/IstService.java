@@ -21,13 +21,10 @@ public class IstService {
      * Erstellt einen neuen Ist-Eintrag und fügt einen Audit-Log-Eintrag hinzu.
      *
      * @param ist Ist-Objekt
-     * @param userId ID des Benutzers, der den Ist-Eintrag erstellt
      * @return Erstellteter Ist-Eintrag
      */
-    public Ist createIst(Ist ist, Long userId) {
-        Ist createdIst = istRepository.save(ist);
-        auditLogService.addAuditLog(userId, "CREATE", "Ist", createdIst.getId());
-        return createdIst;
+    public Ist createIst(Ist ist) {
+        return istRepository.save(ist);
     }
 
     /**

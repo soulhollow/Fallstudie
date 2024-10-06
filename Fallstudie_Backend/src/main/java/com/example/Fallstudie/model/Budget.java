@@ -1,12 +1,12 @@
 package com.example.Fallstudie.model;
 
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Table(name = "budget")
-
 public class Budget {
 
     @Id
@@ -16,28 +16,30 @@ public class Budget {
 
     private String name;
 
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")
+    @JsonManagedReference
     private User owner;
 
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name = "ersteller_id")
-    private User ersteller; // "Finance"
+    private User ersteller;// "Finance"
 
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name = "manager_id")
     private User manager;
 
     private LocalDateTime start;
     private LocalDateTime ende;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "soll_id")
     private List<Soll> sollList;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "ist_id")
     private List<Ist> istList;
+
 
     private Boolean approved;
     private LocalDateTime timestamp;

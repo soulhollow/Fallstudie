@@ -29,7 +29,7 @@ public class IstController {
     public ResponseEntity<Ist> createIst(@RequestBody Ist ist, @RequestHeader("Authorization") String authorizationHeader) {
         String userEmail = jwtTokenUtil.extractEmail(authorizationHeader);
         Long userId = userService.getUserByEmail(userEmail).getId();
-        Ist createdIst = istService.createIst(ist, userId);
+        Ist createdIst = istService.createIst(ist);
         return ResponseEntity.ok(createdIst);
     }
 

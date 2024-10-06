@@ -14,14 +14,14 @@ public class Ist {
 
     private String name;
 
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name = "budget_id")
     private Budget budget;
 
     private Double betrag;
     private LocalDateTime timestamp;
 
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user; // Person, die es verändert hat
 

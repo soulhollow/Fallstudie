@@ -1,29 +1,16 @@
-package com.example.Fallstudie.model;
+package com.example.Fallstudie.DTO;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "soll")
+public class SollDTO {
 
-public class Soll {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "budget_id")
-    private Budget budget;
-
     private Double betrag;
     private LocalDateTime timestamp;
+    private Long userId; // ID des Users, der die Änderung vorgenommen hat
 
-    @ManyToOne (cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user; // Person, die es verändert hat
+    // Getter und Setter
 
     public Long getId() {
         return id;
@@ -39,14 +26,6 @@ public class Soll {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Budget getBudget() {
-        return budget;
-    }
-
-    public void setBudget(Budget budget) {
-        this.budget = budget;
     }
 
     public Double getBetrag() {
@@ -65,12 +44,11 @@ public class Soll {
         this.timestamp = timestamp;
     }
 
-    public User getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }
-

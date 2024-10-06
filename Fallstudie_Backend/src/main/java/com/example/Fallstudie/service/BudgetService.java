@@ -7,10 +7,12 @@ import com.example.Fallstudie.model.Ist;
 import com.example.Fallstudie.model.Soll;
 import com.example.Fallstudie.model.User;
 import com.example.Fallstudie.repository.BudgetRepository;
+import jakarta.persistence.EntityGraph;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +24,12 @@ public class BudgetService {
 
     @Autowired
     private AuditLogService auditLogService;
+
+    @Autowired
+    private SollService sollService;
+
+    @Autowired
+    private IstService istService;
 
     public List<Budget> getBudgetByFinance(User financeUser) {
         return budgetRepository.findByErsteller(financeUser);
@@ -38,8 +46,12 @@ public class BudgetService {
     }
 
     public List<Budget> getAllBudgets() {
+
         return budgetRepository.findAll();
     }
+
+
+
 
     public List<Budget> getBudgetByManager(User manager) {
         return budgetRepository.findByManager(manager);
