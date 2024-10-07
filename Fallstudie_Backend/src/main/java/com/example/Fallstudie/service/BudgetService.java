@@ -25,11 +25,7 @@ public class BudgetService {
     @Autowired
     private AuditLogService auditLogService;
 
-    @Autowired
-    private SollService sollService;
 
-    @Autowired
-    private IstService istService;
 
     public List<Budget> getBudgetByFinance(User financeUser) {
         return budgetRepository.findByErsteller(financeUser);

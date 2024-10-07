@@ -3,6 +3,7 @@ package com.example.Fallstudie.service;
 import com.example.Fallstudie.DTO.SollDTO;
 import com.example.Fallstudie.exception.ResourceNotFoundException;
 import com.example.Fallstudie.exception.UserNotFoundException;
+import com.example.Fallstudie.model.Budget;
 import com.example.Fallstudie.model.Soll;
 import com.example.Fallstudie.model.User;
 import com.example.Fallstudie.repository.SollRepository;
@@ -28,6 +29,8 @@ public class SollService {
     private UserService userService;
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    @Autowired
+    private BudgetService budgetService;
 
     // Mapper-Methode: Soll -> SollDTO
     private SollDTO convertToDTO(Soll soll) {
@@ -37,6 +40,7 @@ public class SollService {
         dto.setBetrag(soll.getBetrag());
         dto.setTimestamp(soll.getTimestamp().format(FORMATTER)); // LocalDateTime -> String
         dto.setUserId(soll.getUser().getId());
+        dto.setBudgetId(soll.getBudget().getId());
         return dto;
     }
 
@@ -48,11 +52,18 @@ public class SollService {
         soll.setBetrag(sollDTO.getBetrag());
         soll.setTimestamp(LocalDateTime.parse(sollDTO.getTimestamp(), FORMATTER)); // String -> LocalDateTime
         Optional<User> optionalUser = userService.getUserById(sollDTO.getUserId());
+        Optional<Budget> optionalBudget = budgetService.getBudgetById(sollDTO.getBudgetId());
         if (optionalUser.isPresent()) {
             soll.setUser(optionalUser.get());
         } else {
             // Handle the case where the user is not found
             throw new UserNotFoundException("User not found with id: " + sollDTO.getUserId());
+        }
+        if (optionalBudget.isPresent()) {
+            soll.setBudget(optionalBudget.get());
+        } else {
+            // Handle the case where the budget is not found
+            throw new ResourceNotFoundException("Budget not found with id: " + sollDTO.getBudgetId());
         }
         return soll;
     }
