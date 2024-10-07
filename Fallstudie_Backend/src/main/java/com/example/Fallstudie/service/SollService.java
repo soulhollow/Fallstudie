@@ -1,14 +1,19 @@
 package com.example.Fallstudie.service;
 
-
-import com.example.Fallstudie.DTO.AuditLogDTO;
+import com.example.Fallstudie.DTO.SollDTO;
 import com.example.Fallstudie.exception.ResourceNotFoundException;
+import com.example.Fallstudie.exception.UserNotFoundException;
 import com.example.Fallstudie.model.Soll;
+import com.example.Fallstudie.model.User;
 import com.example.Fallstudie.repository.SollRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class SollService {
@@ -19,27 +24,48 @@ public class SollService {
     @Autowired
     private AuditLogService auditLogService;
 
-    /**
-     * Erstellt einen neuen Soll-Eintrag und fügt einen Audit-Log-Eintrag hinzu.
-     *
-     * @param soll Soll-Objekt
-     * @return Erstellteter Soll-Eintrag
-     */
-    public Soll createSoll(Soll soll) {
-        return sollRepository.save(soll);
+    @Autowired
+    private UserService userService;
+
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    // Mapper-Methode: Soll -> SollDTO
+    private SollDTO convertToDTO(Soll soll) {
+        SollDTO dto = new SollDTO();
+        dto.setId(soll.getId());
+        dto.setName(soll.getName());
+        dto.setBetrag(soll.getBetrag());
+        dto.setTimestamp(soll.getTimestamp().format(FORMATTER)); // LocalDateTime -> String
+        dto.setUserId(soll.getUser().getId());
+        return dto;
     }
 
-    /**
-     * Aktualisiert einen bestehenden Soll-Eintrag und fügt einen Audit-Log-Eintrag hinzu.
-     *
-     * @param id ID des zu aktualisierenden Soll-Eintrags
-     * @param sollDetails Neue Soll-Daten
-     * @param userId ID des Benutzers, der den Soll-Eintrag aktualisiert
-     * @return Aktualisierter Soll-Eintrag
-     */
-    public Soll updateSoll(Long id, Soll sollDetails, Long userId) {
+    // Mapper-Methode: SollDTO -> Soll
+    private Soll convertToEntity(SollDTO sollDTO) {
+        Soll soll = new Soll();
+        soll.setId(sollDTO.getId());
+        soll.setName(sollDTO.getName());
+        soll.setBetrag(sollDTO.getBetrag());
+        soll.setTimestamp(LocalDateTime.parse(sollDTO.getTimestamp(), FORMATTER)); // String -> LocalDateTime
+        Optional<User> optionalUser = userService.getUserById(sollDTO.getUserId());
+        if (optionalUser.isPresent()) {
+            soll.setUser(optionalUser.get());
+        } else {
+            // Handle the case where the user is not found
+            throw new UserNotFoundException("User not found with id: " + sollDTO.getUserId());
+        }
+        return soll;
+    }
+
+    public SollDTO createSoll(SollDTO sollDTO) {
+        Soll soll = convertToEntity(sollDTO);
+        Soll savedSoll = sollRepository.save(soll);
+        return convertToDTO(savedSoll);
+    }
+
+    public SollDTO updateSoll(Long id, SollDTO sollDetails, Long userId) {
         Soll soll = sollRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Soll not found for this id :: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Soll nicht gefunden für diese ID :: " + id));
 
         soll.setName(sollDetails.getName());
         soll.setBetrag(sollDetails.getBetrag());
@@ -47,8 +73,11 @@ public class SollService {
 
         Soll updatedSoll = sollRepository.save(soll);
         auditLogService.addAuditLog(userId, "UPDATE", "Soll", updatedSoll.getId());
-        return updatedSoll;
+        return convertToDTO(updatedSoll);
     }
 
-    // Weitere Methoden ...
+    public List<SollDTO> getSollByBudget(Long budgetId) {
+        List<Soll> sollList = sollRepository.findByBudgetId(budgetId);
+        return sollList.stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
 }

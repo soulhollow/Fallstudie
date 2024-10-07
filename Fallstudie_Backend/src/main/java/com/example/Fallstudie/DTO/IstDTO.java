@@ -1,5 +1,7 @@
 package com.example.Fallstudie.DTO;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.LocalDateTime;
 
 public class IstDTO {
@@ -7,7 +9,7 @@ public class IstDTO {
     private Long id;
     private String name;
     private Double betrag;
-    private LocalDateTime timestamp;
+    private String timestamp;
     private Long userId; // ID des Users, der die Änderung vorgenommen hat
 
     // Getter und Setter
@@ -36,11 +38,11 @@ public class IstDTO {
         this.betrag = betrag;
     }
 
-    public LocalDateTime getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 
