@@ -15,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/soll")
 public class SollController {
+    //Fertig
     @Autowired
     private SollService sollService;
 
@@ -27,6 +28,7 @@ public class SollController {
     /**
      * CREATE new Soll
      */
+    // Fertig
     @PostMapping
     public ResponseEntity<SollDTO> createSoll(@RequestBody SollDTO sollDTO, @RequestHeader("Authorization") String authorizationHeader) {
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
@@ -45,7 +47,7 @@ public class SollController {
 
     /**
      * UPDATE Soll
-     */
+     *///Fertig
     @PutMapping("/{id}")
     public ResponseEntity<SollDTO> updateSoll(
             @PathVariable Long id,
@@ -58,7 +60,7 @@ public class SollController {
 
     /**
      * GET Soll by Budget
-     */
+     */ //fertig
     @GetMapping("/budget/{budgetId}")
     public ResponseEntity<List<SollDTO>> getSollByBudget(@PathVariable Long budgetId) {
         List<SollDTO> sollList = sollService.getSollByBudget(budgetId);

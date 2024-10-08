@@ -49,7 +49,7 @@ public class IstService {
     // Mapper-Methode: IstDTO -> Ist
     private Ist convertToEntity(IstDTO istDTO) {
         Ist ist = new Ist();
-        ist.setId(istDTO.getId());
+        ist.setId((long)1); //random nummer muss aber gesetzt werden
         ist.setName(istDTO.getName());
         ist.setBetrag(istDTO.getBetrag());
         ist.setTimestamp(LocalDateTime.parse(istDTO.getTimestamp(), FORMATTER)); // String -> LocalDateTime

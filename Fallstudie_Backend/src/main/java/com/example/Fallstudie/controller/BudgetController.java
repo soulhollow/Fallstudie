@@ -22,20 +22,37 @@ public class BudgetController {
         return ResponseEntity.ok(budgetDTOs);
     }
 
-    // UPDATE Budget by Finance
+    // UPDATE Budget by Finance //fertig
     @PutMapping("/{id}")
     public ResponseEntity<BudgetDetailsDTO> updateBudget(@PathVariable Long id, @RequestBody BudgetDetailsDTO budgetDetailsDTO) {
         BudgetDetailsDTO updatedBudgetDTO = budgetService.updateBudgetDTO(id, budgetDetailsDTO);
         return ResponseEntity.ok(updatedBudgetDTO);
     }
 
-    // CREATE new Budget
+    // CREATE new Budget //Fertig
+    /*
+     Mögliche JSON: Es müssen Email und Id für Owner, Finance und Manager angegeben werden.
+     {
+  "id": 12345,
+  "name": "Beispiel Budget",
+  "availableBudget": 10000.50,
+  "owner": {
+    "id": 11,
+    "email": "test@test"
+  },
+  "finance": {
+    "id": 12,
+    "email": "test2@test"
+  },
+  "manager": {
+    "id": 13,
+    "email": "test3@test"
+  }
+}
+     */
     @PostMapping
-    public ResponseEntity<BudgetDetailsDTO> createBudget(@RequestBody BudgetDetailsDTO budgetDetailsDTO, @RequestHeader("Authorization") String authorizationHeader) {
-        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-            throw new IllegalArgumentException("Invalid Authorization header");
-        }
-        BudgetDetailsDTO createdBudgetDTO = budgetService.createNewBudgetDTO(budgetDetailsDTO, authorizationHeader);
+    public ResponseEntity<BudgetDetailsDTO> createBudget(@RequestBody BudgetDetailsDTO budgetDetailsDTO) {
+        BudgetDetailsDTO createdBudgetDTO = budgetService.createNewBudgetDTO(budgetDetailsDTO);
         return ResponseEntity.ok(createdBudgetDTO);
     }
 

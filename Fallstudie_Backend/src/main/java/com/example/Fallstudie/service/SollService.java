@@ -48,7 +48,7 @@ public class SollService {
     // Mapper-Methode: SollDTO -> Soll
     private Soll convertToEntity(SollDTO sollDTO) {
         Soll soll = new Soll();
-        soll.setId(sollDTO.getId());
+        soll.setId((long)1); //random nummer muss aber gesetzt werden
         soll.setName(sollDTO.getName());
         soll.setBetrag(sollDTO.getBetrag());
         soll.setTimestamp(LocalDateTime.parse(sollDTO.getTimestamp(), FORMATTER)); // String -> LocalDateTime

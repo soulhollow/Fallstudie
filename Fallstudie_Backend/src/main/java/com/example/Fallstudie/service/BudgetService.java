@@ -90,16 +90,55 @@ public class BudgetService {
         Budget budget = budgetRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Budget not found for this id :: " + id));
 
-        budget.setName(budgetDetailsDTO.getName());
-        budget.setBudgetBetrag(budgetDetailsDTO.getAvailableBudget());
+        // Name nur aktualisieren, wenn er nicht null ist
+        if (budgetDetailsDTO.getName() != null) {
+            budget.setName(budgetDetailsDTO.getName());
+        }
 
+        // BudgetBetrag nur aktualisieren, wenn er nicht null ist
+        if (budgetDetailsDTO.getAvailableBudget() != null) {
+            budget.setBudgetBetrag(budgetDetailsDTO.getAvailableBudget());
+        }
+
+        // Owner nur aktualisieren, wenn er nicht null ist
+        if (budgetDetailsDTO.getOwner() != null && budgetDetailsDTO.getOwner().getId() != null) {
+            Optional<UserDTO> optionalOwner = userService.getUserById(budgetDetailsDTO.getOwner().getId());
+            if (optionalOwner.isPresent()) {
+                budget.setOwner(userService.convertToEntity(optionalOwner.get()));
+            } else {
+                throw new UserNotFoundException("Owner not found with id: " + budgetDetailsDTO.getOwner().getId());
+            }
+        }
+
+        // Manager nur aktualisieren, wenn er nicht null ist
+        if (budgetDetailsDTO.getManager() != null && budgetDetailsDTO.getManager().getId() != null) {
+            Optional<UserDTO> optionalManager = userService.getUserById(budgetDetailsDTO.getManager().getId());
+            if (optionalManager.isPresent()) {
+                budget.setManager(userService.convertToEntity(optionalManager.get()));
+            } else {
+                throw new UserNotFoundException("Manager not found with id: " + budgetDetailsDTO.getManager().getId());
+            }
+        }
+
+        // Finance (Ersteller) nur aktualisieren, wenn er nicht null ist
+        if (budgetDetailsDTO.getFinance() != null && budgetDetailsDTO.getFinance().getId() != null) {
+            Optional<UserDTO> optionalFinance = userService.getUserById(budgetDetailsDTO.getFinance().getId());
+            if (optionalFinance.isPresent()) {
+                budget.setErsteller(userService.convertToEntity(optionalFinance.get()));
+            } else {
+                throw new UserNotFoundException("Finance not found with id: " + budgetDetailsDTO.getFinance().getId());
+            }
+        }
+
+        // Aktualisiertes Budget speichern
         Budget updatedBudget = budgetRepository.save(budget);
-        auditLogService.addAuditLog(budget.getErsteller().getId(), "UPDATE", "Budget", updatedBudget.getId());
 
+        // Aktualisiertes DTO zurückgeben
         return convertToDTO(updatedBudget);
     }
 
-    public BudgetDetailsDTO createNewBudgetDTO(BudgetDetailsDTO budgetDetailsDTO, String authorizationHeader) {
+
+    public BudgetDetailsDTO createNewBudgetDTO(BudgetDetailsDTO budgetDetailsDTO) {
         Budget budget = convertToEntity(budgetDetailsDTO);
 
         Budget createdBudget = budgetRepository.save(budget);

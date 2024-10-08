@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/ist")
 public class IstController {
-
+    //Fertig
     @Autowired
     private IstService istService;
 
@@ -28,7 +28,7 @@ public class IstController {
     /**
      * CREATE new Ist
      */
-    // nach änderung Fehler
+    // Fertig
     @PostMapping
     public ResponseEntity<IstDTO> createIst(@RequestBody IstDTO istDTO, @RequestHeader("Authorization") String authorizationHeader) {
         // Überprüfen, ob der Header mit "Bearer " beginnt
@@ -48,7 +48,7 @@ public class IstController {
 
     /**
      * UPDATE Ist
-     */
+     *///fertig
     @PutMapping("/{id}")
     public ResponseEntity<IstDTO> updateIst(
             @PathVariable Long id,
@@ -61,7 +61,7 @@ public class IstController {
 
     /**
      * GET Ist by Budget
-     */
+     *///Fertig
     @GetMapping("/budget/{budgetId}")
     public ResponseEntity<List<IstDTO>> getIstByBudget(@PathVariable Long budgetId) {
         System.out.println("budgetId: " + budgetId);
