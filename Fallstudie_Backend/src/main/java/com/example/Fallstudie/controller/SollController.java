@@ -15,7 +15,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/soll")
 public class SollController {
-
     @Autowired
     private SollService sollService;
 

@@ -1,4 +1,4 @@
-package com.example.Fallstudie.config;
+package com.example.Fallstudie.DTO;
 
 import com.example.Fallstudie.model.User;
 import org.springframework.security.core.GrantedAuthority;
@@ -7,7 +7,7 @@ import java.util.Collection;
 
 public class CustomUserDetails implements UserDetails {
 
-    private User user;
+    private final User user;
 
     public CustomUserDetails(User user) {
         this.user = user;

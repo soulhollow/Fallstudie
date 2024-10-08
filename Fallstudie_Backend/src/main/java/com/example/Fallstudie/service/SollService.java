@@ -1,6 +1,7 @@
 package com.example.Fallstudie.service;
 
 import com.example.Fallstudie.DTO.SollDTO;
+import com.example.Fallstudie.DTO.UserDTO;
 import com.example.Fallstudie.exception.ResourceNotFoundException;
 import com.example.Fallstudie.exception.UserNotFoundException;
 import com.example.Fallstudie.model.Budget;
@@ -51,10 +52,10 @@ public class SollService {
         soll.setName(sollDTO.getName());
         soll.setBetrag(sollDTO.getBetrag());
         soll.setTimestamp(LocalDateTime.parse(sollDTO.getTimestamp(), FORMATTER)); // String -> LocalDateTime
-        Optional<User> optionalUser = userService.getUserById(sollDTO.getUserId());
+        Optional<UserDTO> optionalUser = userService.getUserById(sollDTO.getUserId());
         Optional<Budget> optionalBudget = budgetService.getBudgetById(sollDTO.getBudgetId());
         if (optionalUser.isPresent()) {
-            soll.setUser(optionalUser.get());
+            soll.setUser(userService.convertToEntity(optionalUser.get()));
         } else {
             // Handle the case where the user is not found
             throw new UserNotFoundException("User not found with id: " + sollDTO.getUserId());

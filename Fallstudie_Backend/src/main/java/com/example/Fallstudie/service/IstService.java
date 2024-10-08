@@ -1,6 +1,7 @@
 package com.example.Fallstudie.service;
 
 import com.example.Fallstudie.DTO.IstDTO;
+import com.example.Fallstudie.DTO.UserDTO;
 import com.example.Fallstudie.exception.ResourceNotFoundException;
 import com.example.Fallstudie.exception.UserNotFoundException;
 import com.example.Fallstudie.model.Budget;
@@ -52,10 +53,10 @@ public class IstService {
         ist.setName(istDTO.getName());
         ist.setBetrag(istDTO.getBetrag());
         ist.setTimestamp(LocalDateTime.parse(istDTO.getTimestamp(), FORMATTER)); // String -> LocalDateTime
-        Optional<User> optionalUser = userService.getUserById(istDTO.getUserId());
+        Optional<UserDTO> optionalUser = userService.getUserById(istDTO.getUserId());
         Optional<Budget> optionalBudget = budgetService.getBudgetById(istDTO.getBudgetId());
         if (optionalUser.isPresent()) {
-            ist.setUser(optionalUser.get());
+            ist.setUser(userService.convertToEntity(optionalUser.get()));
         } else {
             // Handle the case where the user is not found
             throw new UserNotFoundException("User not found with id: " + istDTO.getUserId());

@@ -16,18 +16,17 @@ public class Budget {
 
     private String name;
 
-    @ManyToOne (fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "owner_id")
-    @JsonManagedReference
     private User owner;
 
-    @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name = "ersteller_id")
-    private User ersteller;// "Finance"
-
-    @ManyToOne (fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "manager_id")
     private User manager;
+
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "ersteller_id")
+    private User ersteller; // Finance
 
     private LocalDateTime start;
     private LocalDateTime ende;
