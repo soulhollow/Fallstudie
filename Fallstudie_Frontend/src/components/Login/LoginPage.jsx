@@ -1,41 +1,38 @@
 import React, { useState } from "react";
 import './Login.css'; // Importiere die zugehörige CSS-Datei
-import ApiService from '../../Service/ApiService';
+import ApiService from '../../Service/ApiService'; // Importiere deinen ApiService
+import { useNavigate } from 'react-router-dom'; // Zum Weiterleiten nach Login
 
 const Login = () => {
   // State für Benutzernamen, Passwort und Fehler
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  
+  const navigate = useNavigate(); // React Router hook for navigation
 
   // Funktion zum Handling des Submit-Events
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError(""); // Reset error message
+    e.preventDefault(); // Verhindert, dass das Formular neu geladen wird
+    setError(""); // Fehlernachricht zurücksetzen
 
-    // API-Aufruf zur Verifizierung der Anmeldedaten
     try {
-      const response = await fetch("https://api.example.com/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ mail, password }),
-      });
+      // Erstelle das Login-Request-Objekt
+      const loginRequest = { username, password };
+      
+      // Aufruf der ApiService login-Methode
+      const data = await ApiService.login(loginRequest);
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Anmeldung fehlgeschlagen");
-      }
-
-      // Bei Erfolg, speichere Token oder leite den Benutzer weiter
+      // Bei Erfolg, speichere Token und leite den Benutzer weiter
       console.log("Login erfolgreich:", data);
       // z.B. localStorage.setItem("token", data.token);
-      // Weiterleitung zu einer anderen Seite
-      // window.location.href = "/dashboard";
+      
+      // Weiterleitung zur Dashboard-Seite nach erfolgreichem Login
+      navigate('/dashboard');
+      
     } catch (err) {
-      setError(err.message);
+      // Fehlerbehandlung
+      setError(err.response?.data?.message || 'An error occurred during login.');
     }
   };
 
@@ -47,8 +44,8 @@ const Login = () => {
           <input
             type="text"
             className="input"
-            placeholder="E-mail"
-            value={mail}
+            placeholder="Benutzername"
+            value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
           />
