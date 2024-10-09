@@ -34,14 +34,37 @@ public class IstService {
     // Mapper-Methode: Ist -> IstDTO
     private IstDTO convertToDTO(Ist ist) {
         IstDTO dto = new IstDTO();
-        dto.setId(ist.getId());
-        dto.setName(ist.getName());
-        dto.setBetrag(ist.getBetrag());
-        dto.setTimestamp(ist.getTimestamp().format(FORMATTER)); // LocalDateTime -> String
-        dto.setUserId(ist.getUser().getId());
-        dto.setBudgetId(ist.getBudget().getId());
+
+        dto.setId(ist.getId());  // primitive long oder null-sicherer Typ
+        dto.setName(ist.getName());  // String, kann null sein
+
+        if (ist.getBetrag() != null) {
+            dto.setBetrag(ist.getBetrag());
+        } else {
+            dto.setBetrag(null);
+        }
+
+        if (ist.getTimestamp() != null) {
+            dto.setTimestamp(ist.getTimestamp().format(FORMATTER));  // LocalDateTime -> String
+        } else {
+            dto.setTimestamp(null);
+        }
+
+        if (ist.getUser() != null && ist.getUser().getId() != null) {
+            dto.setUserId(ist.getUser().getId());
+        } else {
+            dto.setUserId(null);
+        }
+
+        if (ist.getBudget() != null && ist.getBudget().getId() != null) {
+            dto.setBudgetId(ist.getBudget().getId());
+        } else {
+            dto.setBudgetId(null);
+        }
+
         return dto;
     }
+
 
     // Mapper-Methode: IstDTO -> Ist
     private Ist convertToEntity(IstDTO istDTO) {

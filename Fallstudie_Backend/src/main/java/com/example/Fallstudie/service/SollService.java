@@ -35,14 +35,37 @@ public class SollService {
     // Mapper-Methode: Soll -> SollDTO
     private SollDTO convertToDTO(Soll soll) {
         SollDTO dto = new SollDTO();
-        dto.setId(soll.getId());
-        dto.setName(soll.getName());
-        dto.setBetrag(soll.getBetrag());
-        dto.setTimestamp(soll.getTimestamp().format(FORMATTER)); // LocalDateTime -> String
-        dto.setUserId(soll.getUser().getId());
-        dto.setBudgetId(soll.getBudget().getId());
+
+        dto.setId(soll.getId());  // primitive long oder null-sicherer Typ
+        dto.setName(soll.getName());  // String, kann null sein
+
+        if (soll.getBetrag() != null) {
+            dto.setBetrag(soll.getBetrag());
+        } else {
+            dto.setBetrag(null);
+        }
+
+        if (soll.getTimestamp() != null) {
+            dto.setTimestamp(soll.getTimestamp().format(FORMATTER));  // LocalDateTime -> String
+        } else {
+            dto.setTimestamp(null);
+        }
+
+        if (soll.getUser() != null && soll.getUser().getId() != null) {
+            dto.setUserId(soll.getUser().getId());
+        } else {
+            dto.setUserId(null);
+        }
+
+        if (soll.getBudget() != null && soll.getBudget().getId() != null) {
+            dto.setBudgetId(soll.getBudget().getId());
+        } else {
+            dto.setBudgetId(null);
+        }
+
         return dto;
     }
+
 
     // Mapper-Methode: SollDTO -> Soll
     private Soll convertToEntity(SollDTO sollDTO) {
