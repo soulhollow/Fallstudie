@@ -23,8 +23,7 @@ public class SollService {
     @Autowired
     private SollRepository sollRepository;
 
-    @Autowired
-    private AuditLogService auditLogService;
+
 
     @Autowired
     private UserService userService;

@@ -31,10 +31,10 @@ public class AuditLogService {
      */
     public void addAuditLog(Long userId, String action, String entity, String timestamp) {
         AuditLogDTO log = new AuditLogDTO(
-                LocalDateTime.parse(timestamp),
+                timestamp,
                 userId,
                 action,
-                entity,
+                entity
         );
         auditLogs.add(log);
     }

@@ -24,6 +24,7 @@ public class AuditLogController {
     @GetMapping
     public ResponseEntity<List<AuditLogDTO>> getAllAuditLogs() {
         List<AuditLogDTO> logs = auditLogService.getAllAuditLogs();
+
         return ResponseEntity.ok(logs);
     }
 }

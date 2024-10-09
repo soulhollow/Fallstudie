@@ -22,8 +22,6 @@ public class BudgetService {
     @Autowired
     private BudgetRepository budgetRepository;
 
-    @Autowired
-    private AuditLogService auditLogService;
 
     @Autowired
     private UserService userService;
@@ -37,20 +35,31 @@ public class BudgetService {
         dto.setId(budget.getId());
         dto.setName(budget.getName());
         dto.setAvailableBudget(budget.getBudgetBetrag());
-        dto.setOwner(userService.convertToDTO(budget.getOwner()));
-        dto.setManager(userService.convertToDTO(budget.getManager()));
-        dto.setFinance(userService.convertToDTO(budget.getErsteller()));
-        dto.setTimestamp(budget.getTimestamp().format(UserService.FORMATTER)); // LocalDateTime -> String
-        dto.setApproved(budget.getApproved());
+
+        // Owner und Manager können null sein
+        dto.setOwner(budget.getOwner() != null ? userService.convertToDTO(budget.getOwner()) : null);
+        dto.setManager(budget.getManager() != null ? userService.convertToDTO(budget.getManager()) : null);
+
+        // Finance (Ersteller) kann null sein
+        dto.setFinance(budget.getErsteller() != null ? userService.convertToDTO(budget.getErsteller()) : null);
+
+        // Timestamp kann null sein
+        dto.setTimestamp(budget.getTimestamp() != null ? budget.getTimestamp().format(FORMATTER) : null);
+
+        // Approved kann null sein
+        dto.setApproved(budget.getApproved() != null ? budget.getApproved() : false);
+
         return dto;
     }
+
 
     // Methode zur Umwandlung eines DTOs in ein Budget-Model
     private Budget convertToEntity(BudgetDetailsDTO dto) {
         Budget budget = new Budget();
         budget.setName(dto.getName());
         budget.setBudgetBetrag(dto.getAvailableBudget());
-
+        budget.setTimestamp(LocalDateTime.parse(dto.getTimestamp(), FORMATTER)); // String -> LocalDateTime
+        budget.setApproved(dto.isApproved());
         // Überprüfe, ob der Owner existiert und lade ihn aus der Datenbank
         Optional<UserDTO> optionalOwner = userService.getUserById(dto.getOwner().getId());
         if (optionalOwner.isPresent()) {
@@ -146,10 +155,7 @@ public class BudgetService {
 
     public BudgetDetailsDTO createNewBudgetDTO(BudgetDetailsDTO budgetDetailsDTO) {
         Budget budget = convertToEntity(budgetDetailsDTO);
-
         Budget createdBudget = budgetRepository.save(budget);
-        auditLogService.addAuditLog(budget.getErsteller().getId(), "CREATE", "Budget", createdBudget.getId());
-
         return convertToDTO(createdBudget);
     }
 

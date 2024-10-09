@@ -4,23 +4,23 @@ import java.time.LocalDateTime;
 
 
 public class AuditLogDTO {
-    private LocalDateTime timestamp;
+    private String timestamp;
     private Long userId;
     private String action;
     private String entity;
 
-    public AuditLogDTO(LocalDateTime timestamp, Long userId, String action, String entity) {
+    public AuditLogDTO(String timestamp, Long userId, String action, String entity) {
         this.timestamp = timestamp;
         this.userId = userId;
         this.action = action;
         this.entity = entity;
     }
 
-    public LocalDateTime getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 

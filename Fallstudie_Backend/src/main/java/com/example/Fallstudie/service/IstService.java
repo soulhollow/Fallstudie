@@ -24,9 +24,6 @@ public class IstService {
     private IstRepository istRepository;
 
     @Autowired
-    private AuditLogService auditLogService;
-
-    @Autowired
     private UserService userService;
 
     @Autowired
@@ -91,5 +88,9 @@ public class IstService {
     public List<IstDTO> getIstByBudget(Long budgetId) {
         List<Ist> istList = istRepository.findByBudgetId(budgetId);
         return istList.stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
+
+    public List<IstDTO> getAllIstDTO() {
+        return istRepository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 }
