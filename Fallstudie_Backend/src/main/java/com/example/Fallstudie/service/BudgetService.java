@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,6 +28,9 @@ public class BudgetService {
     @Autowired
     private UserService userService;
 
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+
     // Methode zur Umwandlung eines Budget-Models in ein DTO
     private BudgetDetailsDTO convertToDTO(Budget budget) {
         BudgetDetailsDTO dto = new BudgetDetailsDTO();
@@ -36,6 +40,8 @@ public class BudgetService {
         dto.setOwner(userService.convertToDTO(budget.getOwner()));
         dto.setManager(userService.convertToDTO(budget.getManager()));
         dto.setFinance(userService.convertToDTO(budget.getErsteller()));
+        dto.setTimestamp(budget.getTimestamp().format(UserService.FORMATTER)); // LocalDateTime -> String
+        dto.setApproved(budget.getApproved());
         return dto;
     }
 
@@ -185,15 +191,11 @@ public class BudgetService {
         return budgets.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
-    public BudgetDetailsDTO approveBudgetDTO(Long budgetId, Long managerId) {
+    public BudgetDetailsDTO approveBudgetDTO(Long budgetId) {
         Budget budget = budgetRepository.findById(budgetId)
                 .orElseThrow(() -> new ResourceNotFoundException("Budget not found for this id :: " + budgetId));
-
         budget.setApproved(true);
-        budget.setTimestamp(LocalDateTime.now());
-
         Budget approvedBudget = budgetRepository.save(budget);
-        auditLogService.addAuditLog(managerId, "APPROVE", "Budget", approvedBudget.getId());
 
         return convertToDTO(approvedBudget);
     }

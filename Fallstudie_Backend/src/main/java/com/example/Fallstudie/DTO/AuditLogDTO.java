@@ -8,14 +8,12 @@ public class AuditLogDTO {
     private Long userId;
     private String action;
     private String entity;
-    private Long entityId;
 
-    public AuditLogDTO(LocalDateTime timestamp, Long userId, String action, String entity, Long entityId) {
+    public AuditLogDTO(LocalDateTime timestamp, Long userId, String action, String entity) {
         this.timestamp = timestamp;
         this.userId = userId;
         this.action = action;
         this.entity = entity;
-        this.entityId = entityId;
     }
 
     public LocalDateTime getTimestamp() {
@@ -50,11 +48,4 @@ public class AuditLogDTO {
         this.entity = entity;
     }
 
-    public Long getEntityId() {
-        return entityId;
-    }
-
-    public void setEntityId(Long entityId) {
-        this.entityId = entityId;
-    }
 }

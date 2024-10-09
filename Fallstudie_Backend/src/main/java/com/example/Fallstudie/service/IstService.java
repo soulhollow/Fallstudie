@@ -85,7 +85,6 @@ public class IstService {
         // Weitere Felder nach Bedarf aktualisieren
 
         Ist updatedIst = istRepository.save(ist);
-        auditLogService.addAuditLog(userId, "UPDATE", "Ist", updatedIst.getId());
         return convertToDTO(updatedIst);
     }
 

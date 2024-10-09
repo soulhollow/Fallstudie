@@ -14,6 +14,24 @@ public class BudgetDetailsDTO {
     private UserDTO owner;
     private UserDTO finance;
     private UserDTO manager;
+    private String timestamp;
+    private boolean approved;
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
+    }
 
     public UserDTO getOwner() {
         return owner;

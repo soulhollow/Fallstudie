@@ -84,10 +84,10 @@ public class BudgetController {
         return ResponseEntity.ok(budgetDTOs);
     }
 
-    // APPROVE Budget //Funktioniert noch nicht
+    // APPROVE Budget //Fertig
     @PutMapping("/{id}/approve")
-    public ResponseEntity<BudgetDetailsDTO> approveBudget(@PathVariable Long id, @RequestParam Long managerId) {
-        BudgetDetailsDTO approvedBudgetDTO = budgetService.approveBudgetDTO(id, managerId);
+    public ResponseEntity<BudgetDetailsDTO> approveBudget(@PathVariable Long id) {
+        BudgetDetailsDTO approvedBudgetDTO = budgetService.approveBudgetDTO(id);
         return ResponseEntity.ok(approvedBudgetDTO);
     }
 }

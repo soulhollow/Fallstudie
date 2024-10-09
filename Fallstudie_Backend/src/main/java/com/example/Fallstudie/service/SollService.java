@@ -84,12 +84,16 @@ public class SollService {
         // Weitere Felder nach Bedarf aktualisieren
 
         Soll updatedSoll = sollRepository.save(soll);
-        auditLogService.addAuditLog(userId, "UPDATE", "Soll", updatedSoll.getId());
         return convertToDTO(updatedSoll);
     }
 
     public List<SollDTO> getSollByBudget(Long budgetId) {
         List<Soll> sollList = sollRepository.findByBudgetId(budgetId);
+        return sollList.stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
+
+    public List<SollDTO> getAllSollDTO() {
+        List<Soll> sollList = sollRepository.findAll();
         return sollList.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 }
