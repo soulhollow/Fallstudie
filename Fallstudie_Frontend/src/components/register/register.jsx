@@ -7,7 +7,7 @@ const RegistrationPage = () => {
     email: '',
     password: '',
     confirmPassword: '',
-    username: ''
+   
   });
 
   const [error, setError] = useState('');
@@ -50,17 +50,6 @@ const RegistrationPage = () => {
           />
         </div>
 
-        <div className="form-group">
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            required
-          />
-        </div>
 
         <div className="form-group">
           <label htmlFor="password">Password:</label>

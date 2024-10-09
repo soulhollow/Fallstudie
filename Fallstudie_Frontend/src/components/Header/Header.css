@@ -1,36 +1,56 @@
-.app-header {
-    background-color: #1976d2;
-    color: white;
-    padding: 0.5rem 1rem;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    z-index: 100;
+/* Allgemeine Stile für die Header-Komponente */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333; /* Dunkler Hintergrund */
+  padding: 10px 20px; /* Innenabstand für den Header */
+  color: white; /* Textfarbe */
+  position: sticky; /* Bleibt beim Scrollen sichtbar */
+  top: 0; /* Fixiert den Header oben */
+  z-index: 1000; /* Überlagert andere Inhalte */
+}
+
+/* Logo-Stil */
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Navigation-Links im Header */
+.nav-links {
+  display: flex; /* Links nebeneinander anordnen */
+  gap: 15px; /* Abstand zwischen Links */
+}
+
+/* Einzelne Links im Header */
+.nav-links a {
+  color: white; /* Textfarbe der Links */
+  text-decoration: none; /* Keine Unterstreichung */
+  padding: 8px 12px; /* Innenabstand der Links */
+  border-radius: 4px; /* Abgerundete Ecken */
+  transition: background-color 0.3s ease; /* Weicher Hover-Effekt */
+}
+
+/* Hover-Effekt für die Links */
+.nav-links a:hover {
+  background-color: #555; /* Hintergrundfarbe beim Überfahren */
+}
+
+/* Responsives Design für kleinere Bildschirme */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column; /* Vertikale Anordnung des Headers */
+    align-items: flex-start; /* Links ausrichten */
   }
-  
-  .toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+
+  .nav-links {
+    flex-direction: column; /* Links untereinander anordnen */
+    width: 100%; /* Links füllen die Breite */
   }
-  
-  .title {
-    font-size: 1.25rem;
-    font-weight: bold;
+
+  .nav-links a {
+    width: 100%; /* Links nehmen die gesamte Breite ein */
+    text-align: center; /* Zentrierter Text */
   }
-  
-  .btn.logout-button {
-    background-color: transparent;
-    border: 1px solid white;
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9rem;
-  }
-  
-  .btn.logout-button:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-  }
-  
+}

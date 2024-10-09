@@ -20,7 +20,7 @@ const Login = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ mail, password }),
       });
 
       const data = await response.json();
@@ -47,8 +47,8 @@ const Login = () => {
           <input
             type="text"
             className="input"
-            placeholder="Benutzername"
-            value={username}
+            placeholder="E-mail"
+            value={mail}
             onChange={(e) => setUsername(e.target.value)}
             required
           />
