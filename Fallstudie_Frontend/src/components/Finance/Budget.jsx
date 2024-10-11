@@ -139,8 +139,9 @@ const Budget = () => {
               onChange={(e) => setNewBudget({ ...newBudget, financeId: e.target.value })}
             />
           </label>
-          <button type="submit">Erstellen</button>
+        
         </form>
+        <button type="submit">Erstellen</button>
       </div>
 
       {/* Budget aktualisieren */}
