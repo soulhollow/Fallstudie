@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css'; // Die CSS-Datei
+import './Header.css'; // Die CSS-Datei
 
 const Header = ({ role }) => {
   // Funktion, um Links basierend auf der Rolle zu rendern
