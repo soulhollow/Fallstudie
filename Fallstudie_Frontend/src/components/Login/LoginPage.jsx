@@ -58,11 +58,15 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+          <div>
+
+          </div>
           {error && <p className="error-message">{error}</p>}
-          <button type="submit" className="btn">
+         
+        </form>
+        <button type="submit" className="btn">
             Login
           </button>
-        </form>
       </div>
     </div>
   );
