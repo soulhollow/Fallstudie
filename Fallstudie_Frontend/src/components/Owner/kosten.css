@@ -1,0 +1,87 @@
+/* Zentrieren des Containers auf der Seite */
+.ist-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .ist-title {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .ist-loading {
+    color: #007bff;
+  }
+  
+  .ist-error {
+    color: red;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+    color: #555;
+    text-align: left;
+  }
+  
+  .form-select, .form-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  
+  .form-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .form-button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Responsives Design */
+  @media (max-width: 768px) {
+    .ist-container {
+      width: 90%;
+    }
+  
+    .ist-title {
+      font-size: 20px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .ist-container {
+      padding: 15px;
+    }
+  
+    .ist-title {
+      font-size: 18px;
+    }
+  
+    .form-button {
+      font-size: 14px;
+    }
+  }
+  

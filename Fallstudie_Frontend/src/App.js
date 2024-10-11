@@ -9,6 +9,7 @@ import Budget from './components/Finance/Budget';
 import Soll from './components/Finance/Soll';
 import Login from './components/Login/LoginPage';
 import Approve from './components//Management/Budgetapprove';
+import Kosten from './components/Owner/kosten'
 
 function App() {
     return (
@@ -21,6 +22,7 @@ function App() {
                 <Route path="/Budget" element={<Budget />} />
                 <Route path="/sivergleich" element={<Soll />} />
                 <Route path="/approve" element={<Approve />} />
+                <Route path="/kosten" element={<Kosten />} />
             </Routes>
             <Footer />
         </Router>

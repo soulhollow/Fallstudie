@@ -208,6 +208,7 @@ const Budget = () => {
               <th>Manager</th>
               <th>Finanzverwalter</th>
               <th>Aktionen</th>
+              <th>Approved</th>
             </tr>
           </thead>
           <tbody>
@@ -219,6 +220,7 @@ const Budget = () => {
                 <td>{budget.ownerId}</td>
                 <td>{budget.managerId}</td>
                 <td>{budget.financeId}</td>
+               
                 <td>
                   <button onClick={() => setEditingBudget(budget)}>Bearbeiten</button>
                   <button onClick={() => deleteBudget(budget.id)}>Löschen</button>
