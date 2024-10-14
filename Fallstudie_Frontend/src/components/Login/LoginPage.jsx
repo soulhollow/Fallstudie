@@ -4,8 +4,8 @@ import ApiService from '../../Service/ApiService'; // Importiere deinen ApiServi
 import { useNavigate } from 'react-router-dom'; // Zum Weiterleiten nach Login
 
 const Login = () => {
-  // State für Benutzernamen, Passwort und Fehler
-  const [username, setUsername] = useState("");
+  // State für E-Mail, Passwort und Fehler
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   
@@ -18,7 +18,7 @@ const Login = () => {
 
     try {
       // Erstelle das Login-Request-Objekt
-      const loginRequest = { username, password };
+      const loginRequest = { email, password };
       
       // Aufruf der ApiService login-Methode
       const data = await ApiService.login(loginRequest);
@@ -28,7 +28,7 @@ const Login = () => {
       // z.B. localStorage.setItem("token", data.token);
       
       // Weiterleitung zur Dashboard-Seite nach erfolgreichem Login
-      navigate('/dashboard');
+      navigate('/admin/usermanagement');
       
     } catch (err) {
       // Fehlerbehandlung
@@ -43,11 +43,11 @@ const Login = () => {
         <h2 className="title">Anmeldung</h2>
         <form onSubmit={handleSubmit}>
           <input
-            type="text"
+            type="email"
             className="input"
-            placeholder="Benutzername"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            placeholder="E-Mail"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
           <input
@@ -59,14 +59,15 @@ const Login = () => {
             required
           />
           <div>
-
           </div>
           {error && <p className="error-message">{error}</p>}
-         
-        </form>
-        <button type="submit" className="btn">
+
+          <button type="submit" className="btn">
             Login
           </button>
+         
+        </form>
+        
       </div>
     </div>
   );
