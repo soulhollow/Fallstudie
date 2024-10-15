@@ -28,7 +28,7 @@ const Login = () => {
       // z.B. localStorage.setItem("token", data.token);
 
       // Weiterleitung zur Dashboard-Seite nach erfolgreichem Login
-      navigate('/admin/usermanagement');
+      navigate("/admin/usermangement");
 
     } catch (err) {
       // Fehlerbehandlung
