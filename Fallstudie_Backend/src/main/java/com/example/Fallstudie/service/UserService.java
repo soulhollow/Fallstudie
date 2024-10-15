@@ -118,8 +118,26 @@ public class UserService {
 
     // Konvertierungsmethoden zwischen User und UserDTO
     public UserDTO convertToDTO(User user) {
-        return new UserDTO(user.getId(), user.getEmail(), user.getVorname(), user.getNachname(), user.getPassword(), user.getRole().getId());
+        if (user == null) {
+            throw new IllegalArgumentException("User darf nicht null sein");
+        }
+
+        long roleId = (user.getRole() != null) ? user.getRole().getId() : 0;
+        String email = (user.getEmail() != null) ? user.getEmail() : "";
+        String vorname = (user.getVorname() != null) ? user.getVorname() : "";
+        String nachname = (user.getNachname() != null) ? user.getNachname() : "";
+        String password = (user.getPassword() != null) ? user.getPassword() : "";
+
+        return new UserDTO(
+                user.getId(),
+                email,
+                vorname,
+                nachname,
+                password,
+                roleId
+        );
     }
+
 
     public User convertToEntity(UserDTO userDTO) {
         User user = new User();
