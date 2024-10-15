@@ -34,11 +34,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             jwt = authorizationHeader.substring(7);
-            email = jwtTokenUtil.extractEmail(jwt);
+            try {
+                email = jwtTokenUtil.extractEmail(jwt);
+            } catch (Exception e) {
+                // Fehler beim Parsen des Tokens - Ignorieren und ohne Authentifizierung fortfahren
+                logger.warn("Ungültiger JWT Token: " + e.getMessage());
+            }
         }
 
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            // Verwende die loadUserByUsername-Methode, um den Benutzer zu laden
             UserDetails userDetails = userService.loadUserByEmail(email);
 
             if (jwtTokenUtil.validateToken(jwt, userDetails)) {

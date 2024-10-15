@@ -4,8 +4,8 @@ import ApiService from '../../Service/ApiService'; // Importiere deinen ApiServi
 import { useNavigate } from 'react-router-dom'; // Zum Weiterleiten nach Login
 
 const Login = () => {
-  // State für E-Mail, Passwort und Fehler
-  const [email, setEmail] = useState("");
+  // State für Benutzernamen, Passwort und Fehler
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   
@@ -13,22 +13,23 @@ const Login = () => {
 
   // Funktion zum Handling des Submit-Events
   const handleSubmit = async (e) => {
+    console.log("Login-Formular wurde abgesendet");
     e.preventDefault(); // Verhindert, dass das Formular neu geladen wird
     setError(""); // Fehlernachricht zurücksetzen
 
     try {
       // Erstelle das Login-Request-Objekt
-      const loginRequest = { email, password };
-      
+      const loginRequest = { email: username, password };
       // Aufruf der ApiService login-Methode
       const data = await ApiService.login(loginRequest);
-
-      // Bei Erfolg, speichere Token und leite den Benutzer weiter
       console.log("Login erfolgreich:", data);
-      // z.B. localStorage.setItem("token", data.token);
-      
-      // Weiterleitung zur Dashboard-Seite nach erfolgreichem Login
-      navigate('/admin/usermanagement');
+        // Nach erfolgreichem Login den Token speichern
+        console.log("Login erfolgreich:", data);
+        // Speichere den Token im LocalStorage
+        localStorage.setItem("token", data.token);
+        // Weiterleitung zur Dashboard-Seite
+        navigate('/adminuser');
+
       
     } catch (err) {
       // Fehlerbehandlung
@@ -43,31 +44,30 @@ const Login = () => {
         <h2 className="title">Anmeldung</h2>
         <form onSubmit={handleSubmit}>
           <input
-            type="email"
-            className="input"
-            placeholder="E-Mail"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
+              type="text"
+              className="input"
+              placeholder="Benutzername"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
           />
           <input
-            type="password"
-            className="input"
-            placeholder="Passwort"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
+              type="password"
+              className="input"
+              placeholder="Passwort"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
           />
           <div>
+
           </div>
           {error && <p className="error-message">{error}</p>}
-
           <button type="submit" className="btn">
             Login
           </button>
-         
         </form>
-        
+
       </div>
     </div>
   );
