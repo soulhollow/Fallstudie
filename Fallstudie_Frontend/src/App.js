@@ -15,6 +15,7 @@ import TimetravelBudget from "./components/Management/TimeTravelBudget";
 import ManagerBudgetSelector from "./components/Management/ManagerBudgetSelector";
 import Forecast from "./components/Management/Forecast";
 import Monitoring from "./components/Management/Monitoring";
+import CreateSoll from "./components/Finance/CreateSoll";
 import './App.css';
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
                 <Route path="/admin/audittable" element={<AuditLogTable />} /> {/*Fertig*/}
                 <Route path="/finance/Budget" element={<Budget />} /> {/*Fertig*/}
                 <Route path="/finance/sollIst" element={<SollIstFinance />} /> {/*Fertig*/}
+                <Route path="/finance/CreateSoll" element={<CreateSoll />} />
                 <Route path="/Management/approve" element={<Approve />} />
                 <Route path="/Management/Timetravel" element={<TimetravelBudget />} />
                 <Route path="/Management/Forecast" element={<Forecast />} />

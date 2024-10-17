@@ -65,7 +65,7 @@ const SollIst = () => {
                   <td>{name}</td>
                   <td>{istItem.betrag.toFixed(2)} €</td>
                   <td>{sollItem.betrag.toFixed(2)} €</td>
-                  <td className={differenz >= 0 ? 'positive' : 'negative'}>
+                  <td className={differenz <= 0 ? 'positive' : 'negative'}>
                     {differenz.toFixed(2)} €
                   </td>
                 </tr>
