@@ -6,18 +6,18 @@
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
- 
+
 h2 {
   text-align: center;
   color: #333;
   margin-bottom: 20px;
 }
- 
+
 h3 {
   color: #444;
   margin-bottom: 10px;
 }
- 
+
 .error-message {
   background-color: #f8d7da;
   color: #721c24;
@@ -26,7 +26,7 @@ h3 {
   border-radius: 5px;
   margin-bottom: 20px;
 }
- 
+
 .success-message {
   background-color: #d4edda;
   color: #155724;
@@ -35,21 +35,21 @@ h3 {
   border-radius: 5px;
   margin-bottom: 20px;
 }
- 
+
 .search-section {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
 }
- 
+
 .search-section input {
   width: 60%;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
 }
- 
+
 .search-section button {
   padding: 10px 20px;
   background-color: #007bff;
@@ -58,22 +58,22 @@ h3 {
   border-radius: 5px;
   cursor: pointer;
 }
- 
+
 .search-section button:hover {
   background-color: #0056b3;
 }
- 
+
 .budget-form {
   margin-bottom: 20px;
-  text-align: center; /* Zentriere den Inhalt der Form */
+  text-align: center;
 }
- 
+
 .budget-form label {
   display: block;
   margin: 10px 0 5px;
   font-weight: bold;
 }
- 
+
 .budget-form input {
   width: 100%;
   padding: 10px;
@@ -81,8 +81,7 @@ h3 {
   border-radius: 5px;
   margin-bottom: 10px;
 }
- 
-/* Anpassung des Erstellen-Buttons */
+
 .budget-form button {
   padding: 20px 30px;
   background-color: black;
@@ -91,43 +90,43 @@ h3 {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  margin: 0 auto; /* Zentriere den Button */
-  display: inline-block; /* Der Button wird zentriert im Block-Layout */
+  margin: 0 auto;
+  display: inline-block;
 }
- 
+
 .budget-form button:hover {
   background-color: gray;
 }
- 
+
 .budget-list {
   margin-top: 40px;
 }
- 
+
 .budget-list table {
   width: 100%;
   border-collapse: collapse;
 }
- 
+
 .budget-list th,
 .budget-list td {
   padding: 12px;
   text-align: left;
   border: 1px solid #ddd;
 }
- 
+
 .budget-list th {
   background-color: #232b32;
   color: white;
 }
- 
+
 .budget-list td {
   background-color: #f9f9f9;
 }
- 
+
 .budget-list tr:hover {
   background-color: #f1f1f1;
 }
- 
+
 .budget-list button {
   padding: 5px 10px;
   background-color: #000000;
@@ -137,15 +136,15 @@ h3 {
   cursor: pointer;
   margin-left: 10px;
 }
- 
+
 .budget-list button:hover {
   background-color: #000000;
 }
- 
+
 .budget-list .edit-btn {
   background-color: #ffc107;
 }
- 
+
 .budget-list .edit-btn:hover {
   background-color: #000000;
 }

@@ -15,13 +15,14 @@ import TimetravelBudget from "./components/Management/TimeTravelBudget";
 import ManagerBudgetSelector from "./components/Management/ManagerBudgetSelector";
 import Forecast from "./components/Management/Forecast";
 import Monitoring from "./components/Management/Monitoring";
+import './App.css';
 
 function App() {
     return (
         <Router>
             <Header />
             <Routes>
-                <Route path="/" element={<Login />} />
+
                 <Route path="/admin/usermangement" element={<AdminPanel />} /> {/*Fertig*/}
                 <Route path="/admin/audittable" element={<AuditLogTable />} /> {/*Fertig*/}
                 <Route path="/finance/Budget" element={<Budget />} /> {/*Fertig*/}
@@ -33,8 +34,7 @@ function App() {
                 <Route path="/Management/ManagerBudgetSelector" element={<ManagerBudgetSelector />} />
                 <Route path="/owner/kosten" element={<Kosten />} />
                 <Route path="/owner/sollIst" element={<SollIstOwner />} />
-              
-
+                <Route path="*" element={<Login />} />
             </Routes>
             <Footer />
         </Router>

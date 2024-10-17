@@ -1,4 +1,3 @@
-/* Styles für die ManagerBudgetSelector und TimeTravelBudget Komponenten */
 .manager-budget-selector {
     font-family: Arial, sans-serif;
     max-width: 800px;
@@ -28,7 +27,6 @@ select {
     margin-top: 20px;
 }
 
-/* Styles für die TimeTravelBudget Komponente */
 .time-travel-budget {
     margin-top: 30px;
     padding: 20px;
