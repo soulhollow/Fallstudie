@@ -1,0 +1,58 @@
+.manager-forecast-budgets {
+    font-family: Arial, sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.budget-item {
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.budget-header {
+    background-color: #f2f2f2;
+    padding: 15px;
+    cursor: pointer;
+}
+
+.budget-header:hover {
+    background-color: #e6e6e6;
+}
+
+.budget-details {
+    padding: 15px;
+}
+
+.ist-soll-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.ist-soll-table th,
+.ist-soll-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.ist-soll-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.positive {
+    color: green;
+}
+
+.negative {
+    color: red;
+}
+
+.error-message {
+    color: red;
+    font-weight: bold;
+}

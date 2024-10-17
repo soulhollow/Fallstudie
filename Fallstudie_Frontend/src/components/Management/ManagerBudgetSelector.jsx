@@ -3,10 +3,11 @@ import ApiService from '../../Service/ApiService';
 import TimeTravelBudget from './TimeTravelBudget';
 import './ManagerBudgetSelector.css';
 
-const ManagerBudgetSelector = () => {
-    const [currentUser, setCurrentUser] = useState(null);
-    const [budgets, setBudgets] = useState([]);
-    const [selectedBudgetName, setSelectedBudgetName] = useState('');
+const ManagerBudgetSelector = () => {const [currentUser, setCurrentUser] = useState(null);
+    const [forecastBudgets, setForecastBudgets] = useState([]);
+    const [expandedBudget, setExpandedBudget] = useState(null);
+    const [istData, setIstData] = useState([]);
+    const [sollData, setSollData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -16,8 +17,14 @@ const ManagerBudgetSelector = () => {
                 setLoading(true);
                 const user = await ApiService.getCurrentUser();
                 setCurrentUser(user);
-                const managerBudgets = await ApiService.getBudgetsByManager(user.id);
-                setBudgets(managerBudgets);
+
+                if (user.role === 'MANAGER') {
+                    const allBudgets = await ApiService.getBudgetsByManager(user.id);
+                    const forecastBudgets = allBudgets.filter(budget => !budget.approved);
+                    setForecastBudgets(forecastBudgets);
+                } else {
+                    setError('Sie haben keine Berechtigung, auf Forecast-Budgets zuzugreifen.');
+                }
             } catch (err) {
                 setError('Fehler beim Laden der Daten. Bitte versuchen Sie es später erneut.');
                 console.error('Fehler:', err);
@@ -29,12 +36,63 @@ const ManagerBudgetSelector = () => {
         fetchData();
     }, []);
 
-    const handleBudgetSelect = (event) => {
-        setSelectedBudgetName(event.target.value);
+    const handleBudgetClick = async (budget) => {
+        if (expandedBudget === budget.id) {
+            setExpandedBudget(null);
+            setIstData([]);
+            setSollData([]);
+        } else {
+            setExpandedBudget(budget.id);
+            try {
+                const [istResponse, sollResponse] = await Promise.all([
+                    ApiService.getIstByBudget(budget.id),
+                    ApiService.getSollByBudget(budget.id)
+                ]);
+                setIstData(istResponse);
+                setSollData(sollResponse);
+            } catch (err) {
+                console.error('Fehler beim Laden der Ist- und Soll-Daten:', err);
+            }
+        }
+    };
+
+    const renderIstSollTable = () => {
+        const allNames = [...new Set([...istData.map(i => i.name), ...sollData.map(s => s.name)])];
+
+        return (
+            <table className="ist-soll-table">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Ist-Betrag</th>
+                    <th>Soll-Betrag</th>
+                    <th>Differenz</th>
+                </tr>
+                </thead>
+                <tbody>
+                {allNames.map(name => {
+                    const istItem = istData.find(i => i.name === name) || { betrag: 0 };
+                    const sollItem = sollData.find(s => s.name === name) || { betrag: 0 };
+                    const differenz = istItem.betrag - sollItem.betrag;
+
+                    return (
+                        <tr key={name}>
+                            <td>{name}</td>
+                            <td>{istItem.betrag.toFixed(2)} €</td>
+                            <td>{sollItem.betrag.toFixed(2)} €</td>
+                            <td className={differenz >= 0 ? 'positive' : 'negative'}>
+                                {differenz.toFixed(2)} €
+                            </td>
+                        </tr>
+                    );
+                })}
+                </tbody>
+            </table>
+        );
     };
 
     if (loading) {
-        return <div>Lade Daten...</div>;
+        return <div>Lade Forecast-Budgets...</div>;
     }
 
     if (error) {
@@ -42,27 +100,32 @@ const ManagerBudgetSelector = () => {
     }
 
     return (
-        <div className="manager-budget-selector">
-            <h1>Willkommen, {currentUser?.name}</h1>
+        <div className="manager-forecast-budgets">
+            <h1>Forecast-Budgets für {currentUser?.name}</h1>
 
-            {budgets.length > 0 ? (
-                <div className="budget-selection">
-                    <h2>Wählen Sie ein Budget aus:</h2>
-                    <select onChange={handleBudgetSelect} value={selectedBudgetName}>
-                        <option value="">-- Bitte wählen Sie ein Budget --</option>
-                        {budgets.map((budget) => (
-                            <option key={budget.id} value={budget.name}>
-                                {budget.name}
-                            </option>
-                        ))}
-                    </select>
+            {forecastBudgets.length > 0 ? (
+                <div>
+                    {forecastBudgets.map((budget) => (
+                        <div key={budget.id} className="budget-item">
+                            <div className="budget-header" onClick={() => handleBudgetClick(budget)}>
+                                <h2>{budget.name}</h2>
+                                <p>Verfügbares Budget: {budget.availableBudget} €</p>
+                                <p>Besitzer: {budget.owner}</p>
+                                <p>Finanzverantwortlicher: {budget.finance}</p>
+                                <p>Erstellungsdatum: {format(new Date(budget.timestamp), 'dd.MM.yyyy', { locale: de })}</p>
+                                <p>Status: {budget.approved ? 'Genehmigt' : 'Nicht genehmigt'}</p>
+                            </div>
+                            {expandedBudget === budget.id && (
+                                <div className="budget-details">
+                                    <h3>Ist- und Soll-Werte</h3>
+                                    {renderIstSollTable()}
+                                </div>
+                            )}
+                        </div>
+                    ))}
                 </div>
             ) : (
-                <p>Keine Budgets verfügbar.</p>
-            )}
-
-            {selectedBudgetName && (
-                <TimeTravelBudget budgetName={selectedBudgetName} />
+                <p>Keine Forecast-Budgets verfügbar.</p>
             )}
         </div>
     );

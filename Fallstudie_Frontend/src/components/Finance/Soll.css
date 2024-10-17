@@ -1,67 +1,65 @@
 .budget-list {
-  width: 100%;
-  max-width: 800px;
+  font-family: Arial, sans-serif;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
- 
+
 table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
 }
- 
-table th, table td {
+
+th, td {
+  border: 1px solid #ddd;
   padding: 12px;
   text-align: left;
-  border-bottom: 1px solid #ddd;
 }
- 
-.red-text {
-  color: red;
+
+th {
+  background-color: #f2f2f2;
   font-weight: bold;
 }
- 
-h1 {
-  text-align: center;
-  margin-bottom: 20px;
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
 }
- 
-/* Zusätzliche Stile für aufklappbare Budget-Daten */
-.details {
-  padding: 10px;
-  margin-top: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  background-color: #fff;
-}
- 
-.details h3 {
-  margin: 0 0 10px 0;
-}
- 
-.details h4 {
-  margin: 10px 0 5px 0;
-}
- 
-.details ul {
-  list-style-type: none; /* Entfernt die Aufzählungszeichen */
-  padding: 0; /* Entfernt das Padding der Liste */
-}
- 
-.details li {
-  margin: 5px 0; /* Abstand zwischen den Listenelementen */
-}
- 
+
 .red {
   color: red;
+}
+
+.green {
+  color: green;
+}
+
+.details {
+  padding: 15px;
+}
+
+.ist-soll-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.ist-soll-table th,
+.ist-soll-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.ist-soll-table th {
+  background-color: #f2f2f2;
   font-weight: bold;
 }
- 
-.grün{
+
+.positive {
   color: green;
-  font-weight: bold;
+}
+
+.negative {
+  color: red;
 }
