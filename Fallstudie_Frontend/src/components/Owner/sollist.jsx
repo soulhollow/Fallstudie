@@ -1,75 +1,139 @@
 import React, { useEffect, useState } from 'react';
-import ApiService from '../../Service/ApiService'; // Annahme: ApiService ist korrekt importiert
-import './sollist.css'; // CSS Datei für das Styling
-
-const SollIst = ({ ownerId }) => {  // Der ownerId wird als Prop übergeben
+import ApiService from '../../Service/ApiService'; // Assuming ApiService is correctly imported
+import './sollist.css'; // Ensure this matches your actual CSS file name
+ 
+const OwnerBudgets = () => {
   const [budgets, setBudgets] = useState([]);
   const [error, setError] = useState(null);
-
+  const [expandedBudgetId, setExpandedBudgetId] = useState(null); // State for the expanded budget
+  const [ownerId, setOwnerId] = useState(null); // State to hold owner ID
+  const [ownerfname, setOwnerfName] = useState(null);
+  const [ownernname, setOwnernName] = useState(null); // State to hold owner ID
+ 
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      try {
+        const user = await ApiService.getCurrentUser(); // Fetch the current user
+        setOwnerId(user.id); // Set the owner ID from the current user
+        setOwnerfName(user.firstName);
+        setOwnernName(user.lastName);
+      } catch (err) {
+        setError('Fehler beim Abrufen des aktuellen Benutzers');
+        console.error(err);
+      }
+    };
+ 
+    fetchCurrentUser();
+  }, []); // Only run once on mount
+ 
   useEffect(() => {
     const fetchBudgets = async () => {
+      if (!ownerId) {
+        return; // Exit if ownerId is null
+      }
       try {
-        // Ruft die Budgets für den angemeldeten Owner ab
+        // Fetch budgets by owner ID
         const ownerBudgets = await ApiService.getBudgetsByOwner(ownerId);
-
-        // Für jedes Budget die Ist- und Soll-Werte abfragen
+        console.log(ownerId); // Logging the ownerId
+        // For each budget, fetch Ist and Soll values
         const budgetsWithValues = await Promise.all(
           ownerBudgets.map(async (budget) => {
-            const ist = await ApiService.getIstByBudget(budget.id);
-            const soll = await ApiService.getSollByBudget(budget.id);
-
+            const istResponse = await ApiService.getIstByBudget(budget.id);
+            const sollResponse = await ApiService.getSollByBudget(budget.id);
+ 
             return {
               ...budget,
-              ist,
-              soll,
+              ist: istResponse, // Set the entire Ist response
+              soll: sollResponse, // Set the entire Soll response
             };
           })
         );
-
-        // Setze die Budgets mit Ist- und Soll-Werten in den State
+ 
+        // Set the budgets with Ist and Soll values in state
         setBudgets(budgetsWithValues);
       } catch (err) {
         setError('Fehler beim Laden der Budgets');
         console.error(err);
       }
     };
-
+ 
     fetchBudgets();
-  }, [ownerId]); // ownerId als Dependency, damit die Budgets neu geladen werden, wenn sich der Owner ändert
-
+  }, [ownerId]); // Run when ownerId changes
+ 
+  const toggleExpand = (budgetId) => {
+    setExpandedBudgetId(expandedBudgetId === budgetId ? null : budgetId);
+  };
+ 
+  // Function to sum the amounts
+  const sumValues = (values) => values.reduce((acc, curr) => acc + curr.betrag, 0);
+ 
   if (error) {
     return <p>{error}</p>;
   }
-
+ 
   return (
     <div className="budget-list">
-      <h1>Budgetübersicht</h1>
+      <h1>Budgetübersicht für  {ownerfname} {ownernname} </h1>
       <table>
         <thead>
           <tr>
             <th>Budget Name</th>
-            <th>Zuständige Person</th>
-            <th>Soll</th>
-            <th>Ist</th>
+            <th>Budgetwert</th>
+            <th>Soll-Werte</th>
+            <th>Ist-Werte</th>
           </tr>
         </thead>
         <tbody>
-          {budgets.map((budget) => (
-            <tr key={budget.id}>
-              <td>{budget.name}</td>
-              <td>{budget.responsiblePerson}</td> {/* Annahme: responsiblePerson ist im Budget vorhanden */}
-              <td>{budget.soll}</td>
-              <td
-                className={budget.ist > budget.soll ? 'red-text' : ''} // Ist wird rot, wenn es größer als Soll ist
-              >
-                {budget.ist}
-              </td>
-            </tr>
-          ))}
+          {budgets.map((budget) => {
+            const totalSoll = sumValues(budget.soll);
+            const totalIst = sumValues(budget.ist);
+ 
+            // Comparison to see if Ist < Soll
+            const isRed = totalIst > totalSoll; // Ist value turns red if greater than Soll value
+            const isGreen = totalIst < totalSoll; // Ist value turns green if less than Soll value
+ 
+            return (
+              <React.Fragment key={budget.id}>
+                <tr onClick={() => toggleExpand(budget.id)} style={{ cursor: 'pointer' }}>
+                  <td>{budget.name}</td>
+                  <td>{budget.availableBudget} €</td>
+                  <td>{totalSoll} €</td>
+                  <td className={isRed ? 'red' : isGreen ? 'grün' : ''}>
+                    {totalIst} €
+                  </td> {/* Display Ist value in red or green depending on comparison */}
+                </tr>
+                {expandedBudgetId === budget.id && (
+                  <tr>
+                    <td colSpan={3}>
+                      <div className="details">
+                        <h3>Details für {budget.name}</h3>
+                        <h4>Soll-Daten:</h4>
+                        <ul>
+                          {budget.soll.map(s => (
+                            <li key={s.id}>
+                              {s.name}: {s.betrag} € (Zeitstempel: {s.timestamp})
+                            </li>
+                          ))}
+                        </ul>
+                        <h4>Ist-Daten:</h4>
+                        <ul>
+                          {budget.ist.map(i => (
+                            <li key={i.id}>
+                              {i.name}: {i.betrag} € (Zeitstempel: {i.timestamp})
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </React.Fragment>
+            );
+          })}
         </tbody>
       </table>
     </div>
   );
 };
-
-export default SollIst;
+ 
+export default OwnerBudgets;

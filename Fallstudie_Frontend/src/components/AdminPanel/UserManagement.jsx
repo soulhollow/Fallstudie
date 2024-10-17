@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ApiService from '../../Service/ApiService'; // Importiere deinen ApiService
 import './UserManagement.css'; // Importiere eine optionale CSS-Datei für Styling
-
+ 
 const UserManagement = () => {
   // States für die Verwaltung der Benutzer
   const [users, setUsers] = useState([]);
@@ -9,12 +9,12 @@ const UserManagement = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [newUser, setNewUser] = useState({ firstName: '', lastName: '', email: '', password: '', roleID: '' });
   const [error, setError] = useState('');
-
+ 
   // Alle Benutzer abrufen, wenn die Komponente geladen wird
   useEffect(() => {
     loadUsers();
   }, []);
-
+ 
   const loadUsers = async () => {
     try {
       const data = await ApiService.getAllUsers();
@@ -23,7 +23,7 @@ const UserManagement = () => {
       setError('Fehler beim Laden der Benutzer');
     }
   };
-
+ 
   // Benutzer nach E-Mail suchen
   const searchUser = async (e) => {
     e.preventDefault();
@@ -36,7 +36,7 @@ const UserManagement = () => {
       setSelectedUser(null);
     }
   };
-
+ 
   // Benutzer aktualisieren
   const updateUser = async (e) => {
     e.preventDefault();
@@ -50,7 +50,7 @@ const UserManagement = () => {
       setError('Fehler beim Aktualisieren des Benutzers');
     }
   };
-
+ 
   // Neuen Benutzer erstellen
   const createUser = async (e) => {
     e.preventDefault();
@@ -63,33 +63,24 @@ const UserManagement = () => {
       setError('Fehler beim Erstellen eines neuen Benutzers');
     }
   };
-
-  // Benutzer löschen
-  const deleteUser = async (id) => {
-    try {
-      await ApiService.deleteUser(id); // Füge diese Methode in ApiService hinzu, falls noch nicht vorhanden
-      loadUsers(); // Liste der Benutzer neu laden
-    } catch (error) {
-      setError('Fehler beim Löschen des Benutzers');
-    }
-  };
-
+ 
+ 
   // Formular für das Bearbeiten eines Benutzers anzeigen
   const handleUserChange = (e) => {
     const { name, value } = e.target;
     setSelectedUser((prevUser) => ({ ...prevUser, [name]: value }));
   };
-
+ 
   // Formular für das Erstellen eines neuen Benutzers aktualisieren
   const handleNewUserChange = (e) => {
     const { name, value } = e.target;
     setNewUser((prevUser) => ({ ...prevUser, [name]: value }));
   };
-
+ 
   return (
       <div className="admin-panel">
         <h1>Benutzerverwaltung</h1>
-
+ 
         {/* Suchformular */}
         <form onSubmit={searchUser}>
           <input
@@ -101,10 +92,10 @@ const UserManagement = () => {
           />
           <button type="submit">Suchen</button>
         </form>
-
+ 
         {/* Fehlermeldung anzeigen */}
         {error && <p className="error-message">{error}</p>}
-
+ 
         {/* Benutzerinformationen bearbeiten */}
         {selectedUser && (
             <div className="user-edit-form">
@@ -165,7 +156,7 @@ const UserManagement = () => {
               </form>
             </div>
         )}
-
+ 
         {/* Neuen Benutzer erstellen */}
         <div className="new-user-form">
           <h2>Neuen Benutzer erstellen</h2>
@@ -224,7 +215,7 @@ const UserManagement = () => {
             <button type="submit">Benutzer erstellen</button>
           </form>
         </div>
-
+ 
         {/* Benutzerliste */}
         <h2>Benutzerliste</h2>
         <table>
@@ -246,7 +237,6 @@ const UserManagement = () => {
                 <td>{user.roleID}</td>
                 <td>
                   <button onClick={() => setSelectedUser(user)}>Bearbeiten</button>
-                  <button onClick={() => deleteUser(user.id)}>Löschen</button>
                 </td>
               </tr>
           ))}
@@ -255,5 +245,6 @@ const UserManagement = () => {
       </div>
   );
 };
-
+ 
 export default UserManagement;
+ 

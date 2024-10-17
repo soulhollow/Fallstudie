@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ApiService from '../../Service/ApiService';  // Stelle sicher, dass der Pfad korrekt ist
 import './Budget.css';  // Optional: Dein CSS für das Styling
-
+ 
 const Budget = () => {
   const [budgets, setBudgets] = useState([]);
   const [newBudget, setNewBudget] = useState({ name: '', availableBudget: 0, ownerId: '', managerId: '', financeId: '' });
@@ -9,7 +9,8 @@ const Budget = () => {
   const [searchName, setSearchName] = useState('');
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-
+  const [user, setUsers] = useState([]);
+ 
   // Lade alle Budgets
   const loadBudgets = async () => {
     try {
@@ -19,11 +20,11 @@ const Budget = () => {
       setError('Fehler beim Laden der Budgets');
     }
   };
-
+ 
   useEffect(() => {
     loadBudgets();
   }, []);
-
+ 
   // Budget erstellen
   const createBudget = async (e) => {
     e.preventDefault();
@@ -36,7 +37,7 @@ const Budget = () => {
       setError('Fehler beim Erstellen des Budgets');
     }
   };
-
+ 
   // Budget aktualisieren
   const updateBudget = async (e) => {
     e.preventDefault();
@@ -49,7 +50,7 @@ const Budget = () => {
       setError('Fehler beim Aktualisieren des Budgets');
     }
   };
-
+ 
   // Budget suchen
   const searchBudget = async (e) => {
     e.preventDefault();
@@ -60,28 +61,17 @@ const Budget = () => {
       setError('Fehler beim Suchen des Budgets');
     }
   };
-
-  // Budget löschen
-  const deleteBudget = async (id) => {
-    if (window.confirm('Möchten Sie dieses Budget wirklich löschen?')) {
-      try {
-        await ApiService.updateBudget(id, { deleted: true }); // Beispiel für ein "Löschen" durch Setzen eines Flags
-        setSuccessMessage('Budget erfolgreich gelöscht!');
-        loadBudgets(); // Neu laden der Budgetliste
-      } catch (err) {
-        setError('Fehler beim Löschen des Budgets');
-      }
-    }
-  };
-
+ 
+ 
+ 
   return (
     <div className="budget-container">
       <h2>Budget Verwaltung</h2>
-
+ 
       {/* Erfolgs- und Fehlermeldungen */}
       {error && <div className="error-message">{error}</div>}
       {successMessage && <div className="success-message">{successMessage}</div>}
-
+ 
       {/* Budget suchen */}
       <div className="search-section">
         <input
@@ -92,7 +82,7 @@ const Budget = () => {
         />
         <button onClick={searchBudget}>Suchen</button>
       </div>
-
+ 
       {/* Neues Budget erstellen */}
       <div className="budget-form">
         <h3>Neues Budget erstellen</h3>
@@ -139,11 +129,11 @@ const Budget = () => {
               onChange={(e) => setNewBudget({ ...newBudget, financeId: e.target.value })}
             />
           </label>
-        
+          <button type="submit">Erstellen</button>
         </form>
-        <button type="submit">Erstellen</button>
+     
       </div>
-
+ 
       {/* Budget aktualisieren */}
       {editingBudget && (
         <div className="budget-form">
@@ -195,7 +185,7 @@ const Budget = () => {
           </form>
         </div>
       )}
-
+ 
       {/* Budget-Liste */}
       <div className="budget-list">
         <h3>Budget Liste</h3>
@@ -217,15 +207,17 @@ const Budget = () => {
               <tr key={budget.id}>
                 <td>{budget.id}</td>
                 <td>{budget.name}</td>
-                <td>{budget.availableBudget}</td>
-                <td>{budget.ownerId}</td>
-                <td>{budget.managerId}</td>
-                <td>{budget.financeId}</td>
+                <td>{budget.availableBudget} €</td>
+                <td>{budget.owner.firstName} {budget.owner.lastName} </td>
+                <td>{budget.manager.firstName} {budget.manager.lastName}</td>
+                <td>{budget.finance.firstName } {budget.finance.lastName}</td>
+             
                
                 <td>
                   <button onClick={() => setEditingBudget(budget)}>Bearbeiten</button>
-                  <button onClick={() => deleteBudget(budget.id)}>Löschen</button>
+         
                 </td>
+                <td>{budget.approved ? 'Approved' : 'Not Approved'}</td>
               </tr>
             ))}
           </tbody>
@@ -234,5 +226,5 @@ const Budget = () => {
     </div>
   );
 };
-
+ 
 export default Budget;

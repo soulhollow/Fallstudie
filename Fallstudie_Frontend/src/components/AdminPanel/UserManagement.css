@@ -1,5 +1,5 @@
-/* AdminPanel.css */
-
+* AdminPanel.css */
+ 
 /* Allgemeiner Container */
 .admin-panel {
   max-width: 1200px;
@@ -7,28 +7,28 @@
   padding: 20px;
   font-family: Arial, sans-serif;
 }
-
+ 
 h1, h2 {
   color: #333;
   text-align: center;
 }
-
+ 
 /* Suchformular */
 form {
   margin-bottom: 20px;
   display: flex;
   justify-content: center;
 }
-
-input[type="email"], 
-input[type="text"], 
+ 
+input[type="email"],
+input[type="text"],
 input[type="password"] {
   padding: 10px;
   margin-right: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-
+ 
 button {
   padding: 10px 15px;
   background-color: #007bff;
@@ -37,43 +37,43 @@ button {
   border-radius: 4px;
   cursor: pointer;
 }
-
+ 
 button:hover {
   background-color: #0056b3;
 }
-
+ 
 .error-message {
   color: red;
   text-align: center;
   margin-bottom: 10px;
 }
-
+ 
 /* Tabellenstil */
 table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
 }
-
+ 
 th, td {
   padding: 12px 15px;
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
-
+ 
 th {
   background-color: #f4f4f4;
   color: #333;
 }
-
+ 
 tr:hover {
   background-color: #f1f1f1;
 }
-
+ 
 td button {
   margin-right: 5px;
 }
-
+ 
 /* Bearbeitungs- und Erstellungsformulare */
 .user-edit-form, .new-user-form {
   margin-top: 20px;
@@ -81,17 +81,17 @@ td button {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-
+ 
 .user-edit-form h2, .new-user-form h2 {
   text-align: left;
 }
-
+ 
 label {
   display: block;
   margin-bottom: 10px;
   font-weight: bold;
 }
-
+ 
 input {
   width: 100%;
   padding: 8px;
@@ -100,7 +100,7 @@ input {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-
+ 
 .register-button, .update-button {
   background-color: #28a745;
   border: none;
@@ -109,29 +109,29 @@ input {
   cursor: pointer;
   border-radius: 4px;
 }
-
+ 
 .register-button:hover, .update-button:hover {
   background-color: #218838;
 }
-
+ 
 table button {
   padding: 5px 10px;
 }
-
+ 
 table button.edit-button {
   background-color: #ffc107;
   color: #fff;
 }
-
+ 
 table button.edit-button:hover {
   background-color: #e0a800;
 }
-
+ 
 table button.delete-button {
   background-color: #dc3545;
   color: #fff;
 }
-
+ 
 table button.delete-button:hover {
   background-color: #c82333;
 }
