@@ -17,6 +17,7 @@ const Budget = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const [users, setUsers] = useState([]);
   const [userSuggestions, setUserSuggestions] = useState({ owner: [], manager: [], finance: [] });
+  const [editUserSuggestions, setEditUserSuggestions] = useState({ owner: [], manager: [], finance: [] });
 
   useEffect(() => {
     loadBudgets();
@@ -41,13 +42,17 @@ const Budget = () => {
     }
   };
 
+  const formatDate = (date) => {
+    const pad = (num) => (num < 10 ? '0' + num : num);
+    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+  };
+
   const createBudget = async (e) => {
     e.preventDefault();
     try {
       const ownerUser = await ApiService.getUserByEmail(newBudget.ownerEmail);
       const managerUser = await ApiService.getUserByEmail(newBudget.managerEmail);
       const financeUser = await ApiService.getUserByEmail(newBudget.financeEmail);
-      console.log(ownerUser.id, managerUser.id, financeUser.id);
 
       if (!managerUser || managerUser.roleID !== 2) {
         setError('Der ausgewählte Manager hat nicht die erforderliche Rolle.');
@@ -55,13 +60,13 @@ const Budget = () => {
       }
 
       const budgetToCreate = {
-        ...newBudget,
+        name: newBudget.name,
+        availableBudget: parseFloat(newBudget.availableBudget),
         owner: ownerUser,
         manager: managerUser,
         finance: financeUser,
-        timestamp: new Date().toISOString(),
-        approved: false,
-        id: 12212
+        timestamp: formatDate(new Date()),
+        approved: false
       };
 
       const response = await ApiService.createBudget(budgetToCreate);
@@ -80,7 +85,7 @@ const Budget = () => {
       const ownerUser = await ApiService.getUserByEmail(editingBudget.ownerEmail);
       const managerUser = await ApiService.getUserByEmail(editingBudget.managerEmail);
       const financeUser = await ApiService.getUserByEmail(editingBudget.financeEmail);
-      console.log(ownerUser.roleID, managerUser.roleID, financeUser.roleID);
+
       if (!managerUser || managerUser.roleID !== 2) {
         setError('Der ausgewählte Manager hat nicht die erforderliche Rolle.');
         return;
@@ -123,6 +128,23 @@ const Budget = () => {
   const selectUserSuggestion = (field, email) => {
     setNewBudget({ ...newBudget, [field]: email });
     setUserSuggestions({ ...userSuggestions, [field.replace('Email', '')]: [] });
+  };
+
+  const handleEditInputChange = (field, value) => {
+    setEditingBudget({ ...editingBudget, [field]: value });
+  };
+
+  const handleEditUserInputChange = (field, value) => {
+    handleEditInputChange(field, value);
+    const suggestions = users
+        .filter(user => user.email.toLowerCase().includes(value.toLowerCase()))
+        .map(user => user.email);
+    setEditUserSuggestions({ ...editUserSuggestions, [field.replace('Email', '')]: suggestions });
+  };
+
+  const selectEditUserSuggestion = (field, email) => {
+    handleEditInputChange(field, email);
+    setEditUserSuggestions({ ...editUserSuggestions, [field.replace('Email', '')]: [] });
   };
 
   return (
@@ -221,6 +243,89 @@ const Budget = () => {
           </form>
         </div>
 
+        {/* Bearbeitungsformular */}
+        {editingBudget && (
+            <div className="budget-form">
+              <h3>Budget bearbeiten</h3>
+              <form onSubmit={updateBudget}>
+                <label>
+                  Name:
+                  <input
+                      type="text"
+                      value={editingBudget.name}
+                      onChange={(e) => handleEditInputChange('name', e.target.value)}
+                      required
+                  />
+                </label>
+                <label>
+                  Verfügbares Budget:
+                  <input
+                      type="number"
+                      value={editingBudget.availableBudget}
+                      onChange={(e) => handleEditInputChange('availableBudget', e.target.value)}
+                      required
+                  />
+                </label>
+                <label>
+                  Besitzer (E-Mail):
+                  <input
+                      type="email"
+                      value={editingBudget.ownerEmail}
+                      onChange={(e) => handleEditUserInputChange('ownerEmail', e.target.value)}
+                      required
+                  />
+                  {editUserSuggestions.owner.length > 0 && (
+                      <ul className="suggestions">
+                        {editUserSuggestions.owner.map((email) => (
+                            <li key={email} onClick={() => selectEditUserSuggestion('ownerEmail', email)}>
+                              {email}
+                            </li>
+                        ))}
+                      </ul>
+                  )}
+                </label>
+                <label>
+                  Manager (E-Mail):
+                  <input
+                      type="email"
+                      value={editingBudget.managerEmail}
+                      onChange={(e) => handleEditUserInputChange('managerEmail', e.target.value)}
+                      required
+                  />
+                  {editUserSuggestions.manager.length > 0 && (
+                      <ul className="suggestions">
+                        {editUserSuggestions.manager.map((email) => (
+                            <li key={email} onClick={() => selectEditUserSuggestion('managerEmail', email)}>
+                              {email}
+                            </li>
+                        ))}
+                      </ul>
+                  )}
+                </label>
+                <label>
+                  Finanzverwalter (E-Mail):
+                  <input
+                      type="email"
+                      value={editingBudget.financeEmail}
+                      onChange={(e) => handleEditUserInputChange('financeEmail', e.target.value)}
+                      required
+                  />
+                  {editUserSuggestions.finance.length > 0 && (
+                      <ul className="suggestions">
+                        {editUserSuggestions.finance.map((email) => (
+                            <li key={email} onClick={() => selectEditUserSuggestion('financeEmail', email)}>
+                              {email}
+                            </li>
+                        ))}
+                      </ul>
+                  )}
+                </label>
+                <button type="submit">Aktualisieren</button>
+                <button type="button" onClick={() => setEditingBudget(null)}>Abbrechen</button>
+              </form>
+            </div>
+        )}
+
         {/* Budget-Liste */}
         <div className="budget-list">
           <h3>Budget Liste</h3>
@@ -247,7 +352,16 @@ const Budget = () => {
                   <td>{budget.manager.email}</td>
                   <td>{budget.finance.email}</td>
                   <td>
-                    <button onClick={() => setEditingBudget(budget)}>Bearbeiten</button>
+                    <button
+                        onClick={() => setEditingBudget({
+                          ...budget,
+                          ownerEmail: budget.owner.email,
+                          managerEmail: budget.manager.email,
+                          financeEmail: budget.finance.email,
+                        })}
+                    >
+                      Bearbeiten
+                    </button>
                   </td>
                   <td>{budget.approved ? 'Approved' : 'Not Approved'}</td>
                 </tr>

@@ -14,7 +14,7 @@ import SollIstOwner from './components/Owner/sollist';
 import TimetravelBudget from "./components/Management/TimeTravelBudget";
 import ManagerBudgetSelector from "./components/Management/ManagerBudgetSelector";
 import Forecast from "./components/Management/Forecast";
-import Monitoring from "./components/Owner/Monitoring";
+import Monitoring from "./components/Management/Monitoring";
 
 function App() {
     return (
