@@ -47,67 +47,95 @@ const Budget = () => {
     return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
   };
 
-  const createBudget = async (e) => {
-    e.preventDefault();
-    try {
-      const ownerUser = await ApiService.getUserByEmail(newBudget.ownerEmail);
-      const managerUser = await ApiService.getUserByEmail(newBudget.managerEmail);
-      const financeUser = await ApiService.getUserByEmail(newBudget.financeEmail);
+    const createBudget = async (e) => {
+        e.preventDefault();
+        try {
+            const ownerUser = await ApiService.getUserByEmail(newBudget.ownerEmail);
+            const managerUser = await ApiService.getUserByEmail(newBudget.managerEmail);
+            const financeUser = await ApiService.getUserByEmail(newBudget.financeEmail);
 
-      if (!managerUser || managerUser.roleID !== 2) {
-        setError('Der ausgewählte Manager hat nicht die erforderliche Rolle.');
-        return;
-      }
+            if (!ownerUser || ownerUser.roleID !== 3) {
+                setError('Der ausgewählte Besitzer hat nicht die erforderliche Rolle.');
+                return;
+            }
 
-      const budgetToCreate = {
-        name: newBudget.name,
-        availableBudget: parseFloat(newBudget.availableBudget),
-        owner: ownerUser,
-        manager: managerUser,
-        finance: financeUser,
-        timestamp: formatDate(new Date()),
-        approved: false
-      };
+            if (!managerUser || managerUser.roleID !== 2) {
+                setError('Der ausgewählte Manager hat nicht die erforderliche Rolle.');
+                return;
+            }
 
-      const response = await ApiService.createBudget(budgetToCreate);
-      setSuccessMessage('Budget erfolgreich erstellt!');
-      setNewBudget({ name: '', availableBudget: 0, ownerEmail: '', managerEmail: '', financeEmail: '' });
-      loadBudgets();
-    } catch (err) {
-      console.error('Fehler beim Erstellen des Budgets:', err);
-      setError('Fehler beim Erstellen des Budgets: ' + (err.response?.data?.message || err.message));
-    }
-  };
+            if (!financeUser || financeUser.roleID !== 4) {
+                setError('Der ausgewählte Finanzverwalter hat nicht die erforderliche Rolle.');
+                return;
+            }
 
-  const updateBudget = async (e) => {
-    e.preventDefault();
-    try {
-      const ownerUser = await ApiService.getUserByEmail(editingBudget.ownerEmail);
-      const managerUser = await ApiService.getUserByEmail(editingBudget.managerEmail);
-      const financeUser = await ApiService.getUserByEmail(editingBudget.financeEmail);
+            const budgetToCreate = {
+                name: newBudget.name,
+                availableBudget: parseFloat(newBudget.availableBudget),
+                owner: ownerUser,
+                manager: managerUser,
+                finance: financeUser,
+                timestamp: formatDate(new Date()),
+                approved: false
+            };
 
-      if (!managerUser || managerUser.roleID !== 2) {
-        setError('Der ausgewählte Manager hat nicht die erforderliche Rolle.');
-        return;
-      }
+            const response = await ApiService.createBudget(budgetToCreate);
+            setSuccessMessage('Budget erfolgreich erstellt!');
+            setNewBudget({ name: '', availableBudget: 0, ownerEmail: '', managerEmail: '', financeEmail: '' });
+            loadBudgets();
+        } catch (err) {
+            console.error('Fehler beim Erstellen des Budgets:', err);
+            setError('Fehler beim Erstellen des Budgets: ' + (err.response?.data?.message || err.message));
+        }
+    };
 
-      const budgetToUpdate = {
-        ...editingBudget,
-        owner: ownerUser,
-        manager: managerUser,
-        finance: financeUser
-      };
+    const updateBudget = async (e) => {
+        e.preventDefault();
+        try {
+            const ownerUser = await ApiService.getUserByEmail(editingBudget.ownerEmail);
+            const managerUser = await ApiService.getUserByEmail(editingBudget.managerEmail);
+            const financeUser = await ApiService.getUserByEmail(editingBudget.financeEmail);
 
-      const response = await ApiService.updateBudget(editingBudget.id, budgetToUpdate);
-      setSuccessMessage('Budget erfolgreich aktualisiert!');
-      setEditingBudget(null);
-      loadBudgets();
-    } catch (err) {
-      setError('Fehler beim Aktualisieren des Budgets: ' + (err.response?.data?.message || err.message));
-    }
-  };
+            if (!ownerUser || ownerUser.roleID !== 3) {
+                setError('Der ausgewählte Besitzer hat nicht die erforderliche Rolle.');
+                return;
+            }
 
-  const searchBudget = async (e) => {
+            if (!managerUser || managerUser.roleID !== 2) {
+                setError('Der ausgewählte Manager hat nicht die erforderliche Rolle.');
+                return;
+            }
+
+            if (!financeUser || financeUser.roleID !== 4) {
+                setError('Der ausgewählte Finanzverwalter hat nicht die erforderliche Rolle.');
+                return;
+            }
+
+            const budgetToUpdate = {
+                id: editingBudget.id,
+                name: editingBudget.name,
+                availableBudget: parseFloat(editingBudget.availableBudget),
+                owner: ownerUser,
+                manager: managerUser,
+                finance: financeUser,
+                timestamp: editingBudget.timestamp || formatDate(new Date()),
+                approved: editingBudget.approved || false,
+            };
+
+            await ApiService.updateBudget(editingBudget.id, budgetToUpdate);
+            setSuccessMessage('Budget erfolgreich aktualisiert!');
+            setError('');
+            setEditingBudget(null);
+            loadBudgets();
+        } catch (err) {
+            console.error('Fehler beim Aktualisieren des Budgets:', err.response?.data || err.message);
+            setSuccessMessage('');
+            setError('Fehler beim Aktualisieren des Budgets: ' + (err.response?.data?.message || err.message));
+        }
+    };
+
+
+    const searchBudget = async (e) => {
     e.preventDefault();
     try {
       const budget = await ApiService.getBudgetByName(searchName);
