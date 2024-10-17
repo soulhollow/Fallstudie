@@ -11,6 +11,8 @@ import Login from './components/Login/LoginPage';
 import Approve from './components//Management/Budgetapprove';
 import Kosten from './components/Owner/kosten'
 import SollIstOwner from './components/Owner/sollist';
+import TimetravelBudget from "./components/Management/TimeTravelBudget";
+import ManagerBudgetSelector from "./components/Management/ManagerBudgetSelector";
 
 function App() {
     return (
@@ -18,13 +20,17 @@ function App() {
             <Header />
             <Routes>
                 <Route path="/" element={<Login />} />
-                <Route path="/admin/usermangement" element={<AdminPanel />} />
-                <Route path="/admin/audittable" element={<AuditLogTable />} />
-                <Route path="/finance/Budget" element={<Budget />} />
-                <Route path="/finance/sollIst" element={<SollIstFinance />} />
+                <Route path="/admin/usermangement" element={<AdminPanel />} /> {/*Fertig*/}
+                <Route path="/admin/audittable" element={<AuditLogTable />} /> {/*Fertig*/}
+                <Route path="/finance/Budget" element={<Budget />} /> {/*Fertig*/}
+                <Route path="/finance/sollIst" element={<SollIstFinance />} /> {/*Fertig*/}
                 <Route path="/Management/approve" element={<Approve />} />
+                <Route path="/Management/Timetravel" element={<TimetravelBudget />} />
+                <Route path="/Management/ManagerBudgetSelector" element={<ManagerBudgetSelector />} />
                 <Route path="/owner/kosten" element={<Kosten />} />
                 <Route path="/owner/sollIst" element={<SollIstOwner />} />
+
+
             </Routes>
             <Footer />
         </Router>

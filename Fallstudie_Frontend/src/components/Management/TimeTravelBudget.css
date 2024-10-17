@@ -1,0 +1,58 @@
+/* Styles für die TimeTravelBudget Komponente */
+.time-travel-budget {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: #f9f9f9;
+}
+
+.date-selector {
+    margin-bottom: 20px;
+}
+
+.date-selector label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.budget-state {
+    margin-top: 20px;
+    background-color: #eaeaea;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.budget-state h3 {
+    margin-top: 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.positive {
+    color: green;
+}
+
+.negative {
+    color: red;
+}
+
+.budget-details {
+    margin-top: 20px;
+    border-top: 2px solid #ccc;
+    padding-top: 10px;
+}
