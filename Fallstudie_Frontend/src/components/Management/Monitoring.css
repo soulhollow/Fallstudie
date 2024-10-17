@@ -1,0 +1,81 @@
+/* Allgemeines Styling für die Budgetübersicht */
+.budget-list {
+    width: 80%;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+  }
+ 
+  h1 {
+    text-align: center;
+    color: #333;
+  }
+ 
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+ 
+  th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+  }
+ 
+  th {
+    background-color: #f4f4f4;
+    color: #333;
+  }
+ 
+  td {
+    background-color: #fff;
+  }
+ 
+  /* Zeilenfarben abwechselnd für bessere Lesbarkeit */
+  tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+ 
+  tbody tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+  }
+ 
+  /* Styling für den Zustand, wenn Ist > Soll (rote Markierung) */
+  .red {
+    color: #ff0000; /* Rot für Ist > Soll */
+    font-weight: bold;
+  }
+ 
+  /* Detailansicht des expandierten Budgets */
+  .details {
+    padding: 10px;
+    background-color: #fafafa;
+    border-top: 2px solid #ddd;
+  }
+ 
+  .details h3, .details h4 {
+    margin: 10px 0;
+    color: #555;
+  }
+ 
+  .details ul {
+    list-style-type: none;
+    padding: 0;
+  }
+ 
+  .details ul li {
+    margin: 5px 0;
+  }
+ 
+  /* Styling für die Tabellenzeilenüberschrift */
+  thead th {
+    background-color: #e0e0e0;
+  }
+ 
+  /* Highlight für die Ist-Zelle, die kleiner als Soll ist */
+  .grün {
+    color: #28a745; /* Grün für Ist < Soll */
+    font-weight: bold;
+  }
+  

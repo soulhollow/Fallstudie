@@ -14,6 +14,7 @@ import SollIstOwner from './components/Owner/sollist';
 import TimetravelBudget from "./components/Management/TimeTravelBudget";
 import ManagerBudgetSelector from "./components/Management/ManagerBudgetSelector";
 import Forecast from "./components/Management/Forecast";
+import Monitoring from "./components/Owner/Monitoring";
 
 function App() {
     return (
@@ -28,10 +29,11 @@ function App() {
                 <Route path="/Management/approve" element={<Approve />} />
                 <Route path="/Management/Timetravel" element={<TimetravelBudget />} />
                 <Route path="/Management/Forecast" element={<Forecast />} />
+                <Route path="/Management/Monitoring" element={<Monitoring />} />
                 <Route path="/Management/ManagerBudgetSelector" element={<ManagerBudgetSelector />} />
                 <Route path="/owner/kosten" element={<Kosten />} />
                 <Route path="/owner/sollIst" element={<SollIstOwner />} />
-
+              
 
             </Routes>
             <Footer />
