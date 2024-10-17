@@ -49,6 +49,9 @@ public class BudgetService {
         // Approved kann null sein
         dto.setApproved(budget.getApproved() != null ? budget.getApproved() : false);
 
+        // Forecast kann null sein
+        dto.setForecast(budget.getBooleanForecast() != null ? budget.getBooleanForecast() : false);
+
         return dto;
     }
 
@@ -60,6 +63,7 @@ public class BudgetService {
         budget.setBudgetBetrag(dto.getAvailableBudget());
         budget.setTimestamp(LocalDateTime.parse(dto.getTimestamp(), FORMATTER)); // String -> LocalDateTime
         budget.setApproved(dto.isApproved());
+        budget.setBooleanForecast(dto.isForecast());
         // Überprüfe, ob der Owner existiert und lade ihn aus der Datenbank
         Optional<UserDTO> optionalOwner = userService.getUserById(dto.getOwner().getId());
         if (optionalOwner.isPresent()) {
@@ -85,6 +89,8 @@ public class BudgetService {
         } else {
             throw new UserNotFoundException("Finance not found with id: " + dto.getFinance().getId());
         }
+
+
 
         return budget;
     }

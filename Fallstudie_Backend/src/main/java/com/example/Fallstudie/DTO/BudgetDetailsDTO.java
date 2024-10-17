@@ -16,6 +16,15 @@ public class BudgetDetailsDTO {
     private UserDTO manager;
     private String timestamp;
     private boolean approved;
+    private boolean forecast;
+
+    public boolean isForecast() {
+        return forecast;
+    }
+
+    public void setForecast(boolean forecast) {
+        this.forecast = forecast;
+    }
 
     public String getTimestamp() {
         return timestamp;
