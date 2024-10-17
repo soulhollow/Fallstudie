@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import ApiService from '../../Service/ApiService';
 import TimeTravelBudget from './TimeTravelBudget';
+import './ManagerBudgetSelector.css';
 
 const ManagerBudgetSelector = () => {
     const [currentUser, setCurrentUser] = useState(null);
     const [budgets, setBudgets] = useState([]);
-    const [selectedBudgetId, setSelectedBudgetId] = useState(null);
+    const [selectedBudgetName, setSelectedBudgetName] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -15,13 +16,8 @@ const ManagerBudgetSelector = () => {
                 setLoading(true);
                 const user = await ApiService.getCurrentUser();
                 setCurrentUser(user);
-
-                if (user.role === 'MANAGER') {
-                    const managerBudgets = await ApiService.getBudgetsByManager(user.id);
-                    setBudgets(managerBudgets);
-                } else {
-                    setError('Sie haben keine Berechtigung, auf Budgets zuzugreifen.');
-                }
+                const managerBudgets = await ApiService.getBudgetsByManager(user.id);
+                setBudgets(managerBudgets);
             } catch (err) {
                 setError('Fehler beim Laden der Daten. Bitte versuchen Sie es später erneut.');
                 console.error('Fehler:', err);
@@ -34,7 +30,7 @@ const ManagerBudgetSelector = () => {
     }, []);
 
     const handleBudgetSelect = (event) => {
-        setSelectedBudgetId(event.target.value);
+        setSelectedBudgetName(event.target.value);
     };
 
     if (loading) {
@@ -52,10 +48,10 @@ const ManagerBudgetSelector = () => {
             {budgets.length > 0 ? (
                 <div className="budget-selection">
                     <h2>Wählen Sie ein Budget aus:</h2>
-                    <select onChange={handleBudgetSelect} value={selectedBudgetId || ''}>
+                    <select onChange={handleBudgetSelect} value={selectedBudgetName}>
                         <option value="">-- Bitte wählen Sie ein Budget --</option>
                         {budgets.map((budget) => (
-                            <option key={budget.id} value={budget.id}>
+                            <option key={budget.id} value={budget.name}>
                                 {budget.name}
                             </option>
                         ))}
@@ -65,8 +61,8 @@ const ManagerBudgetSelector = () => {
                 <p>Keine Budgets verfügbar.</p>
             )}
 
-            {selectedBudgetId && (
-                <TimeTravelBudget budgetId={selectedBudgetId} />
+            {selectedBudgetName && (
+                <TimeTravelBudget budgetName={selectedBudgetName} />
             )}
         </div>
     );

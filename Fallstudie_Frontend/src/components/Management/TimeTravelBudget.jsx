@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import ApiService from '../../Service/ApiService'; // Annahme: ApiService ist korrekt importiert
+import ApiService from '../../Service/ApiService';
 import { format } from 'date-fns';
 import { de } from 'date-fns/locale';
 import './TimeTravelBudget.css';
 
-const TimeTravelBudget = ({ budgetId }) => {
+const TimeTravelBudget = ({ budgetName }) => {
     const [budget, setBudget] = useState(null);
     const [sollData, setSollData] = useState([]);
     const [istData, setIstData] = useState([]);
@@ -18,15 +18,17 @@ const TimeTravelBudget = ({ budgetId }) => {
                 setLoading(true);
                 setError(null);
 
-                // Lade das Budget direkt mit der ID
-                const budgetResponse = await ApiService.getBudgetById(budgetId);
+                // Lade das Budget mit dem Namen
+                const budgetResponse = await ApiService.getBudgetByName(budgetName);
                 setBudget(budgetResponse);
 
-                const sollResponse = await ApiService.getSollByBudget(budgetId);
-                setSollData(sollResponse);
+                if (budgetResponse) {
+                    const sollResponse = await ApiService.getSollByBudget(budgetResponse.id);
+                    setSollData(sollResponse);
 
-                const istResponse = await ApiService.getIstByBudget(budgetId);
-                setIstData(istResponse);
+                    const istResponse = await ApiService.getIstByBudget(budgetResponse.id);
+                    setIstData(istResponse);
+                }
 
                 setLoading(false);
             } catch (error) {
@@ -36,10 +38,10 @@ const TimeTravelBudget = ({ budgetId }) => {
             }
         };
 
-        if (budgetId) {
+        if (budgetName) {
             fetchData();
         }
-    }, [budgetId]);
+    }, [budgetName]);
 
     const handleDateChange = (event) => {
         setCurrentDate(new Date(event.target.value));
@@ -74,7 +76,7 @@ const TimeTravelBudget = ({ budgetId }) => {
     }
 
     if (!budget) {
-        return <div>Kein Budget ausgewählt.</div>;
+        return <div>Kein Budget gefunden.</div>;
     }
 
     return (
@@ -125,9 +127,9 @@ const TimeTravelBudget = ({ budgetId }) => {
             <div className="budget-details">
                 <h3>Budgetdetails</h3>
                 <p>Verfügbares Budget: {budget.availableBudget} €</p>
-                <p>Besitzer: {budget.owner}</p>
-                <p>Manager: {budget.manager}</p>
-                <p>Finanzverantwortlicher: {budget.finance}</p>
+                <p>Besitzer: {budget.owner.firstName} {budget.owner.lastName}</p>
+                <p>Manager: {budget.manager.firstName} {budget.manager.lastName}</p>
+                <p>Finanzverantwortlicher: {budget.finance.firstName} {budget.finance.lastName}</p>
                 <p>Status: {budget.approved ? 'Genehmigt' : 'Nicht genehmigt'}</p>
             </div>
         </div>
