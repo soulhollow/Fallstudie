@@ -19,10 +19,9 @@ const Forecast = () => {
                 setLoading(true);
                 const user = await ApiService.getCurrentUser();
                 setCurrentUser(user);
-                    const allBudgets = await ApiService.getBudgetsByManager(user.id);
-                    const forecastBudgets = allBudgets.filter(budget => budget.forecast);
-                    setForecastBudgets(forecastBudgets);
-
+                const allBudgets = await ApiService.getBudgetsByManager(user.id);
+                const forecastBudgets = allBudgets.filter(budget => budget.forecast);
+                setForecastBudgets(forecastBudgets);
             } catch (err) {
                 setError('Fehler beim Laden der Daten. Bitte versuchen Sie es später erneut.');
                 console.error('Fehler:', err);
