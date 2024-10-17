@@ -1,0 +1,83 @@
+.create-ist {
+    padding: 20px;
+}
+
+.budget-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.budget-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.budget-item:hover {
+    background-color: #f9f9f9;
+}
+
+.budget-name {
+    font-weight: bold;
+}
+
+.budget-amount {
+    margin-left: 10px;
+}
+
+.create-ist-button {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.budget-details {
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+.budget-details table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.budget-details th, .budget-details td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.budget-details th {
+    background-color: #f2f2f2;
+    text-align: left;
+}
+
+.create-ist-form {
+    margin-top: 20px;
+}
+
+.ist-input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.save-ist-button {
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+/* react-select spezifische Stile */
+.react-select-container {
+    margin-bottom: 10px;
+}
+
+.react-select__control {
+    width: 100%;
+}
+
+.react-select__menu {
+    z-index: 1000;
+}

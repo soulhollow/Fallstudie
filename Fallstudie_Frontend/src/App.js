@@ -16,7 +16,9 @@ import ManagerBudgetSelector from "./components/Management/ManagerBudgetSelector
 import Forecast from "./components/Management/Forecast";
 import Monitoring from "./components/Management/Monitoring";
 import CreateSoll from "./components/Finance/CreateSoll";
+import CreateIst from "./components/Owner/CreateIst";
 import './App.css';
+import {isMonday} from "date-fns";
 
 function App() {
     return (
@@ -36,6 +38,7 @@ function App() {
                 <Route path="/Management/ManagerBudgetSelector" element={<ManagerBudgetSelector />} />
                 <Route path="/owner/kosten" element={<Kosten />} />
                 <Route path="/owner/sollIst" element={<SollIstOwner />} />
+                <Route path="/owner/CreateIst" element={<CreateIst />} />
                 <Route path="*" element={<Login />} />
             </Routes>
             <Footer />
