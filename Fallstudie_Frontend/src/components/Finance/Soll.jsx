@@ -1,39 +1,49 @@
 import React, { useEffect, useState } from 'react';
 import ApiService from '../../Service/ApiService';
 import './Soll.css';
+import * as user from "date-fns/locale";
 
 const SollIst = () => {
   const [budgets, setBudgets] = useState([]);
   const [error, setError] = useState(null);
   const [expandedBudgetId, setExpandedBudgetId] = useState(null);
+    const [financeid, setfinanceId] = useState(null); // State to hold owner ID
+    const [financefname, setfinancefName] = useState(null);
+    const [financenname, setfinancenName] = useState(null);
 
-  useEffect(() => {
-    const fetchBudgets = async () => {
-      try {
-        const allBudgets = await ApiService.getAllBudgets();
+    useEffect(() => {
+        const fetchBudgets = async () => {
+            const finance = await ApiService.getCurrentUser();
+            setfinanceId(finance.id);
+            setfinancenName(finance.lastName);
+            setfinancefName(finance.firstName);
+            if (financeid) {
+                try {
+                    const allBudgets = await ApiService.getBudgetsByFinance(financeid);
 
-        const budgetsWithValues = await Promise.all(
-            allBudgets.map(async (budget) => {
-              const istResponse = await ApiService.getIstByBudget(budget.id);
-              const sollResponse = await ApiService.getSollByBudget(budget.id);
+                    const budgetsWithValues = await Promise.all(
+                        allBudgets.map(async (budget) => {
+                            const istResponse = await ApiService.getIstByBudget(budget.id);
+                            const sollResponse = await ApiService.getSollByBudget(budget.id);
 
-              return {
-                ...budget,
-                ist: istResponse,
-                soll: sollResponse,
-              };
-            })
-        );
+                            return {
+                                ...budget,
+                                ist: istResponse,
+                                soll: sollResponse,
+                            };
+                        })
+                    );
 
-        setBudgets(budgetsWithValues);
-      } catch (err) {
-        setError('Fehler beim Laden der Budgets');
-        console.error(err);
-      }
-    };
+                    setBudgets(budgetsWithValues);
+                } catch (err) {
+                    setError('Fehler beim Laden der Budgets');
+                    console.error(err);
+                }
+            }
+        };
 
-    fetchBudgets();
-  }, []);
+        fetchBudgets();
+    }, [financeid]);
 
   const toggleExpand = (budgetId) => {
     setExpandedBudgetId(expandedBudgetId === budgetId ? null : budgetId);
@@ -106,7 +116,7 @@ const SollIst = () => {
                   <tr onClick={() => toggleExpand(budget.id)} style={{ cursor: 'pointer' }}>
                     <td>{budget.name}</td>
                     <td>{budget.availableBudget} €</td>
-                    <td>{budget.finance.firstName} {budget.finance.lastName}</td>
+                    <td>{financefname} {financenname}</td>
                     <td>{totalSoll} €</td>
                     <td className={isRed ? 'red' : isGreen ? 'green' : ''}>
                       {totalIst} €
