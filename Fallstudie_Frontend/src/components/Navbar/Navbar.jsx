@@ -56,9 +56,8 @@ const Navbar = () => {
             case 3: // Owner
                 return (
                     <>
-                        <Link to="/owner/kosten">Kosten</Link>
                         <Link to="/owner/sollIst">Soll/Ist</Link>
-                        <Link to="/owner/Forecast">Forecast</Link> {/* Hinzugefügt */}
+                        <Link to="/owner/Forecast">Forecast</Link>
                     </>
                 );
             case 4: // Finance

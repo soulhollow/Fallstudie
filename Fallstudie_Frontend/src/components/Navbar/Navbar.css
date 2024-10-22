@@ -15,7 +15,7 @@
 }
 
 .navbar a:hover {
-    background-color: #16a085; /* Dunklerer Türkiston beim Hover */
+    background-color: #34495e; /* Dunklerer Türkiston beim Hover */
     color: #3498db; /* Heller Blauton beim Hover */
 }
 

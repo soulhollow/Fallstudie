@@ -9,7 +9,6 @@ import Budget from './components/Finance/Budget';
 import SollIstFinance from './components/Finance/SollIstvergleich';
 import Login from './components/Login/LoginPage';
 import Approve from './components//Management/Budgetapprove';
-import Kosten from './components/Owner/kosten'
 import SollIstOwner from './components/Owner/sollist';
 import ManagerBudgetSelector from "./components/Management/ManagerBudgetSelector";
 import Forecast from "./components/Management/Forecast";
@@ -37,7 +36,6 @@ function App() {
                 <Route path="/Management/Forecast" element={<Forecast />} />
                 <Route path="/Management/Monitoring" element={<Monitoring />} />
                 <Route path="/Management/ManagerBudgetSelector" element={<ManagerBudgetSelector />} />
-                <Route path="/owner/kosten" element={<Kosten />} />
                 <Route path="/owner/sollIst" element={<SollIstOwner />} />
                 <Route path="/owner/CreateIst" element={<CreateIst />} />
                 <Route path="/owner/Forecast" element={<ForecastOwner />} />

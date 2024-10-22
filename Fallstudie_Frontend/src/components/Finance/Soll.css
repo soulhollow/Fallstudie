@@ -1,65 +1,23 @@
-.budget-list {
-  font-family: Arial, sans-serif;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-th, td {
-  border: 1px solid #ddd;
-  padding: 12px;
-  text-align: left;
-}
-
-th {
-  background-color: #f2f2f2;
-  font-weight: bold;
-}
-
-tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-.red {
-  color: red;
-}
-
-.green {
-  color: green;
-}
-
-.details {
-  padding: 15px;
-}
-
 .ist-soll-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
 }
 
-.ist-soll-table th,
-.ist-soll-table td {
+.ist-soll-table th, .ist-soll-table td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
 }
 
 .ist-soll-table th {
-  background-color: #f2f2f2;
-  font-weight: bold;
+  background-color: #f4f4f4;
 }
 
 .positive {
-  color: green;
+  color: #28a745; /* Grün für positive Differenzen */
 }
 
 .negative {
-  color: red;
+  color: #dc3545; /* Rot für negative Differenzen */
 }
