@@ -1,0 +1,30 @@
+
+.forecast-edit-form {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-top: 20px;
+    background-color: #f9f9f9;
+}
+
+.forecast-edit-form form div {
+    margin-bottom: 10px;
+}
+
+.forecast-edit-form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.forecast-edit-form input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+.forecast-edit-form button {
+    margin-right: 10px;
+}
+
+.error {
+    color: red;
+}

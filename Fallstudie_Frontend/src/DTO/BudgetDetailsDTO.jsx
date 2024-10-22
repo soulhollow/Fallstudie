@@ -10,9 +10,6 @@
         this.manager = manager;
         this.timestamp = timestamp;
         this.approved = approved;
-
-    
     }
-    
 }
 export default BudgetDetailsDTO;
