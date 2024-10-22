@@ -21,3 +21,21 @@
 .negative {
   color: #dc3545; /* Rot für negative Differenzen */
 }
+
+/* Dark Mode */
+body.dark-mode .ist-soll-table th {
+  background-color: #333; /* Dunklere Kopfzeile im Dark Mode */
+  color: #f4f4f4;
+}
+
+body.dark-mode .ist-soll-table td {
+  border-color: #555;
+}
+
+body.dark-mode .positive {
+  color: #81c784; /* Helleres Grün für positive Differenzen */
+}
+
+body.dark-mode .negative {
+  color: #e57373; /* Helleres Rot für negative Differenzen */
+}

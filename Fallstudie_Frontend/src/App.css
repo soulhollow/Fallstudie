@@ -2,6 +2,7 @@ body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
     color: #333;
+    background-color: #ffffff; /* Weißer Hintergrund im normalen Modus */
 }
 
 .container {
@@ -49,4 +50,32 @@ body {
 .btn-primary:hover {
     background-color: #0056b3;
     border-color: #0056b3;
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+    background-color: #121212; /* Dunkler Hintergrund für den Dark Mode */
+    color: #ffffff; /* Helle Schriftfarbe im Dark Mode */
+}
+
+body.dark-mode .error-message {
+    color: #f5c6cb;
+    background-color: #721c24;
+    border-color: #f5c6cb;
+}
+
+body.dark-mode .success-message {
+    color: #c3e6cb;
+    background-color: #155724;
+    border-color: #c3e6cb;
+}
+
+body.dark-mode .btn-primary {
+    background-color: #1e7e34;
+    border-color: #1e7e34;
+}
+
+body.dark-mode .btn-primary:hover {
+    background-color: #155724;
+    border-color: #155724;
 }

@@ -1,33 +1,78 @@
-/* Grundlegendes Styling für den Header */
+/* Grundlegendes Styling für den Header-Bereich */
 .header {
-  background-color: #34495e; /* Gleiche dunkelblaue Farbpalette wie im Footer */
-  display: flex; /* Verwende Flexbox für das Layout */
-  justify-content: space-between; /* Verteilt Logo und Navbar auf derselben Ebene */
-  align-items: center; /* Zentriert Logo und Navbar vertikal */
-  padding: 1rem 20px; /* Abstand zum Rand hinzugefügt */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  max-width: 1200px;
-  margin: 0 auto;
+  background-color: #34495e; /* Gleiche dunkelblaue Farbe wie im Footer für Konsistenz */
+  display: flex; /* Verwende Flexbox für einfaches Layout-Management */
+  justify-content: space-between; /* Verteilt Logo und Navbar gleichmäßig auf die Seiten */
+  align-items: center; /* Zentriert Logo und Navbar vertikal in der Mitte */
+  padding: 1rem 20px; /* Definiert Innenabstand des Headers für bessere Optik */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Fügt eine leichte Schattenwirkung hinzu */
+  max-width: 1200px; /* Begrenzte Breite, um den Inhalt zentriert zu halten */
+  margin: 0 auto; /* Zentriert den Header horizontal */
 }
 
+/* Styling für das Firmenlogo */
 .company-logo {
   width: 150px; /* Festgelegte Breite für das Logo */
-  height: auto;
+  height: auto; /* Automatische Höhenanpassung für Proportionalität */
 }
 
+.spacer {
+  width: 10px;
+}
+
+/* Styling für die Navigationsleiste */
 .navbar {
-  flex-grow: 1; /* Navbar nimmt den restlichen Platz ein */
-  display: flex;
-  justify-content: flex-end; /* Navbar-Elemente werden rechtsbündig */
+  flex-grow: 1; /* Die Navbar nimmt den verbleibenden Platz ein */
+  display: flex; /* Flexbox für horizontale Anordnung der Links */
+  justify-content: flex-end; /* Rechtsbündige Ausrichtung der Navbar-Elemente */
 }
 
+/* Responsive Design für Bildschirme bis 768px Breite */
 @media (max-width: 768px) {
   .header {
-    flex-direction: column; /* In kleineren Bildschirmen wird das Layout gestapelt */
-    align-items: center;
+    flex-direction: column; /* Ändert Layout auf vertikales Stapeln auf kleinen Bildschirmen */
+    align-items: center; /* Zentriert alle Elemente */
   }
 
   .navbar {
-    justify-content: center; /* Navbar zentriert sich auf kleinen Bildschirmen */
+    justify-content: center; /* Zentriert die Navbar-Elemente bei kleineren Bildschirmen */
   }
+
+  /* Stilierung des Buttons für den Dark Mode */
+  .dark-mode-button {
+    background-color: #2c3e50; /* Dunkler Button-Hintergrund für bessere Lesbarkeit im Dark Mode */
+    color: #ffffff; /* Weiße Schriftfarbe */
+    border: none; /* Keine Rahmenlinien */
+    padding: 0.5rem 1rem; /* Innenabstand für besseren Klickbereich */
+    border-radius: 5px; /* Leicht abgerundete Ecken */
+    cursor: pointer; /* Zeigt den Cursor als Hand bei Hover */
+  }
+
+  .dark-mode-button:hover {
+    background-color: #1abc9c; /* Ändert die Button-Farbe beim Hover */
+  }
+
+  /* Darkmode-Stile */
+  body.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+  }
+
+  body.dark-mode .header {
+    background-color: #2c3e50;
+  }
+
+  body.dark-mode .navbar a {
+    color: #ffffff;
+  }
+
+  body.dark-mode .dark-mode-button {
+    background-color: #34495e;
+  }
+  /* Icon Styles */
+  .dark-mode-button svg {
+    font-size: 20px;
+  }
+
+
 }

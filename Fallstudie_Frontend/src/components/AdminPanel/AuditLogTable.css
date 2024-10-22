@@ -1,5 +1,4 @@
-/* AuditLogTable.css */
-
+/* Default Light Mode Styles */
 .audit-log-table-container {
   max-width: 1200px;
   margin: 20px auto;
@@ -36,4 +35,36 @@
   color: red;
   font-size: 18px;
   text-align: center;
+}
+
+/* Dark Mode Styles */
+body.dark-mode .audit-log-table-container {
+  background-color: #1e1e1e;
+  color: #fff;
+}
+
+body.dark-mode .audit-log-table {
+  border-color: #444;
+}
+
+body.dark-mode .audit-log-table th,
+body.dark-mode .audit-log-table td {
+  border: 1px solid #555;
+}
+
+body.dark-mode .audit-log-table th {
+  background-color: #333;
+  color: #fff;
+}
+
+body.dark-mode .audit-log-table tr:hover {
+  background-color: #444;
+}
+
+body.dark-mode .audit-log-table td {
+  color: #ccc;
+}
+
+body.dark-mode .error-message {
+  color: #ff4d4d;
 }

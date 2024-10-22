@@ -56,3 +56,48 @@
     color: red;
     font-weight: bold;
 }
+
+/* Dark Mode */
+body.dark-mode .manager-forecast-budgets {
+    background-color: #1c1c1c;
+    color: #f5f5f5;
+}
+
+body.dark-mode .budget-item {
+    border: 1px solid #555;
+}
+
+body.dark-mode .budget-header {
+    background-color: #333;
+    color: #fff;
+}
+
+body.dark-mode .budget-header:hover {
+    background-color: #444;
+}
+
+body.dark-mode .budget-details {
+    background-color: #2c2c2c;
+}
+
+body.dark-mode .ist-soll-table th {
+    background-color: #444;
+    color: #fff;
+}
+
+body.dark-mode .ist-soll-table td {
+    border: 1px solid #555;
+    color: #ddd;
+}
+
+body.dark-mode .positive {
+    color: #81c784;
+}
+
+body.dark-mode .negative {
+    color: #e57373;
+}
+
+body.dark-mode .error-message {
+    color: #ff6b6b;
+}

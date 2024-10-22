@@ -38,3 +38,31 @@
     background-color: #3498db; /* Gleicher heller Blauton wie beim Footer */
     color: #ecf0f1;
 }
+
+/* Dark Mode */
+body.dark-mode .navbar {
+    background-color: #1c1c1c; /* Dunklerer Hintergrund im Dark Mode */
+}
+
+body.dark-mode .navbar a {
+    color: #bdc3c7; /* Hellere Schriftfarbe im Dark Mode */
+}
+
+body.dark-mode .navbar a:hover {
+    background-color: #2c3e50; /* Leicht dunklerer Hintergrund beim Hover */
+    color: #1abc9c; /* Türkisgrüner Farbton beim Hover im Dark Mode */
+}
+
+body.dark-mode .navbar button {
+    background-color: #e74c3c; /* Beibehaltung des Rottons */
+    color: #ecf0f1;
+}
+
+body.dark-mode .navbar button:hover {
+    background-color: #c0392b; /* Dunklerer Rotton beim Hover */
+}
+
+body.dark-mode .navbar a.active {
+    background-color: #1abc9c; /* Türkisgrün für aktive Links im Dark Mode */
+    color: #ecf0f1;
+}

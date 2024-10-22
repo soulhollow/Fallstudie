@@ -1,11 +1,11 @@
-/* src/components/Impressum.css */
-
 .impressum-container {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
     font-family: Arial, sans-serif;
     line-height: 1.6;
+    background-color: #ffffff; /* Heller Hintergrund für den normalen Modus */
+    color: #2c3e50; /* Dunkle Schriftfarbe im normalen Modus */
 }
 
 .impressum-container h1 {
@@ -16,7 +16,7 @@
 .impressum-container h2,
 .impressum-container h3,
 .impressum-container h4 {
-    color: #2c3e50;
+    color: #2c3e50; /* Dunkle Überschriften im normalen Modus */
 }
 
 .impressum-container p {
@@ -29,5 +29,23 @@
 }
 
 .impressum-container strong {
-    color: #2c3e50;
+    color: #2c3e50; /* Dunkle Schrift für hervorgehobene Texte im normalen Modus */
+}
+
+/* Dark Mode Stile */
+body.dark-mode .impressum-container {
+    background-color: rgba(0, 0, 0, 0.71); /* Dunkler Hintergrund für den Dark Mode */
+    color: #ffffff; /* Helle Schriftfarbe im Dark Mode */
+}
+
+body.dark-mode .impressum-container h1,
+body.dark-mode .impressum-container h2,
+body.dark-mode .impressum-container h3,
+body.dark-mode .impressum-container h4,
+body.dark-mode .impressum-container strong {
+    color: #ffffff; /* Helle Überschriften und hervorgehobene Texte im Dark Mode */
+}
+
+body.dark-mode .impressum-container ul {
+    list-style-type: square; /* Alternative Listenpunkte im Dark Mode */
 }

@@ -1,7 +1,6 @@
-/* Grundlegendes Styling für den Footer */
 .footer {
     background-color: #2c3e50; /* Dunkelblauer Hintergrund */
-    color: #ecf0f1; /* Helles Textfarbe */
+    color: #ecf0f1; /* Helle Textfarbe */
     padding: 40px 20px;
     font-family: Arial, sans-serif;
 }
@@ -73,19 +72,4 @@
     font-size: 0.9em;
 }
 
-@media (max-width: 768px) {
-    .footer-content {
-        flex-direction: column;
-        align-items: center;
-    }
 
-    .footer-section {
-        flex: 1 1 100%;
-        max-width: 300px;
-        text-align: center;
-    }
-
-    .company-info {
-        justify-content: center;
-    }
-}

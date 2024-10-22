@@ -1,4 +1,3 @@
-
 .forecast-edit-form {
     border: 1px solid #ccc;
     padding: 20px;
@@ -27,4 +26,38 @@
 
 .error {
     color: red;
+}
+
+/* Dark Mode */
+body.dark-mode .forecast-edit-form {
+    border: 1px solid #555; /* Dunkler Rand im Dark Mode */
+    background-color: #333; /* Dunkler Hintergrund für das Formular */
+    color: #fff; /* Weiße Schriftfarbe */
+}
+
+body.dark-mode .forecast-edit-form label {
+    color: #ccc; /* Helleres Grau für die Label-Schriftfarbe */
+}
+
+body.dark-mode .forecast-edit-form input {
+    background-color: #555; /* Dunkler Hintergrund für Eingabefelder */
+    color: #fff; /* Weiße Schriftfarbe für Eingabefelder */
+    border: 1px solid #777; /* Dunklerer Rand für Eingabefelder */
+}
+
+body.dark-mode .forecast-edit-form input::placeholder {
+    color: #ccc; /* Helleres Grau für Platzhaltertexte */
+}
+
+body.dark-mode .forecast-edit-form button {
+    background-color: #007bff; /* Dunkleres Blau für die Schaltfläche */
+    color: #fff;
+}
+
+body.dark-mode .forecast-edit-form button:hover {
+    background-color: #0056b3; /* Dunklere Hover-Farbe für die Schaltfläche */
+}
+
+body.dark-mode .error {
+    color: #ff6b6b; /* Helleres Rot für Fehlermeldungen im Dark Mode */
 }

@@ -18,12 +18,14 @@ import CreateIst from "./components/Owner/CreateIst";
 import ForecastOwner from "./components/Owner/ForecastPage";
 import PrivacyPolicy from './components/PrivacyPolicy/PrivacyPolicy';
 import Impressum from './components/Impressum/Impressum';
+import { DarkModeProvider } from './context/DarkModeContext';
 import './App.css';
 import {isMonday} from "date-fns";
 
 function App() {
     return (
         <Router>
+            <DarkModeProvider>
             <Header />
             <Routes>
 
@@ -44,6 +46,7 @@ function App() {
                 <Route path="*" element={<Login />} />
             </Routes>
             <Footer />
+            </DarkModeProvider>
         </Router>
     );
 }

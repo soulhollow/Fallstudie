@@ -55,3 +55,43 @@ th {
     border-top: 2px solid #ccc;
     padding-top: 10px;
 }
+
+/* Dark Mode */
+body.dark-mode .time-travel-budget {
+    background-color: #333;
+    border: 1px solid #555;
+    color: #fff;
+}
+
+body.dark-mode .date-selector label {
+    color: #ddd;
+}
+
+body.dark-mode .budget-state {
+    background-color: #444;
+    color: #fff;
+}
+
+body.dark-mode table th {
+    background-color: #444;
+    color: #fff;
+}
+
+body.dark-mode table td {
+    background-color: #333;
+    color: #ddd;
+    border: 1px solid #555;
+}
+
+body.dark-mode .positive {
+    color: #81c784;
+}
+
+body.dark-mode .negative {
+    color: #e57373;
+}
+
+body.dark-mode .budget-details {
+    border-top: 2px solid #555;
+    color: #ddd;
+}

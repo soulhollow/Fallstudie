@@ -1,25 +1,23 @@
-* AdminPanel.css */
- 
-/* Allgemeiner Container */
+/* Default Light Mode Styles */
 .admin-panel {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
   font-family: Arial, sans-serif;
 }
- 
+
 h1, h2 {
   color: #333;
   text-align: center;
 }
- 
+
 /* Suchformular */
 form {
   margin-bottom: 20px;
   display: flex;
   justify-content: center;
 }
- 
+
 input[type="email"],
 input[type="text"],
 input[type="password"] {
@@ -28,7 +26,7 @@ input[type="password"] {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
- 
+
 button {
   padding: 10px 15px;
   background-color: #007bff;
@@ -37,43 +35,43 @@ button {
   border-radius: 4px;
   cursor: pointer;
 }
- 
+
 button:hover {
   background-color: #0056b3;
 }
- 
+
 .error-message {
   color: red;
   text-align: center;
   margin-bottom: 10px;
 }
- 
+
 /* Tabellenstil */
 table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
 }
- 
+
 th, td {
   padding: 12px 15px;
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
- 
+
 th {
   background-color: #f4f4f4;
   color: #333;
 }
- 
+
 tr:hover {
   background-color: #f1f1f1;
 }
- 
+
 td button {
   margin-right: 5px;
 }
- 
+
 /* Bearbeitungs- und Erstellungsformulare */
 .user-edit-form, .new-user-form {
   margin-top: 20px;
@@ -81,17 +79,17 @@ td button {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
- 
+
 .user-edit-form h2, .new-user-form h2 {
   text-align: left;
 }
- 
+
 label {
   display: block;
   margin-bottom: 10px;
   font-weight: bold;
 }
- 
+
 input {
   width: 100%;
   padding: 8px;
@@ -100,7 +98,7 @@ input {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
- 
+
 .register-button, .update-button {
   background-color: #28a745;
   border: none;
@@ -109,29 +107,104 @@ input {
   cursor: pointer;
   border-radius: 4px;
 }
- 
+
 .register-button:hover, .update-button:hover {
   background-color: #218838;
 }
- 
+
 table button {
   padding: 5px 10px;
 }
- 
+
 table button.edit-button {
   background-color: #ffc107;
   color: #fff;
 }
- 
+
 table button.edit-button:hover {
   background-color: #e0a800;
 }
- 
+
 table button.delete-button {
   background-color: #dc3545;
   color: #fff;
 }
- 
+
 table button.delete-button:hover {
+  background-color: #c82333;
+}
+
+/* Dark Mode Styles */
+body.dark-mode .admin-panel {
+  background-color: #1e1e1e;
+  color: #fff;
+}
+
+body.dark-mode h1, body.dark-mode h2 {
+  color: #fff;
+}
+
+body.dark-mode form {
+  color: #fff;
+}
+
+body.dark-mode input[type="email"],
+body.dark-mode input[type="text"],
+body.dark-mode input[type="password"] {
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #555;
+}
+
+body.dark-mode button {
+  background-color: #007bff;
+}
+
+body.dark-mode button:hover {
+  background-color: #0056b3;
+}
+
+body.dark-mode .error-message {
+  color: #ff4d4d;
+}
+
+body.dark-mode table {
+  background-color: #2c2c2c;
+}
+
+body.dark-mode th, body.dark-mode td {
+  border-bottom: 1px solid #444;
+}
+
+body.dark-mode th {
+  background-color: #444;
+  color: #fff;
+}
+
+body.dark-mode tr:hover {
+  background-color: #333;
+}
+
+body.dark-mode .register-button, body.dark-mode .update-button {
+  background-color: #28a745;
+}
+
+body.dark-mode .register-button:hover, body.dark-mode .update-button:hover {
+  background-color: #218838;
+}
+
+body.dark-mode table button.edit-button {
+  background-color: #ffc107;
+}
+
+body.dark-mode table button.edit-button:hover {
+  background-color: #e0a800;
+}
+
+body.dark-mode table button.delete-button {
+  background-color: #dc3545;
+}
+
+body.dark-mode table button.delete-button:hover {
   background-color: #c82333;
 }

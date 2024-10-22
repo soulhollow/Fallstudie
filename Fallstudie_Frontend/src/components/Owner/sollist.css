@@ -87,3 +87,39 @@
     text-transform: uppercase;
   }
 }
+
+/* Dark Mode */
+body.dark-mode .budget-list {
+  background-color: #333; /* Dunkler Hintergrund für die Liste */
+  color: #fff; /* Weiße Schriftfarbe */
+}
+
+body.dark-mode .budget-list h1 {
+  color: #fff; /* Helle Überschrift im Dark Mode */
+}
+
+body.dark-mode .budget-list table thead th {
+  background-color: #444; /* Dunkleres Blau für Tabellenkopf */
+  color: #fff;
+}
+
+body.dark-mode .budget-list table tbody td {
+  border-bottom: 1px solid #555;
+  color: #ddd;
+}
+
+body.dark-mode .budget-list table tbody tr:nth-child(even) {
+  background-color: #444; /* Dunklerer Zeilenhintergrund */
+}
+
+body.dark-mode .budget-list table tbody tr:hover {
+  background-color: #555; /* Hellerer Hover-Effekt im Dark Mode */
+}
+
+body.dark-mode .budget-list .red-text {
+  color: #ff6b6b; /* Hellere Rotfarbe für Warnungen im Dark Mode */
+}
+
+body.dark-mode .budget-list table tbody td .responsible-person {
+  color: #bbb;
+}
