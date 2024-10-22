@@ -1,30 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import ApiService from '../../Service/ApiService';
 import './CreateSoll.css';
-import budget from "./Budget";
-
+ 
 const CreateSoll = () => {
     const [budgets, setBudgets] = useState([]);
     const [selectedBudget, setSelectedBudget] = useState(null);
     const [sollName, setSollName] = useState('');
     const [sollBetrag, setSollBetrag] = useState('');
     const [currentUser, setCurrentUser] = useState(null);
-
+    const [editingSoll, setEditingSoll] = useState(null); // Neu: für die Bearbeitung
+    const [errorMessage, setErrorMessage] = useState(''); // Neu: Fehlernachricht für doppelte Namen
+ 
     const formatDate = (date) => {
         const pad = (num) => (num < 10 ? '0' + num : num);
         return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
     };
-
+ 
     useEffect(() => {
         fetchCurrentUser();
     }, []);
-
+ 
     useEffect(() => {
         if (currentUser) {
             fetchBudgets();
         }
     }, [currentUser]);
-
+ 
     const fetchCurrentUser = async () => {
         try {
             const user = await ApiService.getCurrentUser();
@@ -34,7 +35,7 @@ const CreateSoll = () => {
             console.error('Fehler beim Abrufen des aktuellen Benutzers:', error);
         }
     };
-
+ 
     const fetchBudgets = async () => {
         try {
             if (currentUser) {
@@ -47,8 +48,20 @@ const CreateSoll = () => {
             setBudgets([]);
         }
     };
-
+ 
+    // Neu: Überprüfen, ob der Soll-Name eindeutig ist
+    const isSollNameUnique = (name) => {
+        const currentBudget = budgets.find(budget => budget.id === selectedBudget);
+        if (!currentBudget || !currentBudget.sollEntries) return true;
+        return !currentBudget.sollEntries.some(soll => soll.name.toLowerCase() === name.toLowerCase());
+    };
+ 
     const handleCreateSoll = async (budgetId) => {
+        if (!isSollNameUnique(sollName)) {
+            setErrorMessage(`Der Soll-Name "${sollName}" existiert bereits in diesem Budget.`);
+            return;
+        }
+ 
         try {
             const sollDTO = {
                 name: sollName,
@@ -62,6 +75,7 @@ const CreateSoll = () => {
             setSelectedBudget(null);
             setSollName('');
             setSollBetrag('');
+            setErrorMessage(''); // Fehlernachricht zurücksetzen
         } catch (error) {
             console.error('Fehler beim Erstellen des Soll-Werts:', error);
             if (error.response) {
@@ -75,20 +89,39 @@ const CreateSoll = () => {
             }
         }
     };
-
-    const calculateAvailableBudget = async (budget) => {
+ 
+    // Neu: Bearbeiten des Soll-Werts aktivieren
+    const handleEditSoll = (soll) => {
+        setEditingSoll(soll);
+        setSollName(soll.name);
+        setSollBetrag(soll.betrag);
+    };
+ 
+    // Neu: Bearbeiten eines Soll-Werts speichern
+    const handleUpdateSoll = async () => {
+        if (!isSollNameUnique(sollName) && editingSoll.name !== sollName) {
+            setErrorMessage(`Der Soll-Name "${sollName}" existiert bereits in diesem Budget.`);
+            return;
+        }
+ 
         try {
-            const sollEntries = await ApiService.getSollByBudget(budget.id);
-            const totalSoll = sollEntries.reduce((sum, soll) => sum + soll.betrag, 0);
-            return budget.availableBudget - totalSoll;
+            const updatedSoll = {
+                name: sollName,
+                betrag: parseFloat(sollBetrag),
+                budgetId: selectedBudget,
+                userId: currentUser.id,
+            };
+            await ApiService.updateSoll(editingSoll.id, updatedSoll);
+            fetchBudgets();
+            setEditingSoll(null); // Bearbeitungsmodus beenden
+            setSollName('');
+            setSollBetrag('');
+            setErrorMessage(''); // Fehlernachricht zurücksetzen
         } catch (error) {
-            console.error('Fehler beim Abrufen der Soll-Einträge:', error);
-            return budget.availableBudget;
+            console.error('Fehler beim Aktualisieren des Soll-Werts:', error);
         }
     };
-
-    const currentBudget = budgets.find(budget => budget.id === selectedBudget) || {};
-
+ 
     const toggleBudgetDetails = async (budgetId) => {
         const updatedBudgets = await Promise.all(budgets.map(async (budget) => {
             if (budget.id === budgetId) {
@@ -103,7 +136,9 @@ const CreateSoll = () => {
         }));
         setBudgets(updatedBudgets);
     };
-
+ 
+    const currentBudget = budgets.find(budget => budget.id === selectedBudget) || {};
+ 
     return (
         <div className="finance-budget-list">
             <h2>Budgetliste für Finance</h2>
@@ -122,7 +157,6 @@ const CreateSoll = () => {
                                 <button className="create-soll-button" onClick={(e) => {
                                     e.stopPropagation();
                                     setSelectedBudget(budget.id);
-
                                 }}>
                                     Soll-Wert erstellen
                                 </button>
@@ -133,7 +167,32 @@ const CreateSoll = () => {
                                     {budget.sollEntries && budget.sollEntries.length > 0 ? (
                                         budget.sollEntries.map(soll => (
                                             <div key={soll.id} className="soll-entry">
-                                                {soll.name} - {soll.betrag}
+                                                {editingSoll && editingSoll.id === soll.id ? (
+                                                    // Formular für Bearbeitung
+                                                    <div>
+                                                        <input
+                                                            type="text"
+                                                            value={sollName}
+                                                            onChange={(e) => setSollName(e.target.value)}
+                                                            placeholder="Soll-Name"
+                                                            className="soll-input"
+                                                        />
+                                                        <input
+                                                            type="number"
+                                                            value={sollBetrag}
+                                                            onChange={(e) => setSollBetrag(e.target.value)}
+                                                            placeholder="Betrag"
+                                                            className="soll-input"
+                                                        />
+                                                        <button onClick={handleUpdateSoll}>Speichern</button>
+                                                        <button onClick={() => setEditingSoll(null)}>Abbrechen</button>
+                                                    </div>
+                                                ) : (
+                                                    <div>
+                                                        {soll.name} - {soll.betrag}
+                                                        <button onClick={() => handleEditSoll(soll)}>Bearbeiten</button>
+                                                    </div>
+                                                )}
                                             </div>
                                         ))
                                     ) : (
@@ -147,9 +206,10 @@ const CreateSoll = () => {
                     <li>Keine Budgets verfügbar.</li>
                 )}
             </ul>
-            {selectedBudget && (
+            {selectedBudget && !editingSoll && (
                 <div className="create-soll-form">
                     <h3>Neuen Soll-Wert erstellen für {currentBudget.name}</h3>
+                    {errorMessage && <p className="error-message">{errorMessage}</p>} {/* Neu: Fehlernachricht anzeigen */}
                     <input
                         type="text"
                         value={sollName}
@@ -172,10 +232,10 @@ const CreateSoll = () => {
         </div>
     );
 };
-
+ 
 const AvailableBudget = ({ budget }) => {
     const [availableBudget, setAvailableBudget] = useState(null);
-
+ 
     useEffect(() => {
         const fetchAvailableBudget = async () => {
             const calculatedBudget = await calculateAvailableBudget(budget);
@@ -183,10 +243,10 @@ const AvailableBudget = ({ budget }) => {
         };
         fetchAvailableBudget();
     }, [budget]);
-
+ 
     return availableBudget !== null ? <span> ({availableBudget})</span> : null;
 };
-
+ 
 const calculateAvailableBudget = async (budget) => {
     try {
         const sollEntries = await ApiService.getSollByBudget(budget.id);
@@ -197,5 +257,6 @@ const calculateAvailableBudget = async (budget) => {
         return budget.availableBudget;
     }
 };
-
+ 
 export default CreateSoll;
+ 

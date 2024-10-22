@@ -2,32 +2,32 @@ import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import ApiService from '../../Service/ApiService';
 import './CreateIst.css';
-
+ 
 const CreateIst = () => {
     const [budgets, setBudgets] = useState([]);
     const [selectedBudget, setSelectedBudget] = useState(null);
-    const [istName, setIstName] = useState(null); // Wird nun als Objekt von react-select gespeichert
+    const [istName, setIstName] = useState(null);
     const [istBetrag, setIstBetrag] = useState('');
     const [currentUser, setCurrentUser] = useState(null);
-    const [sollOptions, setSollOptions] = useState([]); // Optionen für react-select
-
+    const [sollOptions, setSollOptions] = useState([]);
+    const [editingIst, setEditingIst] = useState(null); // Zum Speichern des bearbeitbaren Ist-Werts
+ 
     const formatDate = (date) => {
         const pad = (num) => (num < 10 ? '0' + num : num);
         return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
     };
-
+ 
     useEffect(() => {
         fetchCurrentUser();
     }, []);
-
+ 
     useEffect(() => {
         if (currentUser) {
             fetchBudgets();
         }
     }, [currentUser]);
-
+ 
     useEffect(() => {
-        // Aktualisiere die Soll-Namen jedes Mal, wenn sich die Budgets ändern
         const namesSet = new Set();
         budgets.forEach(budget => {
             if (budget.sollEntries) {
@@ -37,7 +37,7 @@ const CreateIst = () => {
         const options = Array.from(namesSet).map(name => ({ value: name, label: name }));
         setSollOptions(options);
     }, [budgets]);
-
+ 
     useEffect(() => {
         if (selectedBudget) {
             fetchSollNames(selectedBudget);
@@ -45,7 +45,7 @@ const CreateIst = () => {
             setSollOptions([]);
         }
     }, [selectedBudget]);
-
+ 
     const fetchCurrentUser = async () => {
         try {
             const user = await ApiService.getCurrentUser();
@@ -55,7 +55,7 @@ const CreateIst = () => {
             console.error('Fehler beim Abrufen des aktuellen Benutzers:', error);
         }
     };
-
+ 
     const fetchBudgets = async () => {
         try {
             if (currentUser) {
@@ -68,7 +68,7 @@ const CreateIst = () => {
             setBudgets([]);
         }
     };
-
+ 
     const fetchSollNames = async (budgetId) => {
         try {
             const sollEntries = await ApiService.getSollByBudget(budgetId);
@@ -80,7 +80,7 @@ const CreateIst = () => {
             setSollOptions([]);
         }
     };
-
+ 
     const handleCreateIst = async (budgetId) => {
         if (!istName || !istName.value) {
             alert('Bitte einen Ist-Namen auswählen oder eingeben.');
@@ -90,10 +90,10 @@ const CreateIst = () => {
             alert('Bitte einen gültigen Betrag eingeben.');
             return;
         }
-
+ 
         try {
             const istDTO = {
-                name: istName.value, // Verwende den ausgewählten Wert
+                name: istName.value,
                 betrag: parseFloat(istBetrag),
                 budgetId: budgetId,
                 userId: currentUser.id,
@@ -102,9 +102,9 @@ const CreateIst = () => {
             await ApiService.createIst(istDTO);
             fetchBudgets();
             setSelectedBudget(null);
-            setIstName(null); // Setze auf null, um die Auswahl zu löschen
+            setIstName(null);
             setIstBetrag('');
-            setSollOptions([]); // Optional: Aktualisiere die Optionen erneut
+            setSollOptions([]);
         } catch (error) {
             console.error('Fehler beim Erstellen des Ist-Werts:', error);
             if (error.response) {
@@ -118,7 +118,33 @@ const CreateIst = () => {
             }
         }
     };
-
+ 
+    const handleEditIst = (entry) => {
+        setEditingIst(entry); // Aktiviert den Bearbeitungsmodus für den ausgewählten Ist-Wert
+        setIstBetrag(entry.istBetrag);
+    };
+ 
+    const handleUpdateIst = async () => {
+        if (!istBetrag || istBetrag <= 0) {
+            alert('Bitte einen gültigen Betrag eingeben.');
+            return;
+        }
+ 
+        try {
+            const istDetails = {
+                name: editingIst.name,
+                betrag: parseFloat(istBetrag),
+                timestamp: formatDate(new Date()),
+            };
+            await ApiService.updateIst(editingIst.id, istDetails); // Ist-Wert aktualisieren
+            setEditingIst(null); // Beendet den Bearbeitungsmodus
+            setIstBetrag('');
+            fetchBudgets(); // Budgets neu laden
+        } catch (error) {
+            console.error('Fehler beim Aktualisieren des Ist-Werts:', error);
+        }
+    };
+ 
     const toggleBudgetDetails = async (budgetId) => {
         setBudgets(
             await Promise.all(
@@ -131,16 +157,16 @@ const CreateIst = () => {
                         if (showDetails) {
                             sollEntries = await ApiService.getSollByBudget(budgetId);
                             istEntries = await ApiService.getIstByBudget(budgetId);
-                            // Zusammenführen der Einträge basierend auf dem Namen
                             const names = new Set([
                                 ...sollEntries.map(entry => entry.name),
                                 ...istEntries.map(entry => entry.name),
                             ]);
-
+ 
                             combinedEntries = Array.from(names).map(name => {
                                 const soll = sollEntries.find(entry => entry.name === name);
                                 const ist = istEntries.find(entry => entry.name === name);
                                 return {
+                                    id: ist ? ist.id : null, // Die ID des Ist-Werts für die Bearbeitung
                                     name,
                                     sollBetrag: soll ? soll.betrag : 0,
                                     istBetrag: ist ? ist.betrag : 0,
@@ -154,7 +180,7 @@ const CreateIst = () => {
             )
         );
     };
-
+ 
     return (
         <div className="create-ist">
             <h2>Ist-Werte für Budgets erstellen</h2>
@@ -184,6 +210,7 @@ const CreateIst = () => {
                                             <th>Name</th>
                                             <th>Soll Betrag</th>
                                             <th>Ist Betrag</th>
+                                            <th>Edit</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -192,12 +219,29 @@ const CreateIst = () => {
                                                 <tr key={entry.name}>
                                                     <td>{entry.name}</td>
                                                     <td>{entry.sollBetrag}</td>
-                                                    <td>{entry.istBetrag}</td>
+                                                    <td>
+                                                        {editingIst && editingIst.name === entry.name ? (
+                                                            <input
+                                                                type="number"
+                                                                value={istBetrag}
+                                                                onChange={(e) => setIstBetrag(e.target.value)}
+                                                            />
+                                                        ) : (
+                                                            entry.istBetrag
+                                                        )}
+                                                    </td>
+                                                    <td>
+                                                        {editingIst && editingIst.name === entry.name ? (
+                                                            <button onClick={handleUpdateIst}>Speichern</button>
+                                                        ) : (
+                                                            <button onClick={() => handleEditIst(entry)}>Bearbeiten</button>
+                                                        )}
+                                                    </td>
                                                 </tr>
                                             ))
                                         ) : (
                                             <tr>
-                                                <td colSpan="3">Keine Soll- oder Ist-Werte vorhanden</td>
+                                                <td colSpan="4">Keine Soll- oder Ist-Werte vorhanden</td>
                                             </tr>
                                         )}
                                         </tbody>
@@ -210,7 +254,7 @@ const CreateIst = () => {
                     <li>Keine Budgets verfügbar.</li>
                 )}
             </ul>
-            {selectedBudget && (
+            {selectedBudget && !editingIst && (
                 <div className="create-ist-form">
                     <h3>Neuen Ist-Wert erstellen</h3>
                     <Select
@@ -242,9 +286,8 @@ const CreateIst = () => {
             )}
         </div>
     );
-
 };
-
+ 
 const calculateAvailableBudget = async (budget) => {
     try {
         const istEntries = await ApiService.getIstByBudget(budget.id);
@@ -255,10 +298,10 @@ const calculateAvailableBudget = async (budget) => {
         return budget.availableBudget;
     }
 };
-
+ 
 const AvailableBudget = ({ budget }) => {
     const [availableBudget, setAvailableBudget] = useState(null);
-
+ 
     useEffect(() => {
         const fetchAvailableBudget = async () => {
             const calculatedBudget = await calculateAvailableBudget(budget);
@@ -266,8 +309,8 @@ const AvailableBudget = ({ budget }) => {
         };
         fetchAvailableBudget();
     }, [budget]);
-
+ 
     return availableBudget !== null ? <span> ({availableBudget})</span> : null;
 };
-
+ 
 export default CreateIst;
