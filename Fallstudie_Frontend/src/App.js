@@ -6,7 +6,7 @@ import AdminPanel from './components/AdminPanel/UserManagement';
 import Footer from './components/Footer/Footer';
 import AuditLogTable from './components/AdminPanel/AuditLogTable';
 import Budget from './components/Finance/Budget';
-import SollIstFinance from './components/Finance/Soll';
+import SollIstFinance from './components/Finance/SollIstvergleich';
 import Login from './components/Login/LoginPage';
 import Approve from './components//Management/Budgetapprove';
 import Kosten from './components/Owner/kosten'

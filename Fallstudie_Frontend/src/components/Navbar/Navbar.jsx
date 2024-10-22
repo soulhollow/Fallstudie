@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import ApiService from '../../Service/ApiService';
+import './Navbar.css'; // Optional: Falls Sie separate CSS für die Navbar haben
 
 const Navbar = () => {
     const [currentUser, setCurrentUser] = useState(null);
@@ -13,11 +14,13 @@ const Navbar = () => {
                 setCurrentUser(user);
             } catch (error) {
                 console.error('Fehler beim Abrufen des aktuellen Benutzers:', error);
+                // Optional: Navigieren Sie zur Login-Seite, wenn der Benutzer nicht authentifiziert ist
+                navigate('/');
             }
         };
 
         fetchCurrentUser();
-    }, []);
+    }, [navigate]);
 
     const handleLogout = () => {
         // Token aus dem Local Storage entfernen
@@ -43,7 +46,8 @@ const Navbar = () => {
                 return (
                     <>
                         <Link to="/Management/approve">Budget Approval</Link>
-                        <Link to="/Management/Timetravel">Time Travel</Link>
+                        {/* Entfernen Sie den Link zu Timetravel, da er in App.js nicht definiert ist */}
+                        {/* <Link to="/Management/Timetravel">Time Travel</Link> */}
                         <Link to="/Management/Forecast">Forecast</Link>
                         <Link to="/Management/Monitoring">Monitoring</Link>
                         <Link to="/Management/ManagerBudgetSelector">Budget Selector</Link>
@@ -54,6 +58,7 @@ const Navbar = () => {
                     <>
                         <Link to="/owner/kosten">Kosten</Link>
                         <Link to="/owner/sollIst">Soll/Ist</Link>
+                        <Link to="/owner/Forecast">Forecast</Link> {/* Hinzugefügt */}
                     </>
                 );
             case 4: // Finance
@@ -74,8 +79,8 @@ const Navbar = () => {
             {currentUser ? (
                 <button onClick={handleLogout}>Logout</button>
             ) : (
-                <Link to="/"></Link>
-            )}
+                <Link to="/"><button>Login</button></Link>
+                )}
         </nav>
     );
 };

@@ -1,0 +1,39 @@
+/* src/components/Navbar/Navbar.css */
+
+.navbar {
+    display: flex;
+    align-items: center;
+    background-color: #333;
+    padding: 10px;
+}
+
+.navbar a {
+    color: white;
+    padding: 14px 20px;
+    text-decoration: none;
+    text-align: center;
+}
+
+.navbar a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.navbar button {
+    margin-left: auto;
+    padding: 10px 20px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.navbar button:hover {
+    background-color: #d32f2f;
+}
+
+/* Optional: Stil für aktive Links, falls Sie NavLink verwenden möchten */
+.navbar a.active {
+    background-color: #4CAF50;
+    color: white;
+}
