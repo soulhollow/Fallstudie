@@ -100,7 +100,7 @@ const CreateSoll = () => {
     // Neu: Bearbeiten eines Soll-Werts speichern
     const handleUpdateSoll = async () => {
         if (!isSollNameUnique(sollName) && editingSoll.name !== sollName) {
-            setErrorMessage(`Der Soll-Name "${sollName}" existiert bereits in diesem Budget.`);
+            setErrorMessage(`Der Soll-Wert "${sollName}" existiert bereits in diesem Budget.`);
             return;
         }
  
