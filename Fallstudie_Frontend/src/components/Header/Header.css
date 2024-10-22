@@ -1,27 +1,33 @@
+/* Grundlegendes Styling für den Header */
 .header {
-  background-color: #f8f9fa;
-  padding: 1rem 0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  background-color: #34495e; /* Gleiche dunkelblaue Farbpalette wie im Footer */
+  display: flex; /* Verwende Flexbox für das Layout */
+  justify-content: space-between; /* Verteilt Logo und Navbar auf derselben Ebene */
+  align-items: center; /* Zentriert Logo und Navbar vertikal */
+  padding: 1rem 20px; /* Abstand zum Rand hinzugefügt */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.company-logo {
+  width: 150px; /* Festgelegte Breite für das Logo */
+  height: auto;
 }
 
 .navbar {
+  flex-grow: 1; /* Navbar nimmt den restlichen Platz ein */
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: flex-end; /* Navbar-Elemente werden rechtsbündig */
 }
 
-.navbar a {
-  color: #333;
-  text-decoration: none;
-  padding: 0.5rem 1rem;
-  transition: color 0.3s ease;
-}
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column; /* In kleineren Bildschirmen wird das Layout gestapelt */
+    align-items: center;
+  }
 
-.navbar a:hover {
-  color: #007bff;
-}
-
-.logo {
-  font-size: 1.5rem;
-  font-weight: bold;
+  .navbar {
+    justify-content: center; /* Navbar zentriert sich auf kleinen Bildschirmen */
+  }
 }
