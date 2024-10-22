@@ -1,105 +1,102 @@
+/* src/components/Finance/Budget.css */
+
 .budget-container {
-  width: 80%;
-  margin: 20px auto;
   padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-h2 {
+.budget-container h2 {
   text-align: center;
-  color: #333;
   margin-bottom: 20px;
-}
-
-h3 {
-  color: #444;
-  margin-bottom: 10px;
 }
 
 .error-message {
-  background-color: #f8d7da;
-  color: #721c24;
-  padding: 10px;
-  border: 1px solid #f5c6cb;
-  border-radius: 5px;
-  margin-bottom: 20px;
+  color: red;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 .success-message {
-  background-color: #d4edda;
-  color: #155724;
-  padding: 10px;
-  border: 1px solid #c3e6cb;
-  border-radius: 5px;
-  margin-bottom: 20px;
+  color: green;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 .search-section {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: center;
   margin-bottom: 20px;
 }
 
-.search-section input {
-  width: 60%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-}
-
-.search-section button {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.search-section button:hover {
-  background-color: #0056b3;
+.search-section form {
+  display: flex;
+  gap: 10px;
 }
 
 .budget-form {
+  border: 1px solid #ccc;
+  padding: 20px;
   margin-bottom: 20px;
-  text-align: center;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.budget-form h3 {
+  margin-bottom: 15px;
 }
 
 .budget-form label {
   display: block;
-  margin: 10px 0 5px;
-  font-weight: bold;
+  margin-bottom: 10px;
+  position: relative; /* Wichtig für die Positionierung der Vorschlagsliste */
 }
 
-.budget-form input {
+.budget-form input,
+.budget-form select {
   width: 100%;
-  padding: 10px;
+  padding: 8px;
+  box-sizing: border-box;
+  margin-top: 5px;
+}
+
+.budget-form .suggestions {
+  position: absolute;
+  background-color: white;
   border: 1px solid #ddd;
-  border-radius: 5px;
-  margin-bottom: 10px;
+  border-top: none;
+  max-height: 150px;
+  overflow-y: auto;
+  width: 100%;
+  z-index: 1000;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.budget-form .suggestions li {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.budget-form .suggestions li:hover {
+  background-color: #f1f1f1;
 }
 
 .budget-form button {
-  padding: 20px 30px;
-  background-color: black;
+  padding: 10px 20px;
+  background-color: #4CAF50;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin: 0 auto;
-  display: inline-block;
+  margin-top: 10px;
 }
 
 .budget-form button:hover {
-  background-color: gray;
+  background-color: #45a049;
 }
 
 .budget-list {
-  margin-top: 40px;
+  margin-top: 20px;
 }
 
 .budget-list table {
@@ -110,17 +107,12 @@ h3 {
 .budget-list th,
 .budget-list td {
   padding: 12px;
-  text-align: left;
   border: 1px solid #ddd;
+  text-align: left;
 }
 
 .budget-list th {
-  background-color: #232b32;
-  color: white;
-}
-
-.budget-list td {
-  background-color: #f9f9f9;
+  background-color: #f2f2f2;
 }
 
 .budget-list tr:hover {
@@ -129,43 +121,62 @@ h3 {
 
 .budget-list button {
   padding: 5px 10px;
-  background-color: #000000;
+  background-color: #2196F3;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
-  margin-left: 10px;
 }
 
 .budget-list button:hover {
-  background-color: #000000;
+  background-color: #0b7dda;
 }
 
-.budget-list .edit-btn {
-  background-color: #ffc107;
-}
+@media (max-width: 768px) {
+  .budget-form,
+  .search-section form,
+  .budget-list table {
+    width: 100%;
+  }
 
-.budget-list .edit-btn:hover {
-  background-color: #000000;
-}
+  .budget-form label,
+  .budget-form input,
+  .budget-form select {
+    width: 100%;
+  }
 
-.suggestions {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  position: absolute;
-  background-color: white;
-  border: 1px solid #ddd;
-  max-height: 150px;
-  overflow-y: auto;
-  z-index: 1000;
-}
+  .budget-form .suggestions {
+    max-height: 100px;
+  }
 
-.suggestions li {
-  padding: 10px;
-  cursor: pointer;
-}
+  .budget-list table,
+  .budget-list thead,
+  .budget-list tbody,
+  .budget-list th,
+  .budget-list td,
+  .budget-list tr {
+    display: block;
+  }
 
-.suggestions li:hover {
-  background-color: #f0f0f0;
+  .budget-list tr {
+    margin-bottom: 15px;
+  }
+
+  .budget-list th,
+  .budget-list td {
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
+  }
+
+  .budget-list th::before,
+  .budget-list td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    width: 45%;
+    padding-left: 15px;
+    font-weight: bold;
+    text-align: left;
+  }
 }

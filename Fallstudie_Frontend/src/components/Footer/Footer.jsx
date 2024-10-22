@@ -1,24 +1,38 @@
-// src/components/Footer.js
 import React from 'react';
 import './Footer.css';
+import companyLogo from '../../assets/company-logo.png';
 
 const Footer = () => {
   return (
-    <footer className="footer">
-      <div className="footer-content">
-        <a href="/impressum" className="footer-link">
-          Impressum
-        </a>
-        <div className="social-links">
-          <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" className="social-icon">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" />
-          </a>
-          <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" className="social-icon">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/8/81/LinkedIn_icon.svg" alt="LinkedIn" />
-          </a>
+      <footer className="footer">
+        <div className="footer-content">
+          {/* Unternehmenslogo und Name */}
+          <div className="footer-section company-info">
+            <img src={companyLogo} alt="Firmenlogo" className="company-logo" />
+          </div>
+
+          {/* Kontaktinformationen */}
+          <div className="footer-section contact">
+            <h4>Kontakt</h4>
+            <p>Email: aps@firma.de</p>
+            <p>Telefon: +49 123 456789</p>
+          </div>
+
+          {/* Rechtliche Hinweise oder Unternehmensrichtlinien */}
+          <div className="footer-section legal">
+            <h4>Rechtliches</h4>
+            <ul>
+              <li><a href="/datenschutz">Datenschutz</a></li>
+              <li><a href="/impressum">Impressum</a></li>
+            </ul>
+          </div>
         </div>
-      </div>
-    </footer>
+
+        {/* Untere Leiste mit Copyright */}
+        <div className="footer-bottom">
+          <p>&copy; {new Date().getFullYear()} APS. Alle Rechte vorbehalten.</p>
+        </div>
+      </footer>
   );
 };
 

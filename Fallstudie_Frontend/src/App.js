@@ -17,6 +17,8 @@ import Monitoring from "./components/Management/Monitoring";
 import CreateSoll from "./components/Finance/CreateSoll";
 import CreateIst from "./components/Owner/CreateIst";
 import ForecastOwner from "./components/Owner/ForecastPage";
+import PrivacyPolicy from './components/PrivacyPolicy/PrivacyPolicy';
+import Impressum from './components/Impressum/Impressum';
 import './App.css';
 import {isMonday} from "date-fns";
 
@@ -39,6 +41,8 @@ function App() {
                 <Route path="/owner/sollIst" element={<SollIstOwner />} />
                 <Route path="/owner/CreateIst" element={<CreateIst />} />
                 <Route path="/owner/Forecast" element={<ForecastOwner />} />
+                <Route path="/datenschutz" element={<PrivacyPolicy />} />
+                <Route path="/impressum" element={<Impressum />} />
                 <Route path="*" element={<Login />} />
             </Routes>
             <Footer />
