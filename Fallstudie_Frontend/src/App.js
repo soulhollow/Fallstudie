@@ -11,7 +11,6 @@ import Login from './components/Login/LoginPage';
 import Approve from './components//Management/Budgetapprove';
 import Kosten from './components/Owner/kosten'
 import SollIstOwner from './components/Owner/sollist';
-import TimetravelBudget from "./components/Management/TimeTravelBudget";
 import ManagerBudgetSelector from "./components/Management/ManagerBudgetSelector";
 import Forecast from "./components/Management/Forecast";
 import Monitoring from "./components/Management/Monitoring";
@@ -32,7 +31,6 @@ function App() {
                 <Route path="/finance/sollIst" element={<SollIstFinance />} /> {/*Fertig*/}
                 <Route path="/finance/CreateSoll" element={<CreateSoll />} />
                 <Route path="/Management/approve" element={<Approve />} />
-                <Route path="/Management/Timetravel" element={<TimetravelBudget />} />
                 <Route path="/Management/Forecast" element={<Forecast />} />
                 <Route path="/Management/Monitoring" element={<Monitoring />} />
                 <Route path="/Management/ManagerBudgetSelector" element={<ManagerBudgetSelector />} />

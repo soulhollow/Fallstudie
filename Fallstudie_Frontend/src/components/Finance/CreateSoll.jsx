@@ -48,6 +48,7 @@ const CreateSoll = () => {
             setBudgets([]);
         }
     };
+    
  
     // Neu: Überprüfen, ob der Soll-Name eindeutig ist
     const isSollNameUnique = (name) => {
