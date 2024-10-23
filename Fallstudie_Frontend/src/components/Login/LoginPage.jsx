@@ -52,7 +52,7 @@ const Login = () => {
       case 2: // Manager
         return "/Management/approve";
       case 3: // Owner
-        return "/owner/kosten";
+        return "/owner/sollIst";
       case 4: // Finance
         return "/finance/Budget";
       default:

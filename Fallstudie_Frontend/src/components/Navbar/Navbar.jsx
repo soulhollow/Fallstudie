@@ -58,6 +58,7 @@ const Navbar = () => {
                     <>
                         <Link to="/owner/sollIst">Soll/Ist</Link>
                         <Link to="/owner/Forecast">Forecast</Link>
+                        <Link to="/owner/CreateIst">Create Ist</Link>
                     </>
                 );
             case 4: // Finance
