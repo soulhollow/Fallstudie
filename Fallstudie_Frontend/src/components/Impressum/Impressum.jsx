@@ -10,31 +10,31 @@ const Impressum = () => {
                 <strong>Angaben gemäß § 5 TMG</strong>
             </p>
             <p>
-                [Ihr Firmenname]
+                APS
                 <br />
-                [Straße und Hausnummer]
+                Paulienenstraße, 50
                 <br />
-                [Postleitzahl und Ort]
+                701809 Stuttgart
                 <br />
-                [Land]
+                Deutschland
             </p>
 
             <p>
                 <strong>Vertreten durch:</strong>
             </p>
             <p>
-                [Name des Vertretungsberechtigten]
+                Amelie Diepenthal, Franziska Schöning, Florian Ruffner und Simon Fischer
             </p>
 
             <p>
                 <strong>Kontakt:</strong>
             </p>
             <p>
-                Telefon: [Ihre Telefonnummer]
+                Telefon: 0123456789
                 <br />
-                Telefax: [Ihre Faxnummer, falls vorhanden]
+               
                 <br />
-                E-Mail: [Ihre E-Mail-Adresse]
+                E-Mail: aps@firma.de
             </p>
 
             <p>
@@ -43,13 +43,13 @@ const Impressum = () => {
             <p>
                 Eintragung im Handelsregister.
                 <br />
-                Registergericht: [Name des Registergerichts]
+                Registergericht: Registergericht Stuttgart
                 <br />
-                Registernummer: [Ihre Registernummer]
+                Registernummer: 123456
             </p>
 
             <p>
-                <strong>Umsatzsteuer-ID:</strong>
+                <strong>Umsatzsteuer-ID: 123456</strong>
             </p>
             <p>
                 Umsatzsteuer-Identifikationsnummer gemäß §27 a Umsatzsteuergesetz: [Ihre USt-ID]
@@ -59,13 +59,13 @@ const Impressum = () => {
                 <strong>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:</strong>
             </p>
             <p>
-                [Ihr Firmenname]
+                APS
                 <br />
-                [Straße und Hausnummer]
+                Paulienenstraße, 50
                 <br />
-                [Postleitzahl und Ort]
+                701809 Stuttgart
                 <br />
-                [Land]
+                Deutschland
             </p>
 
             <p>

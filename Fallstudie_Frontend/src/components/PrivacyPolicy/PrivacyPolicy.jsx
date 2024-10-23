@@ -10,14 +10,14 @@ const PrivacyPolicy = () => {
                 <strong>1. Einleitung</strong>
             </p>
             <p>
-                Wir freuen uns sehr über Ihr Interesse an unserem Unternehmen. Datenschutz hat einen besonders hohen Stellenwert für die Geschäftsleitung der [Ihr Firmenname]. Eine Nutzung der Internetseiten der [Ihr Firmenname] ist grundsätzlich ohne jede Angabe personenbezogener Daten möglich. Sofern eine betroffene Person besondere Services unseres Unternehmens über unsere Internetseite in Anspruch nehmen möchte, könnte jedoch eine Verarbeitung personenbezogener Daten erforderlich werden.
+                Wir freuen uns sehr über Ihr Interesse an unserem Unternehmen. Datenschutz hat einen besonders hohen Stellenwert für die Geschäftsleitung der [Ihr Firmenname]. Eine Nutzung der Internetseiten der APS ist grundsätzlich ohne jede Angabe personenbezogener Daten möglich. Sofern eine betroffene Person besondere Services unseres Unternehmens über unsere Internetseite in Anspruch nehmen möchte, könnte jedoch eine Verarbeitung personenbezogener Daten erforderlich werden.
             </p>
 
             <p>
                 <strong>2. Begriffsbestimmungen</strong>
             </p>
             <p>
-                Die Datenschutzerklärung der [Ihr Firmenname] beruht auf den Begrifflichkeiten, die durch den Europäischen Richtlinien- und Verordnungsgeber beim Erlass der Datenschutz-Grundverordnung (DSGVO) verwendet werden.
+                Die Datenschutzerklärung der APS Firma beruht auf den Begrifflichkeiten, die durch den Europäischen Richtlinien- und Verordnungsgeber beim Erlass der Datenschutz-Grundverordnung DSGVO verwendet werden.
             </p>
             <p>
                 <ul>
@@ -31,7 +31,7 @@ const PrivacyPolicy = () => {
                 <strong>3. Erfassung von allgemeinen Daten und Informationen</strong>
             </p>
             <p>
-                Die Internetseite der [Ihr Firmenname] erfasst mit jedem Aufruf der Internetseite durch eine betroffene Person oder ein automatisiertes System eine Reihe von allgemeinen Daten und Informationen. Diese allgemeinen Daten und Informationen werden in den Logfiles des Servers gespeichert.
+                Die Internetseite der APS erfasst mit jedem Aufruf der Internetseite durch eine betroffene Person oder ein automatisiertes System eine Reihe von allgemeinen Daten und Informationen. Diese allgemeinen Daten und Informationen werden in den Logfiles des Servers gespeichert.
             </p>
             <p>
                 Zu den gespeicherten allgemeinen Daten und Informationen gehören:
@@ -52,7 +52,7 @@ const PrivacyPolicy = () => {
                 <strong>4. Kontaktaufnahme</strong>
             </p>
             <p>
-                Bei der Kontaktaufnahme mit uns (zum Beispiel per Kontaktformular oder E-Mail) werden die Angaben des Nutzers zwecks Bearbeitung der Anfrage sowie für den Fall, dass Anschlussfragen entstehen, gespeichert.
+                Bei der Kontaktaufnahme mit uns werden die Angaben des Nutzers zwecks Bearbeitung der Anfrage sowie für den Fall, dass Anschlussfragen entstehen, gespeichert.
             </p>
 
             <p>
