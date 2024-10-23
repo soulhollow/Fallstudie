@@ -1,12 +1,11 @@
 /* Grundlegendes Styling für den Header-Bereich */
 .header {
-  background-color: #34495e; /* Gleiche dunkelblaue Farbe wie im Footer für Konsistenz */
+  background-color: #2c3e50; /* Gleiche dunkelblaue Farbe wie im Footer für Konsistenz */
   display: flex; /* Verwende Flexbox für einfaches Layout-Management */
   justify-content: space-between; /* Verteilt Logo und Navbar gleichmäßig auf die Seiten */
   align-items: center; /* Zentriert Logo und Navbar vertikal in der Mitte */
   padding: 1rem 20px; /* Definiert Innenabstand des Headers für bessere Optik */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Fügt eine leichte Schattenwirkung hinzu */
-  max-width: 1200px; /* Begrenzte Breite, um den Inhalt zentriert zu halten */
   margin: 0 auto; /* Zentriert den Header horizontal */
 }
 
@@ -47,32 +46,5 @@
     border-radius: 5px; /* Leicht abgerundete Ecken */
     cursor: pointer; /* Zeigt den Cursor als Hand bei Hover */
   }
-
-  .dark-mode-button:hover {
-    background-color: #1abc9c; /* Ändert die Button-Farbe beim Hover */
-  }
-
-  /* Darkmode-Stile */
-  body.dark-mode {
-    background-color: #121212;
-    color: #ffffff;
-  }
-
-  body.dark-mode .header {
-    background-color: #2c3e50;
-  }
-
-  body.dark-mode .navbar a {
-    color: #ffffff;
-  }
-
-  body.dark-mode .dark-mode-button {
-    background-color: #34495e;
-  }
-  /* Icon Styles */
-  .dark-mode-button svg {
-    font-size: 20px;
-  }
-
 
 }

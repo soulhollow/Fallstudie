@@ -234,7 +234,10 @@ const CreateIst = () => {
                                                         {editingIst && editingIst.name === entry.name ? (
                                                             <button onClick={handleUpdateIst}>Speichern</button>
                                                         ) : (
-                                                            <button onClick={() => handleEditIst(entry)}>Bearbeiten</button>
+                                                            entry.istBetrag > 0 && (
+                                                                <button
+                                                                    onClick={() => handleEditIst(entry)}>Bearbeiten</button>
+                                                            )
                                                         )}
                                                     </td>
                                                 </tr>
@@ -245,6 +248,8 @@ const CreateIst = () => {
                                             </tr>
                                         )}
                                         </tbody>
+
+
                                     </table>
                                 </div>
                             )}

@@ -65,6 +65,7 @@ const Navbar = () => {
                     <>
                         <Link to="/finance/Budget">Budget</Link>
                         <Link to="/finance/sollIst">Soll/Ist</Link>
+                        <Link to="/finance/CreateSoll">Create Soll</Link>
                     </>
                 );
             default:
