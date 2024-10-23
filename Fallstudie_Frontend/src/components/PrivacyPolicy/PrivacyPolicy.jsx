@@ -38,7 +38,6 @@ const PrivacyPolicy = () => {
                 <ul>
                     <li>Browsertyp und -version</li>
                     <li>Betriebssystem des Nutzers</li>
-                    <li>Die Internetseite, von welcher ein Aufruf erfolgt (Referrer-URL)</li>
                     <li>Die Unterwebseiten, welche über eine Referrer-URL aufgerufen wurden</li>
                     <li>Datum und Uhrzeit des Zugriffs</li>
                     <li>IP-Adresse</li>
@@ -89,7 +88,7 @@ const PrivacyPolicy = () => {
                 Wir verwenden innerhalb des Website-Besuchs das verbreitete SSL-Verfahren (Secure Socket Layer) in Verbindung mit der jeweils höchsten Verschlüsselungsstufe, die von Ihrem Browser unterstützt wird.
             </p>
             <p>
-                In der Regel erkennen wir die Verschlüsselungsstufe anhand des Schlüssel-Exchange-Mechanismus der SSL-Verbindung. Eine vollständige Liste der von uns unterstützten Verschlüsselungsstufen finden Sie hier: [Link zu den unterstützten SSL-Verschlüsselungen, falls verfügbar]
+                In der Regel erkennen wir die Verschlüsselungsstufe anhand des Schlüssel-Exchange-Mechanismus der SSL-Verbindung. Eine vollständige Liste der von uns unterstützten Verschlüsselungsstufen finden Sie hier:
             </p>
 
             <p>
@@ -100,13 +99,13 @@ const PrivacyPolicy = () => {
                 <strong>8. Aktualität und Änderung dieser Datenschutzerklärung</strong>
             </p>
             <p>
-                Diese Datenschutzerklärung ist aktuell gültig und hat den Stand [Datum].
+                Diese Datenschutzerklärung ist aktuell gültig und hat den Stand 23.10.2024.
             </p>
             <p>
                 Durch die Weiterentwicklung unserer Website und Angebote darüber oder aufgrund geänderter gesetzlicher beziehungsweise behördlicher Vorgaben kann es notwendig werden, diese Datenschutzerklärung zu ändern.
             </p>
             <p>
-                Die jeweils aktuelle Datenschutzerklärung kann jederzeit auf der Website unter [URL der Datenschutzerklärung] von Ihnen abgerufen und ausgedruckt werden.
+                Die jeweils aktuelle Datenschutzerklärung kann jederzeit auf der Website unter APS.com von Ihnen abgerufen und ausgedruckt werden.
             </p>
         </div>
     );

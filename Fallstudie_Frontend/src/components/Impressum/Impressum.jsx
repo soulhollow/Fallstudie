@@ -52,7 +52,7 @@ const Impressum = () => {
                 <strong>Umsatzsteuer-ID: 123456</strong>
             </p>
             <p>
-                Umsatzsteuer-Identifikationsnummer gemäß §27 a Umsatzsteuergesetz: [Ihre USt-ID]
+                Umsatzsteuer-Identifikationsnummer gemäß §27 a Umsatzsteuergesetz: 123456
             </p>
 
             <p>
