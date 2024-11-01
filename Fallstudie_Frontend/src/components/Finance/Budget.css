@@ -132,6 +132,53 @@
   background-color: #0b7dda;
 }
 
+/* Dark Mode Styling */
+body.dark-mode .budget-form {
+  background-color: #333;
+  color: #f0f0f0;
+  border-color: #555;
+}
+
+body.dark-mode .budget-form h3 {
+  color: #f0f0f0;
+}
+
+body.dark-mode .budget-form label {
+  color: #f0f0f0;
+}
+
+body.dark-mode .budget-form input,
+body.dark-mode .budget-form select {
+  background-color: #444;
+  color: #f0f0f0;
+  border: 1px solid #666;
+}
+
+body.dark-mode .budget-form input::placeholder,
+body.dark-mode .budget-form select::placeholder {
+  color: #aaa;
+}
+
+body.dark-mode .budget-form .suggestions {
+  background-color: #444;
+  color: #f0f0f0;
+  border-color: #555;
+}
+
+body.dark-mode .budget-form .suggestions li:hover {
+  background-color: #555;
+}
+
+body.dark-mode .budget-form button {
+  background-color: #4CAF50;
+  color: white;
+}
+
+body.dark-mode .budget-form button:hover {
+  background-color: #45a049;
+}
+
+
 @media (max-width: 768px) {
   .budget-form,
   .search-section form,

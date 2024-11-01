@@ -116,10 +116,27 @@ body.dark-mode .budget-list table tbody tr:hover {
   background-color: #555; /* Hellerer Hover-Effekt im Dark Mode */
 }
 
-body.dark-mode .budget-list .red-text {
-  color: #ff6b6b; /* Hellere Rotfarbe für Warnungen im Dark Mode */
-}
+
 
 body.dark-mode .budget-list table tbody td .responsible-person {
   color: #bbb;
 }
+
+.budget-list .red {
+  color: red;
+  font-weight: bold;
+}
+
+.budget-list .green {
+  color: green;
+  font-weight: bold;
+}
+
+body.dark-mode .budget-list .red {
+  color: #ff6b6b;
+}
+
+body.dark-mode .budget-list .green {
+  color: #4CAF50;
+}
+

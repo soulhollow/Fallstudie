@@ -275,6 +275,10 @@ const CreateIst = () => {
                                 ...provided,
                                 marginBottom: '10px',
                             }),
+                            placeholder: (provided) => ({
+                                ...provided,
+                                color: 'inherit', // This will make the placeholder color inherit from its parent
+                            }),
                         }}
                     />
                     <input
@@ -292,7 +296,7 @@ const CreateIst = () => {
         </div>
     );
 };
- 
+
 const calculateAvailableBudget = async (budget) => {
     try {
         const istEntries = await ApiService.getIstByBudget(budget.id);
@@ -303,10 +307,10 @@ const calculateAvailableBudget = async (budget) => {
         return budget.availableBudget;
     }
 };
- 
-const AvailableBudget = ({ budget }) => {
+
+const AvailableBudget = ({budget}) => {
     const [availableBudget, setAvailableBudget] = useState(null);
- 
+
     useEffect(() => {
         const fetchAvailableBudget = async () => {
             const calculatedBudget = await calculateAvailableBudget(budget);
@@ -314,8 +318,8 @@ const AvailableBudget = ({ budget }) => {
         };
         fetchAvailableBudget();
     }, [budget]);
- 
+
     return availableBudget !== null ? <span> ({availableBudget})</span> : null;
 };
- 
+
 export default CreateIst;

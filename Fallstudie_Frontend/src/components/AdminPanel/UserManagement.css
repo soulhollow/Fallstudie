@@ -72,48 +72,80 @@ td button {
   margin-right: 5px;
 }
 
-/* Bearbeitungs- und Erstellungsformulare */
+/* Container für alle Formulare */
 .user-edit-form, .new-user-form {
   margin-top: 20px;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;  /* Abstand zwischen den Formularfeldern */
 }
 
+/* Styling für Formular-Überschriften */
 .user-edit-form h2, .new-user-form h2 {
   text-align: left;
 }
 
+/* Flexbox Layout für Label und Input */
 label {
-  display: block;
-  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
   font-weight: bold;
 }
 
-input {
-  width: 100%;
-  padding: 8px;
+/* Standardfeld-Styling */
+input, select {
+  padding: 10px;
   margin-top: 5px;
-  margin-bottom: 20px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.register-button, .update-button {
-  background-color: #28a745;
-  border: none;
+/* Fehlernachricht und Buttons */
+.error-message {
+  color: red;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+button, .register-button, .update-button {
+  padding: 10px;
+  background-color: #007bff;
   color: white;
-  padding: 10px 15px;
-  cursor: pointer;
+  border: none;
   border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
 }
 
-.register-button:hover, .update-button:hover {
-  background-color: #218838;
+button:hover, .register-button:hover, .update-button:hover {
+  background-color: #0056b3;
 }
 
-table button {
-  padding: 5px 10px;
+/* Tabelle */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
 }
 
 table button.edit-button {
@@ -133,6 +165,7 @@ table button.delete-button {
 table button.delete-button:hover {
   background-color: #c82333;
 }
+
 
 /* Dark Mode Styles */
 body.dark-mode .admin-panel {

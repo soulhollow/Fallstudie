@@ -191,7 +191,7 @@ const CreateSoll = () => {
                                                 ) : (
                                                     <div>
                                                         {soll.name} - {soll.betrag}
-                                                        <button onClick={() => handleEditSoll(soll)}>Bearbeiten</button>
+                                                        <button className="bearbeiten-button" onClick={() => handleEditSoll(soll)}>Bearbeiten</button>
                                                     </div>
                                                 )}
                                             </div>

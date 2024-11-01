@@ -50,7 +50,7 @@ const Navbar = () => {
                         {/* <Link to="/Management/Timetravel">Time Travel</Link> */}
                         <Link to="/Management/Forecast">Forecast</Link>
                         <Link to="/Management/Monitoring">Monitoring</Link>
-                        <Link to="/Management/ManagerBudgetSelector">Budget Selector</Link>
+                        <Link to="/Management/ManagerBudgetSelector">Time Travel</Link>
                     </>
                 );
             case 3: // Owner

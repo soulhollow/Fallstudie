@@ -14,14 +14,16 @@ const AuditLogTable = () => {
         // Schritt 1: Audit-Logs abrufen
         const logs = await ApiService.getAllAuditLogs();
 
-        // Schritt 2: Einzigartige Benutzer-IDs extrahieren
+        // Schritt 2: Audit-Logs nach Timestamp absteigend sortieren
+        logs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+        // Schritt 3: Einzigartige Benutzer-IDs extrahieren
         const userIds = [...new Set(logs.map(log => log.userId))];
 
-        // Schritt 3: Benutzerdetails abrufen
+        // Schritt 4: Benutzerdetails abrufen
         const allUsers = await ApiService.getAllUsers();
 
-
-        // Schritt 4: Benutzer-ID zu Benutzer-Daten mapen
+        // Schritt 5: Benutzer-ID zu Benutzer-Daten mapen
         const usersMap = {};
         allUsers.forEach(user => {
           if (userIds.includes(user.id)) {  // Nur relevante Benutzer speichern
@@ -29,7 +31,7 @@ const AuditLogTable = () => {
           }
         });
 
-        // Schritt 5: State aktualisieren
+        // Schritt 6: State aktualisieren
         setAuditLogs(logs);
         setUsers(usersMap);
         setLoading(false);
