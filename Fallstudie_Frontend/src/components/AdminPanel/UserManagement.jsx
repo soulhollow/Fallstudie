@@ -122,7 +122,7 @@ const UserManagement = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
               required
           />
-          <button type="submit">Suchen</button>
+          <button type="submit" >Suchen</button>
         </form>
 
         {/* Fehlermeldung anzeigen */}
@@ -200,10 +200,11 @@ const UserManagement = () => {
                       onChange={handleUserChange}
                   />
                 </label>
-                <button type="submit">Aktualisieren</button>
+                <button type="submit" className="topButton">Aktualisieren</button>
                 <button
                     type="button"
                     onClick={() => setSelectedUser(null)}
+                    className="topButton"
                 >
                   Abbrechen
                 </button>
@@ -284,7 +285,7 @@ const UserManagement = () => {
                       required
                   />
                 </label>
-                <button type="submit">Benutzer erstellen</button>
+                <button type="submit" className="topButton">Benutzer erstellen</button>
               </form>
             </div>
         )}

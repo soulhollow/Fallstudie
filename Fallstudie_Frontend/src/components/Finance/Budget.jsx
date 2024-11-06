@@ -313,7 +313,7 @@ const Budget = () => {
                             </ul>
                         )}
                     </label>
-                    <button type="submit">Budget erstellen</button>
+                    <button type="submit" className="topButton2">Budget erstellen</button>
                 </form>
             </div>
 
@@ -399,8 +399,8 @@ const Budget = () => {
                                 </ul>
                             )}
                         </label>
-                        <button type="submit">Budget aktualisieren</button>
-                        <button type="button" onClick={() => setEditingBudget(null)}>Abbrechen</button>
+                        <button type="submit" className="topButton2">Budget aktualisieren</button>
+                        <button type="button" onClick={() => setEditingBudget(null)} className="topButton2">Abbrechen</button>
                     </form>
                 </div>
             )}

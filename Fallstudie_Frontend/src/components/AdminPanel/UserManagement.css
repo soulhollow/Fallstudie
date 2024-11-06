@@ -120,6 +120,7 @@ button, .register-button, .update-button {
   border-radius: 4px;
   cursor: pointer;
   text-align: center;
+
 }
 
 button:hover, .register-button:hover, .update-button:hover {
@@ -164,6 +165,12 @@ table button.delete-button {
 
 table button.delete-button:hover {
   background-color: #c82333;
+}
+
+.topButton{
+  height: 100%;  /* Passt die Höhe des Buttons an die Höhe der Eingabefelder an */
+  margin-left: 10px;
+  margin-top: 31px;
 }
 
 
