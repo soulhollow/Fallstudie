@@ -3,6 +3,18 @@ import ApiService from '../../Service/ApiService';
 import { format } from 'date-fns';
 import { de } from 'date-fns/locale';
 import './TimeTravelBudget.css';
+import { Line } from 'react-chartjs-2';
+import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement, Tooltip, Legend } from 'chart.js';
+
+// Chart.js Komponenten registrieren
+ChartJS.register(
+    LineElement,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    Tooltip,
+    Legend
+);
 
 const TimeTravelBudget = ({ budgetName }) => {
     const [budget, setBudget] = useState(null);
@@ -66,6 +78,54 @@ const TimeTravelBudget = ({ budgetName }) => {
     };
 
     const currentState = getCurrentBudgetState();
+
+    const prepareChartData = () => {
+        // Kombiniere alle relevanten Zeitpunkte aus sollData und istData
+        const allDates = [
+            ...sollData.map(item => new Date(item.timestamp)),
+            ...istData.map(item => new Date(item.timestamp))
+        ];
+
+        // Entferne Duplikate und sortiere die Daten
+        const uniqueDates = Array.from(new Set(allDates.map(date => date.toISOString()))).map(iso => new Date(iso));
+        uniqueDates.sort((a, b) => a - b);
+
+        // Erstelle Labels im gewünschten Format
+        const labels = uniqueDates.map(date => format(date, 'dd. MMM yyyy'));
+
+        // Aggregiere die Beträge bis zu jedem Datum
+        const cumulativeSoll = uniqueDates.map(date => {
+            return sollData
+                .filter(item => new Date(item.timestamp) <= date)
+                .reduce((acc, curr) => acc + curr.betrag, 0);
+        });
+
+        const cumulativeIst = uniqueDates.map(date => {
+            return istData
+                .filter(item => new Date(item.timestamp) <= date)
+                .reduce((acc, curr) => acc + curr.betrag, 0);
+        });
+
+        return {
+            labels,
+            datasets: [
+                {
+                    label: 'Soll',
+                    data: cumulativeSoll,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    fill: false,
+                },
+                {
+                    label: 'Ist',
+                    data: cumulativeIst,
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    fill: false,
+                },
+            ],
+        };
+    };
 
     if (loading) {
         return <div>Lade Budgetdaten...</div>;
@@ -131,6 +191,41 @@ const TimeTravelBudget = ({ budgetName }) => {
                 <p>Manager: {budget.manager.firstName} {budget.manager.lastName}</p>
                 <p>Finanzverantwortlicher: {budget.finance.firstName} {budget.finance.lastName}</p>
                 <p>Status: {budget.approved ? 'Genehmigt' : 'Nicht genehmigt'}</p>
+            </div>
+
+            {/* Diagramm hinzufügen */}
+            <div className="budget-chart">
+                <h3>Budgetverlauf</h3>
+                <Line
+                    data={prepareChartData()}
+                    options={{
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            title: {
+                                display: true,
+                                text: 'Budgetverlauf über die Zeit',
+                            },
+                        },
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Datum',
+                                },
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Betrag (€)',
+                                },
+                                beginAtZero: true,
+                            },
+                        },
+                    }}
+                />
             </div>
         </div>
     );
