@@ -46,8 +46,12 @@ Datenbankverbindung: Die Anwendung verwendet eine MySQL-Datenbank. Stellen Sie s
 - spring.datasource.password=
 - JPA-Einstellungen: Die Hibernate-Einstellungen definieren, wie das Datenbank-Schema behandelt wird.
 
-Falls Sie Testdaten wünschen, können Sie diese mit dem anghängtem SQL script importieren. 
-
+Falls Sie Testdaten wünschen, können Sie diese mit dem SQL script importieren. 
+Anmeldedaten: 
+Admin: admin@admin.de Passwort: admin
+Owner: Owner@admin.de Passwort: admin
+Manager: Manager@admin.de Passwort: admin
+Finance: Finance@admin.de Passowrt: admin
 
 
 HTTPS-Konfiguration: Die Anwendung läuft über HTTPS auf Port 8443. Da dies kein offizielles Zertifikat ist, müssen sie auf https://localhost:8443/api und dieser Vertrauen.
